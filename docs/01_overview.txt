@@ -1,0 +1,70 @@
+# OVERVIEW OF THE CONTROLLER CONFIGURATION
+
+- The controller's configuration is a json file that house everything such as database tags, modules like process logic or communication protocols, hmi views, etc.
+
+Examples: 
+
+1) Here is a configuration with one number tag and a default hmi view:
+
+{
+   "database": {
+      "settings": {
+         "persistanceUpdateTime": 1,
+         "maxDaysToLog": 10
+      },
+      "tags": {
+         "_NewTag": {
+            "arraydim": 1,
+            "datatype": "Number",
+            "value": 0,
+            "config": {
+               "persistent": false,
+               "historic": false,
+               "hidden": false,
+               "editable": true
+            }
+         }
+      }
+   },
+   "modules": [],
+   "hmi": {
+      "views": [
+         {
+            "id": "vw_default",
+            "name": "MainView",
+            "type": "view",
+            "config": {
+               "width": 1230,
+               "height": 800,
+               "style": {
+                  "fontFamily": "None",
+                  "font-weight": "none",
+                  "fontSize.px": 16,
+                  "color": "#000000",
+                  "backgroundColor": "#ffffff",
+                  "borderRadius.px": 0,
+                  "borderStyle": "solid",
+                  "borderColor": "#00000000",
+                  "borderWidth.px": 0,
+                  "boxShadow": "0px 0px 0px 0px #000000"
+               },
+               "sizeMode": "zoom"
+            },
+            "components": []
+         }
+      ],
+      "general": {
+         "defaultViewId": "vw_default",
+         "mainView": null,
+         "mainNavBtn": false,
+         "viewsTree": [
+            {
+               "name": "MainView",
+               "type": "view",
+               "id": "vw_default"
+            }
+         ]
+      }
+   },
+   "charts": []
+}

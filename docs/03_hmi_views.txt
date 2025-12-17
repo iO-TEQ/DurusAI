@@ -1,0 +1,126 @@
+# VIEWS (SCREENS) IN DURO CONTROLLER
+
+- A "view" (screen) is a page in the HMI editor.
+
+What is a View
+- A view represents a single HMI screen composed of UI components (buttons, labels, etc.). It defines canvas dimensions, styling, and the list/arrangement of components rendered on that screen.
+
+View Properties
+- id: Unique identifier for the view (e.g., "vw_...").
+- name: Human‑readable view name used in the editor.
+- type: Always "view" for HMI screens.
+- config: Object describing the canvas.
+    - width: View width in pixels.
+    - height: View height in pixels.
+    - style: Optional CSS‑like style overrides for the view container.
+    - sizeMode: How the view scales (e.g., "normal", "zoom").
+- components: Array of component objects that the view renders.
+
+Component Properties (common fields)
+- id: Unique identifier for the component (e.g., "btn_...", "lbl_...").
+- viewId: Owning view id (may be empty in raw export but linked in editor).
+- type: Component type (e.g., "button", "label").
+- typeAbbr: Abbreviation for type (e.g., "btn_", "lbl_").
+- comptName: Display name of the component in the editor.
+- visibility: Boolean controlling whether the component is visible.
+- w / h: Width and height in pixels.
+- x / y: Position coordinates on the view canvas.
+- zIndex: Stacking order relative to other components.
+- rotationAngle: Rotation in degrees.
+- sizeMode: Component scaling behavior (e.g., "zoom").
+- config: Type‑specific configuration.
+    - For buttons: text, behavior (e.g., "press", "release"), style, placeholderType.
+    - For labels: placeholder text, buttonMode, style (layout like justify/align).
+- animation: Declarative animation bindings for properties such as backgroundColor, border, text, visibility, color.
+- events: Event handlers (e.g., click, press, release) mapped to actions like tag writes.
+- logic: Optional logic binding (moduleId, mainTag, mainTagResp) for data‑driven behavior.
+
+
+Examples: 
+
+1) View with a label and a button below it. On Click of button will set "_NewTag" number tag to 5.
+
+{
+    "id": "vw_76f66be9-d58b4fa6",
+    "name": "View_1",
+    "type": "view",
+    "config": {
+        "width": 1024,
+        "height": 760,
+        "style": {},
+        "sizeMode": "normal"
+    },
+    "components": [
+        {
+            "id": "btn_c040-61a5",
+            "viewId": "",
+            "type": "button",
+            "typeAbbr": "btn_",
+            "comptName": "Button_1",
+            "visibility": true,
+            "w": 120,
+            "h": 60,
+            "y": 343.86912897771543,
+            "x": 486.3359617440474,
+            "zIndex": 0,
+            "rotationAngle": 0,
+            "sizeMode": "zoom",
+            "config": {
+                "behavior": "release",
+                "text": "Set Tag to 5",
+                "style": {},
+                "placeholderType": "text"
+            },
+            "animation": {
+                "backgroundColor": "",
+                "border": "",
+                "text": "",
+                "visibility": "",
+                "color": ""
+            },
+            "events": {
+                "click": "writeTag(\"_NewTag\", 5)",
+                "press": "",
+                "release": ""
+            },
+            "logic": {
+                "moduleId": "",
+                "mainTag": "",
+                "mainTagResp": ""
+            }
+        },
+        {
+            "id": "lbl_b496-eee0",
+            "viewId": "",
+            "type": "label",
+            "typeAbbr": "lbl_",
+            "comptName": "Label_1",
+            "visibility": true,
+            "w": 120,
+            "h": 60,
+            "y": 252.16536789833657,
+            "x": 485.4277464155491,
+            "zIndex": 0,
+            "rotationAngle": 0,
+            "sizeMode": "zoom",
+            "config": {
+                "placeholder": "Label",
+                "buttonMode": "false",
+                "style": {
+                    "justify-content": "center",
+                    "align-items": "center"
+                }
+            },
+            "animation": {
+                "backgroundColor": "",
+                "border": "",
+                "text": "_NewTag",
+                "visibility": "",
+                "color": ""
+            },
+            "events": {
+                "click": ""
+            }
+        }
+    ]
+}
