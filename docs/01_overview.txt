@@ -1,6 +1,6 @@
-# OVERVIEW OF THE CONTROLLER CONFIGURATION
+# OVERVIEW OF THE DURO CONTROLLER CONFIGURATION
 
-- The controller's configuration is a json file that house everything such as database tags, modules like process logic or communication protocols, hmi views, etc.
+- The DURO controller's configuration is a json file that house everything such as database tags, modules like process logic or communication protocols, hmi views, etc.
 
 Examples: 
 

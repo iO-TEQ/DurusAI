@@ -16,6 +16,7 @@ LLM_MODEL_NAME = os.getenv(
 
 app = FastAPI(title="Edge AI Agent Server")
 
+CONVERSATIONS: Dict[str, List[Dict[str, str]]] = {}
 
 # ---------- Data models ----------
 
@@ -27,11 +28,21 @@ class AgentRequest(BaseModel):
     device_id: str
     prompt: str
     context: Optional[Dict[str, Any]] = None  # current views/tags, etc.
+    conversation_id: Optional[str] = None
 
 class AgentResponse(BaseModel):
     message: str
     steps: List[AgentStep]
     proposed_changes: Optional[Dict[str, Any]] = None
+
+# --- Chat models ---
+
+class ChatRequest(BaseModel):
+    prompt: str
+    conversation_id: Optional[str] = None
+
+class ChatResponse(BaseModel):
+    reply: str
 
 
 # ---------- Prompt building ----------
@@ -69,6 +80,15 @@ def build_user_prompt(prompt: str, context: Dict[str, Any]) -> str:
     }
     return json.dumps(payload, indent=2)
 
+def build_chat_system_prompt() -> str:
+    base = (
+        "You are a helpful assistant for the Duro industrial controller.\n"
+        "You know how its HMI views, widgets, tags, alarms and logic work.\n"
+        "Use the documentation below when answering questions about the controller.\n"
+        "Answer in plain text unless I explicitly ask for JSON.\n"
+    )
+    return base + "\n\n=== CONTROLLER DOCS ===\n\n" + "\n\n---\n\n".join(ALL_DOCS)
+
 
 # ---------- Llama.cpp call ----------
 
@@ -104,7 +124,44 @@ def call_llama(system_prompt: str, user_prompt: str) -> str:
 
     return content
 
+def call_llm(messages: List[Dict[str, str]]) -> str:
+    payload = {
+        "model": LLM_MODEL_NAME,
+        "messages": messages,
+        "temperature": 0.55,
+        "max_tokens": 2048,
+    }
 
+    resp = requests.post(LLM_API_URL, json=payload, timeout=120)
+    resp.raise_for_status()
+    data = resp.json()
+    return data["choices"][0]["message"]["content"]
+
+def call_llm_freeform(messages: List[Dict[str, str]]) -> str:
+    payload = {
+        "model": LLM_MODEL_NAME,
+        "messages": messages,
+        "temperature": 0.6,   # chatty, but not insane
+        "max_tokens": 2048,
+    }
+
+    try:
+        resp = requests.post(LLM_API_URL, json=payload, timeout=60)
+    except requests.RequestException as e:
+        raise HTTPException(status_code=500, detail=f"Error calling LLM: {e}")
+
+    if resp.status_code != 200:
+        raise HTTPException(
+            status_code=500,
+            detail=f"LLM error: {resp.status_code} {resp.text[:200]}",
+        )
+
+    data = resp.json()
+    try:
+        return data["choices"][0]["message"]["content"]
+    except (KeyError, IndexError, TypeError) as e:
+        raise HTTPException(status_code=500, detail=f"Bad LLM response: {e}")
+    
 # ---------- API endpoint ----------
 
 @app.post("/agent/ask", response_model=AgentResponse)
@@ -112,11 +169,23 @@ def ask_agent(body: AgentRequest):
     print(f"Received request for device {body.device_id} with prompt: {body.prompt}")
     # You can do auth / IP checks / device_id checks here if you want.
     context = body.context or {}
+    conv_id = body.conversation_id or body.device_id  # fallback if no ID
+
+    # Create history list if not there yet
+    history = CONVERSATIONS.setdefault(conv_id, [])
 
     system_prompt = build_system_prompt()
     user_prompt = build_user_prompt(body.prompt, context)
 
-    raw = call_llama(system_prompt, user_prompt)
+    # Build message list: system + history + new user
+    messages = [{"role": "system", "content": system_prompt}]
+    messages.extend(history)  # list of {"role": "...", "content": "..."} from previous turns
+    messages.append({"role": "user", "content": user_prompt})
+
+    # Call the model
+    raw = call_llm(messages)
+
+    #raw = call_llama(system_prompt, user_prompt)
 
     # The model *should* return JSON. We enforce that.
     try:
@@ -137,9 +206,45 @@ def ask_agent(body: AgentRequest):
 
     # Let Pydantic validate that the JSON matches our schema.
     try:
+        # Update history: append this user + assistant turn
+        history.append({"role": "user", "content": user_prompt})
+        history.append({"role": "assistant", "content": raw})
+
+        # (Optional) Trim history if it gets too long
+        if len(history) > 20:
+            history[:] = history[-20:]
         return AgentResponse(**parsed)
     except Exception as e:
         raise HTTPException(
             status_code=500,
             detail=f"LLM JSON missing required fields: {e}",
         )
+    
+@app.post("/chat", response_model=ChatResponse)
+def chat(body: ChatRequest):
+    # Use provided conversation_id or default
+    conv_id = body.conversation_id or "default-chat"
+
+    # Get or create history list for this conversation
+    history = CONVERSATIONS.setdefault(conv_id, [])
+
+    # Build messages: system + history + new user message
+    system_prompt = build_chat_system_prompt()
+    messages: List[Dict[str, str]] = [
+        {"role": "system", "content": system_prompt}
+    ]
+    messages.extend(history)
+    messages.append({"role": "user", "content": body.prompt})
+
+    # Call the model
+    reply = call_llm_freeform(messages)
+
+    # Update history: we store only user and assistant turns (no system)
+    history.append({"role": "user", "content": body.prompt})
+    history.append({"role": "assistant", "content": reply})
+
+    # Trim history if it gets too long (e.g. keep last 40 messages)
+    if len(history) > 40:
+        history[:] = history[-40:]
+
+    return ChatResponse(reply=reply)
