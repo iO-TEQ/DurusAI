@@ -11,8 +11,10 @@ Core Properties:
 - type / typeAbbr: Component type (`label`) and abbreviation (`lbl_`).
 - comptName: Human-readable name of the component.
 - visibility: Initial visibility state (`true` or `false`).
-- x, y: Position coordinates of the label in the view.
-- w, h: Width and height of the label.
+- x: x coordinate of the label in the view.
+- y: y coordinate of the label in the view.
+- w: pixel Width of the label.
+- h: pixel height of the label.
 - zIndex: Stacking order relative to other components.
 - rotationAngle: Rotation in degrees applied to the label.
 - sizeMode: Sizing mode behavior (e.g., `zoom`).

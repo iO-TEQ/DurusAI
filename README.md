@@ -1,6 +1,9 @@
 # README 
 
-## RUN Llama 3 locally via mlx by apple.
+## Summary
+Run Durus AI in a virtual environment on port 9000. Run the AI Model on 8080. Durus AI send prompts to the AI Model.
+
+### RUN Llama 3 locally via mlx by apple.
 **for Mac computers only**
 
 1. Be at root directory in terminal.
@@ -64,8 +67,7 @@ mlx_lm.server \
 ```
 
 
-
-# How to setup and run Durus Server
+### How to setup and run Durus Server
 
 1. create a new terminal and go to durus directory.
 ```
@@ -84,3 +86,69 @@ pip install -r requirements.txt
 ```
 uvicorn main:app --host 0.0.0.0 --port 9000
 ```
+
+
+## Version Summary
+
+### 0.3.0
+ Docs are overwhelming the request to the 9000. 
+
+ added POST http://127.0.0.1:9000/chat/stream.
+ body example
+{
+  "prompt": "hello, my name is Edward",
+  "conversation_id": "test-chat"
+}
+
+added POST http://127.0.0.1:9000/agent/build_view
+body example 
+{
+  "device_id": "duro-1",
+  "conversation_id": "tes3tt3d",
+  "prompt": "Create a view with a label saying 'lol' in the center of the view.",
+  "context": {
+            "hmi": {
+                "views": [
+                    {
+                        "id": "vw_default",
+                        "name": "MainView",
+                        "type": "view",
+                        "config": {
+                        "width": 1230,
+                        "height": 800,
+                        "style": {
+                            "fontFamily": "None",
+                            "font-weight": "none",
+                            "fontSize.px": 16,
+                            "color": "#000000",
+                            "backgroundColor": "#ffffff",
+                            "borderRadius.px": 0,
+                            "borderStyle": "solid",
+                            "borderColor": "#00000000",
+                            "borderWidth.px": 0,
+                            "boxShadow": "0px 0px 0px 0px #000000"
+                        },
+                        "sizeMode": "zoom"
+                        },
+                        "components": []
+                    }
+                ],
+                "general": {
+                    "defaultViewId": "vw_default",
+                    "mainView": null,
+                    "mainNavBtn": false,
+                    "viewsTree": [
+                        {
+                        "name": "MainView",
+                        "type": "view",
+                        "id": "vw_default"
+                        }
+                    ]
+                }
+            }
+    }
+}
+ 
+ **Current Problems** 
+ - docs are too much for the prompt to take in. need to find a way to get the ai the knowledge for duro.
+ 

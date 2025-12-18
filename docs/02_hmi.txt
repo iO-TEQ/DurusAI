@@ -1,108 +1,55 @@
-# OVERVIEW OF THE DURO CONTROLLER CONFIGURATION
+# HMI IN DURO CONTROLLER
 
-- The DURO controller's configuration is a json file that house everything such as database tags, modules like process logic or communication protocols, hmi views, etc.
+What an HMI does (overview)
 
-Controller configuration structure (based on the two examples):
-- database: includes 'settings' for persistence/logging and a 'tags' map. Each tag defines type (e.g., Number, Text), dimensions, default value, and edit/logging flags.
-- modules: a list of optional runtime modules; both examples leave this empty.
-- hmi: defines UI 'views' with sizing/style and 'components'. Components (labels, buttons) have  coordinates, visibility, styles, and 'events' for interactivity (e.g., writeTag to update tag values).
-- hmi.general: sets the 'defaultViewId' and the 'viewsTree' used for frontend HMI editor. Example 1 has a single 'MainView'; example 2 adds a 'Dashboard' view and a button to navigate.
-- charts: reserved for trend/chart configuration; empty in the examples.
+- Presents information: shows key system data, statuses, and alarms in a clear, operator-friendly way.
+- Accepts control: lets operators issue commands (e.g., start/stop) via buttons and other inputs.
+- Navigates views: organizes the interface into screens (views) and handles navigation between them.
+- Binds to tags: reads live values to display and writes values in response to events.
+- Applies visuals: lays out components (x, y, w, h), styles them, and supports basic animations.
+- Adapts sizing: uses `sizeMode` to fit different resolutions (normal vs. zoom behavior).
 
-In example 1, the database has a single numeric tag and the HMI contains one default view with no components. In example 2, a text tag 'systemStatus' is added, the Dashboard view shows labels (including a live value bound to the tag), and Start/Stop controls write new values via click events, with navigation from MainView to Dashboard.
+HMI JSON format (based on the example)
 
-Examples: 
+- `hmi`: root object containing UI definition.
+   - `views`: array of view objects. Each view defines a screen.
+      - `id`: unique identifier for the view (e.g., "vw_View").
+      - `name`: human-readable view name (e.g., "Dashboard").
+      - `type`: always "view" for view entries.
+      - `config`: view-level configuration.
+         - `width`, `height`: base canvas size in pixels.
+         - `style`: CSS-like style dictionary for the view.
+         - `sizeMode`: sizing behavior (e.g., "normal", "zoom").
+      - `components`: array of UI components placed on the view.
+         - Common fields across components:
+            - `id`: unique component id (e.g., "lbl_Start").
+            - `viewId`: parent view id.
+            - `type`: component kind, e.g., "label", "button".
+            - `typeAbbr`: short prefix for type (e.g., "lbl_", "btn_").
+            - `comptName`: friendly component name.
+            - `visibility`: boolean to show/hide component.
+            - Geometry: `w`, `h`, `x`, `y`, `zIndex`, `rotationAngle`.
+            - `sizeMode`: component sizing behavior (usually "zoom").
+            - `config`: component-specific settings.
+               - For labels: `placeholder` (default text), `buttonMode` (if it should act clickable), `style` (font, colors, borders, etc.).
+               - For buttons: `text`, `behavior` (e.g., "release"), optional `placeholderType`, and `style`.
+               - `style` uses CSS-like keys; numeric units can be explicit via `.px` suffix (e.g., "fontSize.px": 18).
+            - `animation`: optional dynamic properties that can change at runtime (`backgroundColor`, `border`, `text`, `visibility`, `color`).
+               - Example: setting `animation.text` to a tag name (e.g., "systemStatus") binds the label to display that tag’s current value.
+            - `events`: maps user interactions to actions (simple DSL strings).
+               - Examples: `click: "writeTag(\"systemStatus\", \"Start\")"` to write a tag; `click: "followLink(\"View\")"` to navigate to another view.
+            - `logic`: optional metadata for component-level logic (e.g., `moduleId`, `mainTag`, `mainTagResp`).
+   - `general`: app-wide settings.
+      - `defaultViewId`: view id to show on startup.
+      - `mainView`: reserved/optional entry for a designated main view (can be null).
+      - `mainNavBtn`: whether to show a global navigation button.
+      - `viewsTree`: flattened tree/index of available views (name, type, id) for navigation menus.
 
-1) Here is a configuration with one number tag and a default hmi view:
+Examples:
 
-{
-   "database": {
-      "settings": {
-         "persistanceUpdateTime": 1,
-         "maxDaysToLog": 10
-      },
-      "tags": {
-         "_NewTag": {
-            "arraydim": 1,
-            "datatype": "Number",
-            "value": 0,
-            "config": {
-               "persistent": false,
-               "historic": false,
-               "hidden": false,
-               "editable": true
-            }
-         }
-      }
-   },
-   "modules": [],
-   "hmi": {
-      "views": [
-         {
-            "id": "vw_default",
-            "name": "MainView",
-            "type": "view",
-            "config": {
-               "width": 1230,
-               "height": 800,
-               "style": {
-                  "fontFamily": "None",
-                  "font-weight": "none",
-                  "fontSize.px": 16,
-                  "color": "#000000",
-                  "backgroundColor": "#ffffff",
-                  "borderRadius.px": 0,
-                  "borderStyle": "solid",
-                  "borderColor": "#00000000",
-                  "borderWidth.px": 0,
-                  "boxShadow": "0px 0px 0px 0px #000000"
-               },
-               "sizeMode": "zoom"
-            },
-            "components": []
-         }
-      ],
-      "general": {
-         "defaultViewId": "vw_default",
-         "mainView": null,
-         "mainNavBtn": false,
-         "viewsTree": [
-            {
-               "name": "MainView",
-               "type": "view",
-               "id": "vw_default"
-            }
-         ]
-      }
-   },
-   "charts": []
-}
+1) HMI configuration with two screens. The first screen is the 'MainView', it has a button to go to the next screen 'Dashboard'. In the Dashboard, there is a header "Dashboard", System Status and two buttons that can change the systemStatus tag value.
 
-2) This example has one tag, 'systemStatus', a text tag and a Dashboard HMI with two screens . The first screen is the 'MainView', it has a button to go to the next screen 'Dashboard'. In the Dashboard, there is a header "Dashboard", System Status and two buttons that can change the systemStatus tag value.
-
-{
-   "database": {
-      "settings": {
-         "persistanceUpdateTime": 1,
-         "maxDaysToLog": 10
-      },
-      "tags": {
-         "systemStatus": {
-            "arraydim": 1,
-            "datatype": "Text",
-            "value": "Stop",
-            "config": {
-               "persistent": false,
-               "historic": false,
-               "hidden": false,
-               "editable": true
-            },
-            "comment": "System Status. Options: \"Start\" or \"Stop\""
-         }
-      }
-   },
-   "modules": [],
-   "hmi": {
+"hmi": {
       "views": [
          {
             "id": "vw_View",
@@ -457,5 +404,3 @@ Examples:
          ]
       }
    },
-   "charts": []
-}

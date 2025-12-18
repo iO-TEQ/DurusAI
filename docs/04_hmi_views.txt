@@ -1,6 +1,11 @@
 # VIEWS (SCREENS) IN DURO CONTROLLER
 
 - A "view" (screen) is a page in the HMI editor.
+- Every view is has a key pair entry in viewsTree of the configuration json. (e.g. {
+               "name": "MainView",
+               "type": "view",
+               "id": "vw_View_id"
+            })
 
 What is a View
 - A view represents a single HMI screen composed of UI components (buttons, labels, etc.). It defines canvas dimensions, styling, and the list/arrangement of components rendered on that screen.
@@ -23,8 +28,10 @@ Component Properties (common fields)
 - typeAbbr: Abbreviation for type (e.g., "btn_", "lbl_").
 - comptName: Display name of the component in the editor.
 - visibility: Boolean controlling whether the component is visible.
-- w / h: Width and height in pixels.
-- x / y: Position coordinates on the view canvas.
+- w: Width in pixels.
+- h: height in pixels.
+- x: x coordinate on the view canvas.
+- y: y coordinate on the view canvas.
 - zIndex: Stacking order relative to other components.
 - rotationAngle: Rotation in degrees.
 - sizeMode: Component scaling behavior (e.g., "zoom").
@@ -123,4 +130,19 @@ Examples:
             }
         }
     ]
+}
+
+In general viewsTree
+"general": {
+         "defaultViewId": "vw_default",
+         "mainView": null,
+         "mainNavBtn": false,
+         "viewsTree": [
+            ...,
+            {
+                "name": "View_1",
+                "type": "view",
+                "id": "vw_76f66be9-d58b4fa6"
+            }
+         ]
 }
