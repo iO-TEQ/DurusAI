@@ -316,3 +316,149 @@ Response
     }
 }
 ```
+
+
+# HTTP REQUEST EXAMPLES v0.3
+
+**POST** http://127.0.0.1:9000/agent/build_view
+body: 
+```json
+{
+  "device_id": "duro-1",
+  "conversation_id": "test",
+  "prompt": "Create a view with a label saying 'lol' in the center of the view.",
+  "context": {
+            "hmi": {
+                "views": [
+                    {
+                        "id": "vw_default",
+                        "name": "MainView",
+                        "type": "view",
+                        "config": {
+                        "width": 1230,
+                        "height": 800,
+                        "style": {
+                            "fontFamily": "None",
+                            "font-weight": "none",
+                            "fontSize.px": 16,
+                            "color": "#000000",
+                            "backgroundColor": "#ffffff",
+                            "borderRadius.px": 0,
+                            "borderStyle": "solid",
+                            "borderColor": "#00000000",
+                            "borderWidth.px": 0,
+                            "boxShadow": "0px 0px 0px 0px #000000"
+                        },
+                        "sizeMode": "zoom"
+                        },
+                        "components": []
+                    }
+                ],
+                "general": {
+                    "defaultViewId": "vw_default",
+                    "mainView": null,
+                    "mainNavBtn": false,
+                    "viewsTree": [
+                        {
+                        "name": "MainView",
+                        "type": "view",
+                        "id": "vw_default"
+                        }
+                    ]
+                }
+            }
+    }
+}
+```
+
+Response
+```json 
+{
+    "message": "Created a new view with a label saying 'lol' in the center of the view.",
+    "steps": [
+        {
+            "title": "Create a new view",
+            "details": "A new view with the specified name and configuration will be created."
+        },
+        {
+            "title": "Add a label component",
+            "details": "A label component will be added to the new view with the specified text."
+        }
+    ],
+    "proposed_changes": {
+        "hmi": {
+            "views": [
+                {
+                    "id": "vw_default",
+                    "name": "MainView",
+                    "type": "view",
+                    "config": {
+                        "width": 1230,
+                        "height": 800,
+                        "style": {
+                            "fontFamily": "None",
+                            "font-weight": "none",
+                            "fontSize.px": 16,
+                            "color": "#000000",
+                            "backgroundColor": "#ffffff",
+                            "borderRadius.px": 0,
+                            "borderStyle": "solid",
+                            "borderColor": "#00000000",
+                            "borderWidth.px": 0,
+                            "boxShadow": "0px 0px 0px 0px #000000"
+                        },
+                        "sizeMode": "zoom"
+                    },
+                    "components": [
+                        {
+                            "id": "lbl_lol",
+                            "viewId": "vw_default",
+                            "type": "label",
+                            "typeAbbr": "lbl",
+                            "comptName": "Label",
+                            "visibility": true,
+                            "w": 200,
+                            "h": 50,
+                            "x": 500,
+                            "y": 350,
+                            "zIndex": 1,
+                            "rotationAngle": 0,
+                            "sizeMode": "zoom",
+                            "config": {
+                                "placeholder": "lol",
+                                "buttonMode": false,
+                                "style": {
+                                    "fontFamily": "Arial",
+                                    "font-weight": "normal",
+                                    "fontSize.px": 24,
+                                    "color": "#000000",
+                                    "backgroundColor": "#ffffff",
+                                    "borderRadius.px": 0,
+                                    "borderStyle": "solid",
+                                    "borderColor": "#00000000",
+                                    "borderWidth.px": 0,
+                                    "boxShadow": "0px 0px 0px 0px #000000"
+                                }
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}
+```
+
+**POST** http://127.0.0.1:9000/chat/stream
+body: 
+```json
+{
+  "prompt": "hello, my name is edward",
+  "conversation_id": "test-chat"
+}
+```
+
+Response
+```text
+Hello Edward! I'm your general assistant and HMI/tag editor assistant for the Duro controller. I'm here to help you with any questions or issues you may have regarding the controller's configuration, HMI views, or database tags. What would you like to know or accomplish today?
+```

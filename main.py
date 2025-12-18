@@ -13,7 +13,7 @@ from starlette.responses import StreamingResponse
 from doc_loader import ALL_DOCS, ALL_HMI_DOCS
 from hmi_schema_doc import HMI_SCHEMA_DOC
 
-DOCS_MAX_CHARS = 1000  # tweak as needed
+DOCS_MAX_CHARS = 2000  # tweak as needed
 # Where llama.cpp's HTTP server is listening
 LLM_API_URL = os.getenv("LLM_API_URL", "http://127.0.0.1:8080/v1/chat/completions")
 LLM_MODEL_NAME = os.getenv(
@@ -24,10 +24,12 @@ LLM_MODEL_NAME = os.getenv(
 LLM_CONNECT_TIMEOUT = float(os.getenv("LLM_CONNECT_TIMEOUT", "5"))
 LLM_READ_TIMEOUT = float(os.getenv("LLM_READ_TIMEOUT", "60"))
 LLM_CHAT_READ_TIMEOUT = float(os.getenv("LLM_CHAT_READ_TIMEOUT", str(LLM_READ_TIMEOUT)))
-LLM_MAX_TOKENS = int(os.getenv("LLM_MAX_TOKENS", "1024"))
+LLM_MAX_TOKENS = int(os.getenv("LLM_MAX_TOKENS", "2048"))
 LLM_CHAT_MAX_TOKENS = int(os.getenv("LLM_CHAT_MAX_TOKENS", "256"))
 CHAT_HISTORY_MAX_MESSAGES = int(os.getenv("CHAT_HISTORY_MAX_MESSAGES", "30"))
 CHAT_DOCS_MAX_CHARS = 300
+LLM_BUILD_MAX_TOKENS = int(os.getenv("LLM_BUILD_MAX_TOKENS", "1024"))
+LLM_BUILD_READ_TIMEOUT = float(os.getenv("LLM_BUILD_READ_TIMEOUT", "45"))
 CONVERSATIONS: Dict[str, List[Dict[str, str]]] = {}
 
 app = FastAPI(title="Durus AI Agent Server")
@@ -193,8 +195,44 @@ def call_llm(messages: List[Dict[str, str]]) -> str:
             timeout=(LLM_CONNECT_TIMEOUT, LLM_READ_TIMEOUT),
         )
         resp.raise_for_status()                             
+    except requests.Timeout as e:
+        raise HTTPException(status_code=504, detail=f"LLM read timeout: {e}")
     except requests.RequestException as e:
         print("\n[AGENT DEBUG] LLM call failed:", e, "\n")
+        raise HTTPException(status_code=500, detail=f"Error calling LLM: {e}")
+
+    if resp.status_code != 200:
+        raise HTTPException(
+            status_code=500,
+            detail=f"LLM error: {resp.status_code} {resp.text[:200]}",
+        )
+
+    data = resp.json()
+    try:
+        return data["choices"][0]["message"]["content"]
+    except (KeyError, IndexError, TypeError) as e:
+        raise HTTPException(status_code=500, detail=f"Bad LLM response: {e}")
+
+def call_llm_for_build(messages: List[Dict[str, str]]) -> str:
+    payload = {
+        "model": LLM_MODEL_NAME,
+        "messages": messages,
+        "temperature": 0.1,
+        "max_tokens": LLM_BUILD_MAX_TOKENS,
+    }
+
+    try:
+        print("\n[AGENT DEBUG] Calling LLM (build_view):", LLM_API_URL)
+        print("[AGENT DEBUG] Model:", payload.get("model"), "Messages:", len(payload.get("messages", [])))
+        resp = requests.post(
+            LLM_API_URL,
+            json=payload,
+            timeout=(LLM_CONNECT_TIMEOUT, LLM_BUILD_READ_TIMEOUT),
+        )
+        resp.raise_for_status()
+    except requests.Timeout as e:
+        raise HTTPException(status_code=504, detail=f"LLM read timeout: {e}")
+    except requests.RequestException as e:
         raise HTTPException(status_code=500, detail=f"Error calling LLM: {e}")
 
     if resp.status_code != 200:
@@ -559,9 +597,9 @@ def build_view(body: AgentRequest):
     messages: List[Dict[str, str]] = [
         {"role": "system", "content": system_prompt},
     ]
-    # If you really want a bit of context, only keep the last 4 turns (8 messages)
-    if len(history) > 8:
-        short_history = history[-8:]
+    # Keep only a small slice of recent history to reduce prompt size
+    if len(history) > 4:
+        short_history = history[-4:]
     else:
         short_history = history
 
@@ -569,7 +607,7 @@ def build_view(body: AgentRequest):
     messages.append({"role": "user", "content": user_prompt})
 
     # Call the model
-    raw = call_llm(messages)
+    raw = call_llm_for_build(messages)
     print("\n[AGENT DEBUG] Raw LLM output:\n", repr(raw), "\n")
     try:
         json_str = sanitize_llm_json(raw)
