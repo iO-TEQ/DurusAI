@@ -1,0 +1,404 @@
+# HMI IN DURO CONTROLLER
+
+What an HMI does (overview)
+
+- Presents information: shows key system data, statuses, and alarms in a clear, operator-friendly way.
+- Accepts control: lets operators issue commands (e.g., start/stop) via buttons and other inputs.
+- Navigates views: organizes the interface into screens (views) and handles navigation between them.
+- Binds to tags: reads live values to display and writes values in response to events.
+- Applies visuals: lays out components (x, y, w, h), styles them, and supports basic animations.
+- Adapts sizing: uses `sizeMode` to fit different resolutions (normal vs. zoom behavior).
+
+HMI JSON format (based on the example)
+
+- `hmi`: root object containing UI definition.
+   - `views`: array of view objects. Each view defines a screen.
+      - `id`: unique identifier for the view (e.g., "vw_View").
+      - `name`: human-readable view name (e.g., "Dashboard").
+      - `type`: always "view" for view entries.
+      - `config`: view-level configuration.
+         - `width`, `height`: base canvas size in pixels.
+         - `style`: CSS-like style dictionary for the view.
+         - `sizeMode`: sizing behavior (e.g., "normal", "zoom").
+      - `components`: array of UI components placed on the view.
+         - Common fields across components:
+            - `id`: unique component id (e.g., "lbl_Start").
+            - `viewId`: parent view id.
+            - `type`: component kind, e.g., "label", "button".
+            - `typeAbbr`: short prefix for type (e.g., "lbl_", "btn_").
+            - `comptName`: friendly component name.
+            - `visibility`: boolean to show/hide component.
+            - Geometry: `w`, `h`, `x`, `y`, `zIndex`, `rotationAngle`.
+            - `sizeMode`: component sizing behavior (usually "zoom").
+            - `config`: component-specific settings.
+               - For labels: `placeholder` (default text), `buttonMode` (if it should act clickable), `style` (font, colors, borders, etc.).
+               - For buttons: `text`, `behavior` (e.g., "release"), optional `placeholderType`, and `style`.
+               - `style` uses CSS-like keys; numeric units can be explicit via `.px` suffix (e.g., "fontSize.px": 18).
+            - `animation`: optional dynamic properties that can change at runtime (`backgroundColor`, `border`, `text`, `visibility`, `color`).
+               - Example: setting `animation.text` to a tag name (e.g., "systemStatus") binds the label to display that tag’s current value.
+            - `events`: maps user interactions to actions (simple DSL strings).
+               - Examples: `click: "writeTag(\"systemStatus\", \"Start\")"` to write a tag; `click: "followLink(\"View\")"` to navigate to another view.
+   - `general`: app-wide settings.
+      - `defaultViewId`: view id to show on startup.
+      - `mainView`: reserved/optional entry for a designated main view (can be null).
+      - `mainNavBtn`: whether to show a global navigation button.
+      - `viewsTree`: flattened tree/index of available views (name, type, id) for navigation menus.
+
+Rules:
+- views and component must have all properties present.
+- no properties can have a null value.
+
+Examples:
+
+1) HMI configuration with two screens. The first screen is the 'MainView', it has a button to go to the next screen 'Dashboard'. In the Dashboard, there is a header "Dashboard", System Status and two buttons that can change the systemStatus tag value.
+
+"hmi": {
+      "views": [
+         {
+            "id": "vw_View",
+            "name": "Dashboard",
+            "type": "view",
+            "config": {
+               "width": 1024,
+               "height": 760,
+               "style": {},
+               "sizeMode": "normal"
+            },
+            "components": [
+               {
+                  "id": "lbl_Start",
+                  "viewId": "vw_View",
+                  "type": "label",
+                  "typeAbbr": "lbl_",
+                  "comptName": "start_btn",
+                  "visibility": true,
+                  "w": 120,
+                  "h": 60,
+                  "y": 300,
+                  "x": 50,
+                  "zIndex": 0,
+                  "rotationAngle": 0,
+                  "sizeMode": "zoom",
+                  "config": {
+                     "placeholder": "Start",
+                     "buttonMode": "false",
+                     "style": {
+                        "fontFamily": "Arial",
+                        "font-weight": "normal",
+                        "color": "#000000a3",
+                        "backgroundColor": "#b0b0b0",
+                        "border": "solid #000000 2px",
+                        "feedback-fx": "scale(0.9) #ff0600 1.5s",
+                        "box-shadow": "1px 1px 3px 0px #000000",
+                        "align-items": "center",
+                        "justify-content": "center"
+                     }
+                  },
+                  "animation": {
+                     "backgroundColor": "",
+                     "border": "",
+                     "text": "",
+                     "visibility": "",
+                     "color": ""
+                  },
+                  "events": {
+                     "click": "writeTag(\"systemStatus\", \"Start\")"
+                  }
+               },
+               {
+                  "id": "lbl_Stop",
+                  "viewId": "vw_View",
+                  "type": "label",
+                  "typeAbbr": "lbl_",
+                  "comptName": "stop_btn",
+                  "visibility": true,
+                  "w": 120,
+                  "h": 60,
+                  "y": 300,
+                  "x": 200,
+                  "zIndex": 0,
+                  "rotationAngle": 0,
+                  "sizeMode": "zoom",
+                  "config": {
+                     "placeholder": "Stop",
+                     "buttonMode": "false",
+                     "style": {
+                        "fontFamily": "Arial",
+                        "font-weight": "normal",
+                        "color": "#000000a3",
+                        "backgroundColor": "#b0b0b0",
+                        "border": "solid #000000 2px",
+                        "feedback-fx": "scale(0.9) #ff0600 1.5s",
+                        "box-shadow": "1px 1px 3px 0px #000000",
+                        "justify-content": "center",
+                        "align-items": "center"
+                     }
+                  },
+                  "animation": {
+                     "backgroundColor": "",
+                     "border": "",
+                     "text": "",
+                     "visibility": "",
+                     "color": ""
+                  },
+                  "events": {
+                     "click": "writeTag(\"systemStatus\", \"Stop\")"
+                  }
+               },
+               {
+                  "id": "lbl_012e-fb39",
+                  "viewId": "",
+                  "type": "label",
+                  "typeAbbr": "lbl_",
+                  "comptName": "dashboard_lbl",
+                  "visibility": true,
+                  "w": 251.38686131386862,
+                  "h": 54.16058394160581,
+                  "y": 10.623131838386684,
+                  "x": 362.3949651061629,
+                  "zIndex": 0,
+                  "rotationAngle": 0,
+                  "sizeMode": "zoom",
+                  "config": {
+                     "placeholder": "Dashboard",
+                     "buttonMode": "false",
+                     "style": {
+                        "justify-content": "center",
+                        "align-items": "center",
+                        "fontFamily": "Arial",
+                        "fontSize.px": 30
+                     }
+                  },
+                  "animation": {
+                     "backgroundColor": "",
+                     "border": "",
+                     "text": "",
+                     "visibility": "",
+                     "color": ""
+                  },
+                  "events": {
+                     "click": ""
+                  }
+               },
+               {
+                  "id": "lbl_4702-f86a",
+                  "viewId": "",
+                  "type": "label",
+                  "typeAbbr": "lbl_",
+                  "comptName": "system_status_lbl",
+                  "visibility": true,
+                  "w": 178.39416058394147,
+                  "h": 36.642335766423344,
+                  "y": 111.6906562530373,
+                  "x": 103.89996146477336,
+                  "zIndex": 0,
+                  "rotationAngle": 0,
+                  "sizeMode": "zoom",
+                  "config": {
+                     "placeholder": "System Status",
+                     "buttonMode": "false",
+                     "style": {
+                        "justify-content": "center",
+                        "align-items": "center",
+                        "fontFamily": "Arial",
+                        "fontSize.px": 24
+                     }
+                  },
+                  "animation": {
+                     "backgroundColor": "",
+                     "border": "",
+                     "text": "",
+                     "visibility": "",
+                     "color": ""
+                  },
+                  "events": {
+                     "click": ""
+                  }
+               },
+               {
+                  "id": "lbl_b436-827a",
+                  "viewId": "",
+                  "type": "label",
+                  "typeAbbr": "lbl_",
+                  "comptName": "system_status_value_lbl",
+                  "visibility": true,
+                  "w": 178.39416058394147,
+                  "h": 36.642335766423344,
+                  "y": 143.7226404396847,
+                  "x": 107.96272698527741,
+                  "zIndex": 0,
+                  "rotationAngle": 0,
+                  "sizeMode": "zoom",
+                  "config": {
+                     "placeholder": "System Status",
+                     "buttonMode": "false",
+                     "style": {
+                        "justify-content": "center",
+                        "align-items": "center",
+                        "fontFamily": "Arial",
+                        "fontSize.px": 20
+                     }
+                  },
+                  "animation": {
+                     "backgroundColor": "",
+                     "border": "",
+                     "text": "systemStatus",
+                     "visibility": "",
+                     "color": ""
+                  },
+                  "events": {
+                     "click": ""
+                  }
+               },
+               {
+                  "id": "lbl_009c-6847",
+                  "viewId": "",
+                  "type": "label",
+                  "typeAbbr": "lbl_",
+                  "comptName": "system_runtime_lbl",
+                  "visibility": true,
+                  "w": 200,
+                  "h": 30,
+                  "y": 240,
+                  "x": 95,
+                  "zIndex": 0,
+                  "rotationAngle": 0,
+                  "sizeMode": "zoom",
+                  "config": {
+                     "placeholder": "System Runtime",
+                     "buttonMode": "false",
+                     "style": {
+                        "justify-content": "center",
+                        "align-items": "center",
+                        "fontFamily": "Arial",
+                        "fontSize.px": 24
+                     }
+                  },
+                  "animation": {
+                     "backgroundColor": "",
+                     "border": "",
+                     "text": "",
+                     "visibility": "",
+                     "color": ""
+                  },
+                  "events": {
+                     "click": ""
+                  }
+               }
+            ]
+         },
+         {
+            "id": "vw_default",
+            "name": "MainView",
+            "type": "view",
+            "config": {
+               "width": 1230,
+               "height": 800,
+               "style": {
+                  "fontFamily": "None",
+                  "font-weight": "none",
+                  "fontSize.px": 16,
+                  "color": "#000000",
+                  "backgroundColor": "#ffffff",
+                  "borderRadius.px": 0,
+                  "borderStyle": "solid",
+                  "borderColor": "#00000000",
+                  "borderWidth.px": 0,
+                  "boxShadow": "0px 0px 0px 0px #000000"
+               },
+               "sizeMode": "zoom"
+            },
+            "components": [
+               {
+                  "id": "lbl_d932-d9cb",
+                  "viewId": "",
+                  "type": "label",
+                  "typeAbbr": "lbl_",
+                  "comptName": "welcome_lbl",
+                  "visibility": true,
+                  "w": 1230,
+                  "h": 800,
+                  "y": 0,
+                  "x": 0,
+                  "zIndex": 0,
+                  "rotationAngle": 0,
+                  "sizeMode": "zoom",
+                  "config": {
+                     "placeholder": "Welcome!",
+                     "buttonMode": "false",
+                     "style": {
+                        "justify-content": "center",
+                        "align-items": "center",
+                        "fontSize.px": 130,
+                        "font-weight": "normal",
+                        "color": "#000000a3",
+                        "fontFamily": "Arial"
+                     }
+                  },
+                  "animation": {
+                     "backgroundColor": "",
+                     "border": "",
+                     "text": "",
+                     "visibility": "",
+                     "color": ""
+                  },
+                  "events": {
+                     "click": ""
+                  }
+               },
+               {
+                  "id": "btn_f2f9-0f90",
+                  "viewId": "",
+                  "type": "button",
+                  "typeAbbr": "btn_",
+                  "comptName": "dashboard_btn",
+                  "visibility": true,
+                  "w": 120,
+                  "h": 60,
+                  "y": 500,
+                  "x": 551,
+                  "zIndex": 0,
+                  "rotationAngle": 0,
+                  "sizeMode": "zoom",
+                  "config": {
+                     "behavior": "release",
+                     "text": "Dashboard",
+                     "style": {
+                        "fontSize.px": 18
+                     },
+                     "placeholderType": "text"
+                  },
+                  "animation": {
+                     "backgroundColor": "",
+                     "border": "",
+                     "text": "",
+                     "visibility": "",
+                     "color": ""
+                  },
+                  "events": {
+                     "click": "followLink(\"View\")",
+                     "press": "",
+                     "release": ""
+                  }
+               }
+            ]
+         }
+      ],
+      "general": {
+         "defaultViewId": "vw_default",
+         "mainView": null,
+         "mainNavBtn": false,
+         "viewsTree": [
+            {
+               "name": "MainView",
+               "type": "view",
+               "id": "vw_default"
+            },
+            {
+               "name": "Dashboard",
+               "type": "view",
+               "id": "vw_View"
+            }
+         ]
+      }
+   },

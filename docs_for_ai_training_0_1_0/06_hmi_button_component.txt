@@ -1,0 +1,204 @@
+# HMI BUTTON COMPONENT FOR DURO CONTROLLER
+
+- Button is one of the components available for the hmi.
+
+Core Properties for HMI Button Component:
+- id: Unique identifier for the component (prefixed by `btn_`).
+- viewId: always "".
+- type: always "button".
+- typeAbbr: always "btn_".
+- comptName: Human-readable name of the component.
+- visibility: Initial visibility state (`true` or `false`).
+- x / y: Coordinates of the button in the view canvas.
+- w / h: Width and height in pixels.
+- zIndex: Stacking order relative to other components.
+- rotationAngle: Rotation in degrees.
+- sizeMode: Sizing mode behavior (e.g., `zoom`).
+- config: Type-specific settings.
+- animation: Declarative animation bindings for background, border, text, visibility, color.
+- events: Handlers for `click`, `press`, `release`.
+
+Config
+- behavior: Interaction mode, typically `press` or `release`.
+- text: Label shown on the button.
+- style: CSS-like styling keys such as `fontFamily`, `font-weight`, `color`, `backgroundColor`, `border`, `feedback-fx`, `box-shadow`.
+- placeholderType: Content type placeholder (e.g., `text`).
+
+
+Events Click Functions
+- writeTag(tag:Text, value:Text|Number) — Writes the given `value` to the specified `tag`.
+- writeTagIf(conditional, tag:Text, trueValue:Text|Number) — If `conditional` is true, writes `trueValue` to `tag`; otherwise does nothing.
+- writeTagIfElse(conditional, tag:Text, trueValue:Text|Number, falseValue:Text|Number) — Writes `trueValue` when `conditional` is true, else writes `falseValue`.
+- writeTagOnIncrement(tag:Text, minValue:Number, maxValue:Number, incrementValue:Number) — Increases the current value of `tag` by `incrementValue`; behavior at `minValue`/`maxValue` is __________.
+- blink(conditional, id:Text, interval_ms:Number, hexColor:Text, secondHexColor:Text) — While `conditional` is true, toggles element `id` color between `hexColor` and `secondHexColor` every `interval_ms` ms.
+- openDialog(viewName:Text, style:Text, variable:Text, value:Text|Function) — Opens a dialog using `view` and `style`, setting `variable` to `value` (or the function’s return).
+- openDialogIf(conditional, view:Text, style:Text, variable:Text, value:Text) — Opens the dialog only if `conditional` is true.
+- closeDialog() — Closes the currently open dialog.
+- refresh() — Refresh the browser page.
+- followLink(viewName:Text) — Navigates to the specified view by its view name.
+- followLinkIf(conditional, viewName:Text) — Navigates to `view` only if `conditional` is true.
+- followLinkIfElse(conditional, viewName:Text, viewName:Text) — If true, navigates to the first `view`; otherwise to the second `view`.
+- getTagFromValue(folder: Text, desiredValue: Text|Number) — Returns the tag in `folder` whose value matches `desiredValue`; matching rules are __________.
+
+Mandatory Presence
+- Include all core properties for every button: `id`, `viewId`, `type`, `typeAbbr`, `comptName`, `visibility`, `x`, `y`, `w`, `h`, `zIndex`, `rotationAngle`, `sizeMode`, `config`, `animation`, `events`.
+- When a property is not used, keep it present with its default value.
+
+Default Values
+- viewId: ""
+- typeAbbr: "btn_"
+- visibility: true
+- x: 0
+- y: 0
+- w: 120
+- h: 60
+- zIndex: 0
+- rotationAngle: 0
+- sizeMode: "zoom"
+- config.behavior: "release"
+- config.text: "Button"
+- config.style: {}
+- config.placeholderType: "text"
+- animation.backgroundColor: ""
+- animation.border: ""
+- animation.text: ""
+- animation.visibility: ""
+- animation.color: ""
+- events.click: ""
+- events.press: ""
+- events.release: ""
+
+
+Examples: 
+
+1) A button on click will set tag "_NewTag" to 5. all styling properties being used
+
+{
+    "id": "btn_c040-61a5",
+    "viewId": "",
+    "type": "button",
+    "typeAbbr": "btn_",
+    "comptName": "Button_1",
+    "visibility": true,
+    "w": 120,
+    "h": 60,
+    "y": 343.86912897771543,
+    "x": 486.3359617440474,
+    "zIndex": 0,
+    "rotationAngle": 0,
+    "sizeMode": "zoom",
+    "config": {
+        "behavior": "release",
+        "text": "Set Tag to 5",
+        "style": {
+        "fontFamily": "Arial",
+        "font-weight": "normal",
+        "color": "#000000a3",
+        "backgroundColor": "#b0b0b0",
+        "border": "solid #000000 2px",
+        "feedback-fx": "scale(0.9) #ff0600 1.5s",
+        "box-shadow": "5px 5px 10px 0px #000000"
+        },
+        "placeholderType": "text"
+    },
+    "animation": {
+        "backgroundColor": "",
+        "border": "",
+        "text": "",
+        "visibility": "",
+        "color": ""
+    },
+    "events": {
+        "click": "writeTag(\"_NewTag\", 5)",
+        "press": "",
+        "release": ""
+    }
+}
+
+2) Button with multiple functions in in event click. functions on one line.
+
+ {
+    "id": "btn_c040-61a5",
+    "viewId": "",
+    "type": "button",
+    "typeAbbr": "btn_",
+    "comptName": "Button_1",
+    "visibility": true,
+    "w": 120,
+    "h": 60,
+    "y": 128.3420786306292,
+    "x": 791.2113292940138,
+    "zIndex": 0,
+    "rotationAngle": 0,
+    "sizeMode": "zoom",
+    "config": {
+        "behavior": "release",
+        "text": "Set Tag to 5",
+        "style": {
+        "fontFamily": "Arial",
+        "font-weight": "normal",
+        "color": "#000000a3",
+        "backgroundColor": "#b0b0b0",
+        "border": "solid #000000 2px",
+        "feedback-fx": "scale(0.9) #ff0600 1.5s",
+        "box-shadow": "5px 5px 10px 0px #000000"
+        },
+        "placeholderType": "text"
+    },
+    "animation": {
+        "backgroundColor": "",
+        "border": "",
+        "text": "",
+        "visibility": "",
+        "color": ""
+    },
+    "events": {
+        "click": "writeTag(\"_NewTag\", 5) + writeTag(\"_NewTag_1\", 20)",
+        "press": "",
+        "release": ""
+    }
+}
+
+3) Button with multiple functions in in event click. functions on multiple lines.
+
+{
+    "id": "btn_c040-61a5",
+    "viewId": "",
+    "type": "button",
+    "typeAbbr": "btn_",
+    "comptName": "Button_1",
+    "visibility": true,
+    "w": 120,
+    "h": 60,
+    "y": 128.3420786306292,
+    "x": 791.2113292940138,
+    "zIndex": 0,
+    "rotationAngle": 0,
+    "sizeMode": "zoom",
+    "config": {
+        "behavior": "release",
+        "text": "Set Tag to 5",
+        "style": {
+        "fontFamily": "Arial",
+        "font-weight": "normal",
+        "color": "#000000a3",
+        "backgroundColor": "#b0b0b0",
+        "border": "solid #000000 2px",
+        "feedback-fx": "scale(0.9) #ff0600 1.5s",
+        "box-shadow": "5px 5px 10px 0px #000000"
+        },
+        "placeholderType": "text"
+    },
+    "animation": {
+        "backgroundColor": "",
+        "border": "",
+        "text": "",
+        "visibility": "",
+        "color": ""
+    },
+    "events": {
+        "click": "writeTag(\"_NewTag\", 5) \n+ writeTag(\"_NewTag_1\", 20)",
+        "press": "",
+        "release": ""
+    }
+}

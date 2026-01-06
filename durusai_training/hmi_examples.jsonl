@@ -1,0 +1,185 @@
+{
+    "prompt": "Create a diagnosis screen with two labels at the top right with placeholder value Start and Stop. Name the view 'View'",
+     "context": {}, 
+     "output": { {
+    "message": "Created a new diagnosis view named 'View_1' with two top-right labels: Start and Stop.",
+    "steps": [
+        {
+            "title": "Create diagnosis view",
+            "details": "Add a new HMI view named 'View_1' to show diagnosis controls."
+        },
+        {
+            "title": "Add Start/Stop labels",
+            "details": "Place two labels in the top-right corner with placeholder text 'Start' and 'Stop'."
+        }
+    ],
+    "proposed_changes": {
+        "hmi": {
+            "views": [
+                {
+                    "id": "vw_bd136a03-0be14f12",
+                    "name": "View_1",
+                    "type": "view",
+                    "config": {
+                        "width": 1024,
+                        "height": 760,
+                        "style": {},
+                        "sizeMode": "normal"
+                    },
+                    "components": [
+                        {
+                            "id": "lbl_9b1c-5dc8",
+                            "viewId": "",
+                            "type": "label",
+                            "typeAbbr": "lbl_",
+                            "comptName": "start_lbl",
+                            "visibility": true,
+                            "w": 120,
+                            "h": 60,
+                            "y": 0,
+                            "x": 784,
+                            "zIndex": 0,
+                            "rotationAngle": 0,
+                            "sizeMode": "zoom",
+                            "config": {
+                                "placeholder": "Start",
+                                "buttonMode": "false",
+                                "style": {
+                                    "justify-content": "center",
+                                    "align-items": "center"
+                                }
+                            },
+                            "animation": {
+                                "backgroundColor": "",
+                                "border": "",
+                                "text": "",
+                                "visibility": "",
+                                "color": ""
+                            },
+                            "events": {
+                                "click": ""
+                            }
+                        },
+                        {
+                            "id": "lbl_7272-d344",
+                            "viewId": "",
+                            "type": "label",
+                            "typeAbbr": "lbl_",
+                            "comptName": "stop_lbl",
+                            "visibility": true,
+                            "w": 120,
+                            "h": 60,
+                            "y": 0,
+                            "x": 904,
+                            "zIndex": 0,
+                            "rotationAngle": 0,
+                            "sizeMode": "zoom",
+                            "config": {
+                                "placeholder": "Stop",
+                                "buttonMode": "false",
+                                "style": {
+                                    "justify-content": "center",
+                                    "align-items": "center"
+                                }
+                            },
+                            "animation": {
+                                "backgroundColor": "",
+                                "border": "",
+                                "text": "",
+                                "visibility": "",
+                                "color": ""
+                            },
+                            "events": {
+                                "click": ""
+                            }
+                        }
+                    ]
+                }
+            ],
+            "general": {
+                "viewsTree": [
+                    {
+                        "name": "View_1",
+                        "type": "view",
+                        "id": "vw_bd136a03-0be14f12"
+                    }
+                ]
+            }
+        },
+        "tags_to_add": {}
+    }
+} }}
+
+{
+    "message": "Created a new diagnosis view named 'View_1' with a label in the center saying 'Done'.",
+    "steps": [
+        {
+            "title": "Create diagnosis view",
+            "details": "Add a new HMI view named 'View_1' to show diagnosis controls."
+        },
+        {
+            "title": "Add 'Done' label",
+            "details": "Place a label in the center of the view with width 100 and height 30, displaying the text 'Done'."
+        }
+    ],
+    "proposed_changes": {
+        "hmi": {
+            "views": [
+                {
+                    "id": "vw_6d6790f2-899a4dc8",
+                    "name": "View_2",
+                    "type": "view",
+                    "config": {
+                        "width": 1024,
+                        "height": 760,
+                        "style": {},
+                        "sizeMode": "normal"
+                    },
+                    "components": [
+                        {
+                            "id": "lbl_9b1c-5dc8",
+                            "viewId": "vw_bd136a03-0be14f12",
+                            "type": "label",
+                            "typeAbbr": "lbl_",
+                            "comptName": "done_lbl",
+                            "visibility": true,
+                            "x": 512,
+                            "y": 380,
+                            "w": 100,
+                            "h": 30,
+                            "sizeMode": "zoom",
+                            "config": {
+                                "placeholder": "Done",
+                                "buttonMode": "false",
+                                "style": {
+                                    "justify-content": "center",
+                                    "align-items": "center"
+                                }
+                            },
+                            "animation": {
+                                "backgroundColor": "",
+                                "border": "",
+                                "text": "",
+                                "visibility": "",
+                                "color": ""
+                            },
+                            "events": {
+                                "click": ""
+                            }
+                        }
+                    ]
+                }
+            ],
+            "general": {
+                "viewsTree": [
+                    {
+                        "name": "View_2",
+                        "type": "view",
+                        "id": "vw_6d6790f2-899a4dc8"
+                    }
+                ]
+            }
+        },
+        "tags_to_add": {}
+    }
+}
