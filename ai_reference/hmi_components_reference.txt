@@ -1,0 +1,459 @@
+DURO HMI COMPONENT REFERENCE
+============================
+
+This document describes the shape of HMI views and components used by the
+Duro controller. All components live inside a parent view.
+
+For each component type, we define:
+- Purpose
+- Required/important fields
+- Example JSON snippet
+
+Use this as an authoritative reference when generating or modifying HMI
+configuration objects.
+
+------------------------------------------------------------
+GLOBAL VIEW OBJECT
+------------------------------------------------------------
+
+A view is a top-level HMI screen or a reusable layout fragment.
+
+Fields:
+
+- id: string
+    - Unique ID for the view, e.g. "vw_380b1ff0-8bcb4132"
+- name: string
+    - Human-readable view name, e.g. "Keypad", "UserForm", "View_1"
+- type: string
+    - Always "view" for views
+- config: object
+    - width: number (screen width in pixels)
+    - height: number (screen height in pixels)
+    - style: object
+        - Common fields:
+            - fontFamily: string
+            - font-weight: string
+            - fontSize.px: number
+            - color: string (CSS color)
+            - backgroundColor: string (CSS color)
+            - borderRadius.px: number
+            - borderStyle: string ("solid", etc.)
+            - borderColor: string
+            - borderWidth.px: number
+            - boxShadow: string
+    - sizeMode: string
+        - "normal" or "zoom"
+
+- components: array of component objects (label, button, numericInput, keyboard, nested view, etc.)
+
+Example view:
+
+{
+  "id": "vw_380b1ff0-8bcb4132",
+  "name": "Keypad",
+  "type": "view",
+  "config": {
+    "width": 200,
+    "height": 300,
+    "style": {
+      "fontFamily": "None",
+      "font-weight": "none",
+      "fontSize.px": 16,
+      "color": "#000000",
+      "backgroundColor": "#ffffff",
+      "borderRadius.px": 0,
+      "borderStyle": "solid",
+      "borderColor": "#000000",
+      "borderWidth.px": 1,
+      "boxShadow": "0px 0px 0px 0px #000000"
+    },
+    "sizeMode": "normal"
+  },
+  "components": [ /* see components below */ ]
+}
+
+------------------------------------------------------------
+COMMON COMPONENT FIELDS
+------------------------------------------------------------
+
+All components share these fields (unless explicitly noted):
+
+- id: string
+    - Unique ID for the component
+- viewId: string
+    - ID of the view this component belongs to, or "" if not used
+- type: string
+    - Component type, e.g. "label", "button", "numericInput", "keyboard", "view"
+- typeAbbr: string
+    - Type prefix, e.g. "lbl_", "btn_", "nInput_", "keybd_", "nvw_"
+- comptName: string
+    - Human-readable component name, e.g. "status_lbl", "reset_button_btn"
+- visibility: boolean
+- w, h: number
+    - Width and height
+- x, y: number
+    - Top-left position
+- zIndex: number
+- rotationAngle: number
+- sizeMode: string
+    - Usually "zoom"
+
+Most components also share:
+
+- config: object
+- animation: object
+- events: object
+
+------------------------------------------------------------
+COMPONENT: label
+------------------------------------------------------------
+
+Purpose:
+- Shows text on the screen. Can display static or animated text and colors.
+
+Key fields:
+
+- type: "label"
+- typeAbbr: "lbl_"
+- config.placeholder: string
+    - Default text for the label
+- config.buttonMode: string
+    - "false" for regular labels
+- config.style: object
+    - Typical fields:
+        - justify-content: "center"
+        - align-items: "center"
+        - color: CSS color (e.g. "#ffffff")
+        - fontSize.px: number
+        - font-weight: "normal" | "bold"
+        - fontFamily: string
+- animation: object
+    - backgroundColor: string (expression or "")
+    - border: string
+    - text: string (expression, often bound to a tag, e.g. "__status__")
+    - visibility: string (expression or "")
+    - color: string (expression or "")
+- events: object
+    - click: string (expression or "")
+
+Example label:
+
+{
+  "id": "lbl_78c4-6963",
+  "viewId": "",
+  "type": "label",
+  "typeAbbr": "lbl_",
+  "comptName": "status_lbl",
+  "visibility": true,
+  "w": 100,
+  "h": 100,
+  "y": 0,
+  "x": 0,
+  "zIndex": 0,
+  "rotationAngle": 0,
+  "sizeMode": "zoom",
+  "config": {
+    "placeholder": "GOOD",
+    "buttonMode": "false",
+    "style": {
+      "justify-content": "center",
+      "align-items": "center",
+      "color": "#ffffff",
+      "fontSize.px": 18,
+      "font-weight": "normal",
+      "fontFamily": "Arial"
+    }
+  },
+  "animation": {
+    "backgroundColor": "if(__status__ == \"Bad\", \"#ff0000\", if(__status__ == \"Good\", \"#00ff00\", \"#00000\"))",
+    "border": "",
+    "text": "__status__",
+    "visibility": "",
+    "color": ""
+  },
+  "events": {
+    "click": ""
+  }
+}
+
+------------------------------------------------------------
+COMPONENT: button
+------------------------------------------------------------
+
+Purpose:
+- Clickable button to perform actions (set tags, run logic, etc.)
+
+Key fields:
+
+- type: "button"
+- typeAbbr: "btn_"
+- config.behavior: string
+    - Usually "release"
+- config.text: string
+    - Button label text
+- config.placeholderType: string
+    - Typically "text"
+- config.style: object
+    - e.g. borderRadius.px, colors, etc.
+- animation: object
+    - backgroundColor, border, text, visibility, color (strings)
+- events: object
+    - click: string
+        - Expression or expression chain to execute on click
+    - press: string
+    - release: string
+- logic: object
+    - moduleId: string
+    - mainTag: string
+    - mainTagResp: string
+
+Example button:
+
+{
+  "id": "btn_8b9b-c6a0",
+  "viewId": "",
+  "type": "button",
+  "typeAbbr": "btn_",
+  "comptName": "reset_button_btn",
+  "visibility": true,
+  "w": 110,
+  "h": 50,
+  "y": 440,
+  "x": 150,
+  "zIndex": 0,
+  "rotationAngle": 0,
+  "sizeMode": "zoom",
+  "config": {
+    "behavior": "release",
+    "text": "Reset Form",
+    "style": {
+      "borderRadius.px": 5
+    },
+    "placeholderType": "text"
+  },
+  "animation": {
+    "backgroundColor": "",
+    "border": "",
+    "text": "",
+    "visibility": "",
+    "color": ""
+  },
+  "events": {
+    "click": "writeTag(\"UserInfo.name\", \"\") + writeTag(\"UserInfo.age\", 0)",
+    "press": "",
+    "release": ""
+  },
+  "logic": {
+    "moduleId": "",
+    "mainTag": "",
+    "mainTagResp": ""
+  }
+}
+
+------------------------------------------------------------
+COMPONENT: numericInput
+------------------------------------------------------------
+
+Purpose:
+- Numeric input field for entering numbers, often combined with a keypad or keyboard.
+
+Key fields:
+
+- type: "numericInput"
+- typeAbbr: "nInput_"
+- config.text: string
+    - Current text value (as string)
+- config.style: object
+    - Styling for the numeric input
+- config.secureInput: string
+    - "true" or "false" (string), not boolean
+- animation: object
+    - backgroundColor, border, text, visibility
+    - text is often an expression like "__num__"
+- events: object
+    - cancel: string (expression or "__cancel__")
+    - enter: string (expression or "__enter__")
+
+Example numericInput:
+
+{
+  "id": "nInput_d653-1a4a",
+  "viewId": "",
+  "type": "numericInput",
+  "typeAbbr": "nInput_",
+  "comptName": "NumInput_1",
+  "visibility": true,
+  "w": 200,
+  "h": 300,
+  "y": 0,
+  "x": 0,
+  "zIndex": 0,
+  "rotationAngle": 0,
+  "sizeMode": "zoom",
+  "config": {
+    "text": "0",
+    "style": {},
+    "secureInput": "false"
+  },
+  "animation": {
+    "backgroundColor": "",
+    "border": "",
+    "text": "__num__",
+    "visibility": ""
+  },
+  "events": {
+    "cancel": "__cancel__",
+    "enter": "__enter__"
+  }
+}
+
+------------------------------------------------------------
+COMPONENT: keyboard
+------------------------------------------------------------
+
+Purpose:
+- On-screen keyboard for entering text or numbers.
+
+Key fields:
+
+- type: "keyboard"
+- typeAbbr: "keybd_"
+- comptName: keyboard name, e.g. "Keyboard_1"
+- visibility, w, h, x, y, sizeMode: similar to other components
+- config: object
+    - text: string (e.g. "0" or current input)
+    - style: object
+    - secureInput: string ("true" or "false")
+- animation: object
+    - backgroundColor, border, text, visibility
+- events: object
+    - cancel: string (expression or "__cancel__")
+    - enter: string (expression or "__enter__")
+
+Example keyboard (simplified):
+
+{
+  "id": "keybd_e9b4-bf3f",
+  "viewId": "",
+  "type": "keyboard",
+  "typeAbbr": "keybd_",
+  "comptName": "Keyboard_1",
+  "visibility": true,
+  "w": 400,
+  "h": 300,
+  "y": 0,
+  "x": 0,
+  "zIndex": 0,
+  "rotationAngle": 0,
+  "sizeMode": "zoom",
+  "config": {
+    "text": "0",
+    "style": {},
+    "secureInput": "false"
+  },
+  "animation": {
+    "backgroundColor": "",
+    "border": "",
+    "text": "__text__",
+    "visibility": ""
+  },
+  "events": {
+    "cancel": "__cancel__",
+    "enter": "__enter__"
+  }
+}
+
+------------------------------------------------------------
+COMPONENT: nested view (embedded view)
+------------------------------------------------------------
+
+Purpose:
+- Embed one view inside another, optionally with variable replacement and visibility logic.
+
+Key fields:
+
+- type: "view" (still)
+- typeAbbr: "nvw_"
+- viewId: string
+    - ID of the target view to embed, e.g. "vw_6d6790f2-899a4dc8"
+- config.buttonMode: string
+    - Often "false"
+- config.style: object
+- config.varReplacement: array of objects
+    - Each entry:
+        - var: string (variable name inside embedded view)
+        - value: string (value or expression, often quoted)
+- animation: object
+    - backgroundColor: string
+    - border: string
+    - visibility: string (expression)
+    - rotation: string
+- events: object
+    - click: string
+
+Example nested view:
+
+{
+  "id": "nvw_9680-4dff",
+  "viewId": "vw_6d6790f2-899a4dc8",
+  "type": "view",
+  "typeAbbr": "nvw_",
+  "comptName": "good_view",
+  "visibility": true,
+  "w": 222.1410137943127,
+  "h": 155.08314023191144,
+  "y": 90,
+  "x": 355,
+  "zIndex": 0,
+  "rotationAngle": 0,
+  "sizeMode": "zoom",
+  "config": {
+    "buttonMode": "false",
+    "style": {},
+    "varReplacement": [
+      {
+        "var": "status",
+        "value": "\"Good\""
+      }
+    ]
+  },
+  "animation": {
+    "backgroundColor": "",
+    "border": "",
+    "visibility": "UserInfo.Status == 1",
+    "rotation": ""
+  },
+  "events": {
+    "click": ""
+  }
+}
+
+------------------------------------------------------------
+NOTES & CONVENTIONS
+------------------------------------------------------------
+
+- ID naming:
+    - Views: "vw_<unique>"
+    - Labels: "lbl_<unique>"
+    - Buttons: "btn_<unique>"
+    - Numeric inputs: "nInput_<unique>"
+    - Keyboards: "keybd_<unique>"
+    - Nested views: "nvw_<unique>"
+
+- sizeMode:
+    - Typically "zoom" for components.
+    - Views can be "normal" or "zoom".
+
+- Expressions:
+    - Many animation and events fields contain expressions, e.g.:
+        - "if(__status__ == \"Bad\", \"#ff0000\", \"#00ff00\")"
+        - "writeTag(\"UserInfo.name\", \"\") + writeTag(\"UserInfo.age\", 0)"
+
+- Optional fields:
+    - Some fields can be empty strings when not used, especially:
+        - animation.backgroundColor / border / text / visibility / color
+        - events.click / press / release
+        - logic.moduleId / mainTag / mainTagResp
+
+When generating new components, follow these shapes and naming patterns,
+and only use fields that appear in this reference unless explicitly allowed.

@@ -1,0 +1,178 @@
+# VIEWS (SCREENS) IN DURO CONTROLLER
+
+- A "view" (screen) is a page in the HMI editor.
+- Every view is has a key pair entry in viewsTree of the configuration json. (e.g. {
+               "name": "MainView",
+               "type": "view",
+               "id": "vw_View_id"
+            })
+
+What is a View
+- A view represents a single HMI screen composed of UI components (buttons, labels, etc.). It defines canvas dimensions, styling, and the list/arrangement of components rendered on that screen.
+
+View Properties
+- id: Unique identifier for the view (e.g., "vw_...").
+- name: Human‑readable view name used in the editor.
+- type: Always "view" for HMI screens.
+- config: Object describing the canvas.
+    - width: View width in pixels.
+    - height: View height in pixels.
+    - style: Optional CSS‑like style overrides for the view container.
+    - sizeMode: How the view scales (e.g., "normal", "zoom").
+- components: Array of component objects that the view renders.
+
+Mandatory Presence (Views)
+- All fields above must be present for every view: `id`, `name`, `type`, `config.width`, `config.height`, `config.style`, `config.sizeMode`, and `components`.
+- If a field is unused, include it with the default value specified below to maintain schema consistency.
+
+Default Values (Views)
+- name: "View"
+- type: "view"
+- config.width: 1024
+- config.height: 760
+- config.style: {}
+- config.sizeMode: "zoom"
+- components: []
+
+Component Properties (common fields)
+- id: Unique identifier for the component (e.g., "btn_...", "lbl_...").
+- viewId: Owning view id (may be empty in raw export but linked in editor).
+- type: Component type (e.g., "button", "label").
+- typeAbbr: Abbreviation for type (e.g., "btn_", "lbl_").
+- comptName: Display name of the component in the editor.
+- visibility: Boolean controlling whether the component is visible.
+- w: Width in pixels.
+- h: height in pixels.
+- x: x coordinate on the view canvas.
+- y: y coordinate on the view canvas.
+- zIndex: Stacking order relative to other components.
+- rotationAngle: Rotation in degrees.
+- sizeMode: Component scaling behavior (e.g., "zoom").
+- config: Type‑specific configuration.
+    - For buttons: text, behavior (e.g., "press", "release"), style, placeholderType.
+    - For labels: placeholder text, buttonMode, style (layout like justify/align).
+- animation: Declarative animation bindings for properties such as backgroundColor, border, text, visibility, color.
+- events: Event handlers (e.g., click, press, release) mapped to actions like tag writes.
+
+Mandatory Presence (Components)
+- Include all common fields for every component: `id`, `viewId`, `type`, `typeAbbr`, `comptName`, `visibility`, `w`, `h`, `x`, `y`, `zIndex`, `rotationAngle`, `sizeMode`, `config`, `animation`, `events`.
+- When logic is not used, include `logic` with empty defaults for consistency: `moduleId`, `mainTag` set to empty strings.
+
+Default Values (Components)
+- visibility: true
+- w: 120
+- h: 60
+- x: 0
+- y: 0
+- zIndex: 0
+- rotationAngle: 0
+- sizeMode: "zoom"
+- config: type‑specific defaults (see component docs)
+- animation.backgroundColor: ""
+- animation.border: ""
+- animation.text: ""
+- animation.visibility: ""
+- animation.color: ""
+- events.click: ""
+- events.press: ""
+- events.release: ""
+
+
+Examples: 
+
+1) View with a label and a button below it. On Click of button will set "_NewTag" number tag to 5.
+
+{
+    "id": "vw_76f66be9-d58b4fa6",
+    "name": "View_1",
+    "type": "view",
+    "config": {
+        "width": 1024,
+        "height": 760,
+        "style": {},
+        "sizeMode": "normal"
+    },
+    "components": [
+        {
+            "id": "btn_c040-61a5",
+            "viewId": "",
+            "type": "button",
+            "typeAbbr": "btn_",
+            "comptName": "Button_1",
+            "visibility": true,
+            "w": 120,
+            "h": 60,
+            "y": 343.86912897771543,
+            "x": 486.3359617440474,
+            "zIndex": 0,
+            "rotationAngle": 0,
+            "sizeMode": "zoom",
+            "config": {
+                "behavior": "release",
+                "text": "Set Tag to 5",
+                "style": {},
+                "placeholderType": "text"
+            },
+            "animation": {
+                "backgroundColor": "",
+                "border": "",
+                "text": "",
+                "visibility": "",
+                "color": ""
+            },
+            "events": {
+                "click": "writeTag(\"_NewTag\", 5)",
+                "press": "",
+                "release": ""
+            }
+        },
+        {
+            "id": "lbl_b496-eee0",
+            "viewId": "",
+            "type": "label",
+            "typeAbbr": "lbl_",
+            "comptName": "Label_1",
+            "visibility": true,
+            "w": 120,
+            "h": 60,
+            "y": 252.16536789833657,
+            "x": 485.4277464155491,
+            "zIndex": 0,
+            "rotationAngle": 0,
+            "sizeMode": "zoom",
+            "config": {
+                "placeholder": "Label",
+                "buttonMode": "false",
+                "style": {
+                    "justify-content": "center",
+                    "align-items": "center"
+                }
+            },
+            "animation": {
+                "backgroundColor": "",
+                "border": "",
+                "text": "_NewTag",
+                "visibility": "",
+                "color": ""
+            },
+            "events": {
+                "click": ""
+            }
+        }
+    ]
+}
+
+In general viewsTree
+"general": {
+         "defaultViewId": "vw_default",
+         "mainView": null,
+         "mainNavBtn": false,
+         "viewsTree": [
+            ...,
+            {
+                "name": "View_1",
+                "type": "view",
+                "id": "vw_76f66be9-d58b4fa6"
+            }
+         ]
+}

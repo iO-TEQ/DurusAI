@@ -1,40 +1,36 @@
-# README 
-
+# Durus AI 
 ## Summary
-Run Durus AI in a virtual environment on port 9000. Run the AI Model on 8080. Durus AI send prompts to the AI Model.
+Durus is a AI agent for Duro Control GUI. For only Mac computers, below are instructions to run Durus AI in a virtual environment. First, run an LLM (Large Language Model) server (port 9000). Then, Durus is a http server (port 8080) sending prompts to the LLM server.
 
-### RUN Llama 3 locally via mlx by apple.
-**for Mac computers only**
+## LLM Server Instructions
+### MLX LM Server
 
-1. Be at root directory in terminal.
+1. Go to root directory in terminal.
 
-2. Deactivate any virtual environments
+might need to do this: create a hugging face account 
 ```
-deactivate 2>/dev/null || true
-echo "$VIRTUAL_ENV"
+pip install -U "huggingface_hub[cli]"
+huggingface-cli login
 ```
 
-2. ```echo "$VIRTUAL_ENV"``` should be empty
-
-3. create new virtual environment folder
+2. create a new virtual environment folder
 ```
-rm -rf ~/venvs/llama3
 mkdir -p ~/venvs
 ```
 
-4. start new virtual environment
+3. start a new virtual environment
 ```
 /opt/homebrew/bin/python3.12 -m venv ~/venvs/llama3
 source ~/venvs/llama3/bin/activate
 ```
 
-5. install mlx-lm package
+4. install mlx-lm package
 ```
 python -m pip install --upgrade pip
 pip install "mlx-lm>=0.29.0"
 ```
 
-6. confirm installation. (optional)
+5. confirm installation. (optional)
 ```
 python - << 'PY'
 import mlx_lm
@@ -42,7 +38,7 @@ print("mlx_lm version:", mlx_lm.__version__)
 PY
 ```
 
-7. run test script to load model and generate text. (optional)
+6. run test script to load model and generate text. (optional)
 ```
 python - << 'PY'
 from mlx_lm import load, generate
@@ -57,7 +53,7 @@ print(out)
 PY
 ```
 
-8. run the AI model server. in this instance, Meta-Llama-3-8B-Instruct-4bit, knowledge cutoff is march 2023. Model Release Date April 18, 2024.
+7. run the AI model server. in this instance, Meta-Llama-3-8B-Instruct-4bit, knowledge cutoff is march 2023. Model Release Date April 18, 2024.
 
 ```
 mlx_lm.server \
@@ -67,22 +63,24 @@ mlx_lm.server \
 ```
 
 
-### How to setup and run Durus Server
+## Durus API Instructions
+### Python Fast API Server
+1. In a new terminal, clone Durus https://github.com/iO-TEQ/DurusAI.git
 
-1. create a new terminal and go to durus directory.
+2. Go to durus directory.
+
+3. run virtual environment
 ```
-cd ../Durus
 python3 -m venv .venv
 source .venv/bin/activate
 ```
 
-2. install python packages
+4. install python packages
 ```
 pip install -r requirements.txt
 ```
 
-3. run the ai agent. 
-**Remember: MLX server must also be running on 8080 in the other terminal.**
+5. run the python fast api server
 ```
 uvicorn main:app --host 0.0.0.0 --port 9000
 ```
@@ -90,7 +88,7 @@ uvicorn main:app --host 0.0.0.0 --port 9000
 
 ## Version Summary
 
-### 0.3.0
+### 0.1.0
  Docs are overwhelming the request to the 9000. 
 
  added POST http://127.0.0.1:9000/chat/stream.
@@ -152,3 +150,91 @@ body example
  **Current Problems** 
  - docs are too much for the prompt to take in. need to find a way to get the ai the knowledge for duro.
  
+### 0.1.1 Build View only request
+hmi component docs simplified. extracting keywords from prompt and retrieve related docs, reducing system prompt.
+
+POST http://127.0.0.1:9000/agent/build_view
+ body request:
+ {
+  "device_id": "duro-1-003",
+  "conversation_id": "proj-1",
+  "prompt": "Create a View with a label in the center with width 100 and height 30. label should say 'Done'",
+  "context": {
+    "controller_config": {}
+  }
+}
+
+Response:
+ {
+    "message": "Created a new diagnosis view named 'View_1' with a label in the center saying 'Done'.",
+    "steps": [
+        {
+            "title": "Create diagnosis view",
+            "details": "Add a new HMI view named 'View_1' to show diagnosis controls."
+        },
+        {
+            "title": "Add 'Done' label",
+            "details": "Place a label in the center of the view with width 100 and height 30, and display the text 'Done'."
+        }
+    ],
+    "proposed_changes": {
+        "hmi": {
+            "views": [
+                {
+                    "id": "vw_4a5c-8f6a",
+                    "name": "View_1",
+                    "type": "view",
+                    "config": {
+                        "width": 1024,
+                        "height": 760,
+                        "style": {},
+                        "sizeMode": "normal"
+                    },
+                    "components": [
+                        {
+                            "id": "lbl_9b1c-5dc8",
+                            "viewId": "vw_4a5c-8f6a",
+                            "type": "label",
+                            "typeAbbr": "lbl_",
+                            "comptName": "done_lbl",
+                            "visibility": true,
+                            "x": 492,
+                            "y": 375,
+                            "w": 100,
+                            "h": 30,
+                            "sizeMode": "zoom",
+                            "config": {
+                                "placeholder": "Done",
+                                "buttonMode": "false",
+                                "style": {
+                                    "justify-content": "center",
+                                    "align-items": "center"
+                                }
+                            },
+                            "animation": {
+                                "backgroundColor": "",
+                                "border": "",
+                                "text": "",
+                                "visibility": "",
+                                "color": ""
+                            },
+                            "events": {
+                                "click": ""
+                            }
+                        }
+                    ]
+                }
+            ],
+            "general": {
+                "viewsTree": [
+                    {
+                        "name": "View_1",
+                        "type": "view",
+                        "id": "vw_4a5c-8f6a"
+                    }
+                ]
+            }
+        },
+        "tags_to_add": {}
+    }
+}
