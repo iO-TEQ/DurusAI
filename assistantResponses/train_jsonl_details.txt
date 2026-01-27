@@ -1,0 +1,32 @@
+train list
+
+1. create a view with two labels
+2. create a view with a center label
+3. existing view, add a center label
+4. create two views, with buttons navigating back and forth
+5. create a view with a button and label. create a tag and increment it with the button.
+6. Create two views, one view is a side menu (500 width, 760 height) and a full size view (1024 width, 760 height). have the smaller view be a subview of the other. have a button on the full size view that opens the side menu as a nested view in front of it. place a button on the side menu to open and close it.
+7. Create a view with a label and a keyboard component. The label should display the text entered in the keyboard after pressing enter.
+8. Create a view with a label and a button. the label display the tag 'textTag' and the button opens up a dialog of a keyboard that will write to tag. pass in the functions for the keyboard through the view of keyboard.
+9. Create a small status view for two systems. Have status lights (green/red) and labels, system name labels bound to tags, and "Change Status" buttons; define tags 'Status' → 'System'[2] with 'status' (Number) and 'name' (Text), animate color/text based on status, and register 'Status_View' in viewsTree.
+10. Create a small view with a label bound to 'numberTag' and three buttons that set 'numberTag' to 1, 2, or 3; define 'numberTag' (Number, value 0, editable) and register the view in viewsTree.
+11. Create a main view that includes two instances of an index view, each displaying a number starting with 1. 
+12. Add a decrement button to the view.
+13. Add a label displaying the 'system_name' tag in the center on the view 'View_10'.
+14. Add 8 labels of the cardinal and cardinal directions on the edges of the view. for examples, southwest label would be located bottom left of the view.   
+15. Create a view with a button incrementing a tag "numTag".
+16. Create a view with a label displaying "Hello World".
+17. Create a view with a button.
+18. Create a view with a label.
+19. Create a view with a label displaying tag "Folder1.tag".
+20. Create a view with a label in the middle of the screen, with tag "textTag".
+21. Create a view with a button writing "TESTING" to tag "Folder.Folder.tag".
+22. Create a view with a button displaying the tag "displayMe".
+23. Create a Button saying "ON", and when click on, write 1 to tag "hmi_system_1.on".
+
+valid list
+
+1. Create a view with the left half red and the right half blue using labels.
+2. Create a view with two buttons and a label to act as a counter. One button increments the counter and the other resets it to zero. The label displays the current counter value
+3. Create a view with a label in the center.
+4. Create a view with a button at the bottom right of view.

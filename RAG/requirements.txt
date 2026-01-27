@@ -1,0 +1,15 @@
+fastapi
+uvicorn[standard]
+requests
+json-repair
+
+qdrant-client
+
+llama-index
+llama-index-vector-stores-qdrant
+llama-index-readers-json
+llama-index-embeddings-huggingface
+sentence-transformers
+
+llama-index-llms-mlx
+mlx-lm

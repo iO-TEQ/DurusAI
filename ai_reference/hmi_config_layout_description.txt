@@ -1,0 +1,269 @@
+HMI Configuration Reference
+
+Purpose: This document defines the JSON layout, data types, constraints, and usage patterns for the HMI portion of the controller configuration. It includes schemas, component definitions, animation and event logic, tag/database rules, and worked examples.
+
+Terminology
+- View: Also called a screen. Contains positioned UI components and layout config.
+- Component: A UI element (e.g., button, label, slider). Components live inside views.
+- Tag: A data value stored in the controller database or session (LocalVar.*). Used for bindings, conditions, animations, and events.
+
+Top-Level HMI Structure
+The `hmi` object is part of the controller configuration and contains `general` and `views`.
+
+General Schema of `general`(minimal)
+{
+  "defaultViewId": "vw_<uuid>",
+  "mainView": null | "vw_<uuid>",
+  "mainNavBtn": false,
+  "viewsTree": [
+    {
+      "name": "MainView",
+      "type": "view",
+      "id": "vw_<uuid>"
+    }
+  ]
+}
+
+Notes
+- `defaultViewId` must reference a valid view id.
+- `mainView` optional; if present, must be a valid view id.
+- `viewsTree` organizes navigation and can contain nested groups. Every `type: "view"` must match an actual view in `views`.
+- All required keys and key-value pairs defined in this reference must be present in configuration objects. Do not omit keys; use explicit defaults when a value is not used.
+
+View Object Schema
+{
+  "id": "vw_<uuid>",
+  "name": "MainView",
+  "type": "view",
+  "config": {
+    "width": 1024,
+    "height": 760,
+    "style": {},
+    "sizeMode": "normal" // normal | zoom 
+  },
+  "components": [ /* array of component objects */ ]
+}
+
+Constraints
+- `id` is required, unique, and prefixed with `vw_`.
+- `name` is required and unique within HMI views.
+- `sizeMode` values: `normal`, `zoom`, or `fit`.
+- `components` can be empty.
+- All common component fields listed must be present on every component object.
+
+Supported Components
+- label, button, image, keyboard, keypad, level, dropdown, table, camera, RFID, slider, lineChart, barChart, view (nested sub-view container)
+
+Common Component Fields
+All components share common positioning and visibility fields.
+{
+  "id": "<typeAbbr>_<suffix>",
+  "viewId": "vw_<uuid>",
+  "type": "label" | "button" | ...,
+  "typeAbbr": "lbl_" | "btn_" | ...,
+  "comptName": "Label_1",
+  "visibility": true,
+  "w": 120,
+  "h": 60,
+  "y": 0,
+  "x": 0,
+  "zIndex": 0,
+  "rotationAngle": 0,
+  "sizeMode": "zoom",
+  "config": {
+    // per-type configuration
+  },
+  "animation": {
+    "backgroundColor": "",
+    "border": "",
+    "text": "",
+    "visibility": "",
+    "color": ""
+  },
+  "events": {
+    "click": "" 
+  }
+}
+
+Label component (default values)
+{
+  "id": "lbl_b98e-c2ac",
+  "viewId": "",
+  "type": "label",
+  "typeAbbr": "lbl_",
+  "comptName": "Label_1",
+  "visibility": true,
+  "w": 120,
+  "h": 60,
+  "y": 0,
+  "x": 0,
+  "zIndex": 0,
+  "rotationAngle": 0,
+  "sizeMode": "zoom",
+  "config": {
+    "placeholder": "Label",
+    "buttonMode": "false",
+    "style": {
+      "justify-content": "center",
+      "align-items": "center",
+      "fontFamily": "Arial",
+      "font-weight": "normal",
+      "fontSize.px": 16,
+      "color": "#000000a3"
+    }
+  },
+  "animation": {
+    "backgroundColor": "",
+    "border": "",
+    "text": "",
+    "visibility": "",
+    "color": ""
+  },
+  "events": {
+    "click": ""
+  }
+}
+
+Button  component (default values)
+{
+  "id": "btn_568f-dda9",
+  "viewId": "",
+  "type": "button",
+  "typeAbbr": "btn_",
+  "comptName": "Button_1",
+  "visibility": true,
+  "w": 120,
+  "h": 60,
+  "y": 0,
+  "x": 0,
+  "zIndex": 0,
+  "rotationAngle": 0,
+  "sizeMode": "zoom",
+  "config": {
+    "behavior": "release",
+    "text": "Click Here",
+    "style": {
+      "fontFamily": "Arial",
+      "font-weight": "normal",
+      "fontSize.px": 16,
+      "color": "#000000a3",
+      "borderRadius.px": 5
+    },
+    "placeholderType": "text"
+  },
+  "animation": {
+    "backgroundColor": "",
+    "border": "",
+    "text": "",
+    "visibility": "",
+    "color": ""
+  },
+  "events": {
+    "click": ""
+  }
+}
+
+Style Keys and Units
+- Sizing: `w`, `h`, `x`, `y` are floats (pixels).
+- Style keys with `.px` suffix are pixel values (e.g., `fontSize.px`, `borderRadius.px`).
+- Alignment: `justify-content`, `align-items` follow CSS flexbox semantics.
+- Colors: hex strings `#RRGGBB` with optional alpha.
+
+Animation DSL
+Animation fields accept either literal values or conditional expressions using `if(condition, trueValue, falseValue)`.
+
+Examples
+- backgroundColor/color:
+  if(textTag == "tag", "#ffffff", "#000000")
+  if(numberTag == 2, "#ffffff", "#000000")
+- border:
+  if(numberTag == 1, "solid #000000 2px", "solid #00fe00 2px")
+- visibility:
+  Use a boolean condition or a numeric tag name (for numeric tags) without `if(...)`:
+  numberTag > 0
+- text:
+  Either a conditional or a tag name to display.
+
+Condition Grammar
+- Equality: `==`, inequality: `!=`, comparisons: `<`, `<=`, `>`, `>=`.
+- Logical: `&&`, `||`, unary `!`.
+- Operands can be:
+  - Tag references: `Folder1.Folder2.tag`, `LocalVar.SessionFlag`.
+  - Literals: strings in quotes, numbers (integer/float), booleans.
+
+Event Logic DSL
+`events.click` is a logic expression composed of one or more function calls concatenated by `+` (left-to-right execution).
+
+Available Functions
+- writeTag(tag: Text, value: Text | Number)
+- writeTagIf(conditional, tag: Text, trueValue: Text | Number)
+- writeTagIfElse(conditional, tag: Text, trueValue: Text | Number, falseValue: Text | Number)
+- writeTagOnIncrement(tag: Text, minValue: Number, maxValue: Number, incrementValue: Number)
+- blink(conditional, id: Text, interval_ms: Number, hexColor: Text, secondHexColor: Text)
+- openDialog(view: Text, style: Text, variable: Text, value: Text | Function)
+- openDialogIf(conditional, view: Text, style: Text, variable: Text, value: Text)
+- closeDialog()
+- refresh()
+- followLink(view: Text)
+- followLinkIf(conditional, view: Text)
+- followLinkIfElse(conditional, view: Text, view: Text)
+- getTagFromValue(folder: Text, desiredValue: Text | Number)
+
+Notes and Best Practices
+- Use `LocalVar.*` for session-scoped state; database tags for persistent/controller-scoped state.
+- Keep animation expressions side-effect free; use events for state changes and navigation.
+- Chain event functions with `+` only as needed; prefer readable, small chains.
+
+Tags and Database
+Tags are stored under `database` in the controller configuration.
+{
+  "database": {
+    "settings": {
+      "persistanceUpdateTime": 1,
+      "maxDaysToLog": 10
+    },
+    "tags": {
+      // tag objects keyed by name or foldered path
+    }
+  }
+}
+
+Tag Object (Text)
+{
+  "arraydim": 1,
+  "datatype": "Text",
+  "value": "",
+  "config": {
+    "persistent": false,
+    "historic": false,
+    "hidden": false,
+    "editable": true
+  }
+}
+
+Tag Object (Number)
+{
+  "arraydim": 1,
+  "datatype": "Number",
+  "value": 0,
+  "config": {
+    "persistent": false,
+    "historic": false,
+    "hidden": false,
+    "editable": true
+  }
+}
+
+Naming Conventions
+- View ids: `vw_<uuid>`; component ids: `<abbr>_<suffix>` where `<abbr>` matches `typeAbbr` (e.g., `lbl_`, `btn_`).
+- `comptName` should be human-readable and unique within a view.
+- Foldered tag names use dot notation: `Folder1.Folder2.TagName`.
+- Session tags must start with `LocalVar.`.
+
+Validation Checklist
+- Every `id` and `name` is unique within its scope.
+- All `defaultViewId` and navigation targets resolve to existing views.
+- Component positions (`x`,`y`,`w`,`h`) are integers; styles use correct units.
+- Animations contain pure expressions; events perform side effects.
+- Tags referenced exist in `database.tags` or under `LocalVar.*`.
+- All required keys are present on `general`, views, and components (use explicit defaults where needed).

@@ -1,0 +1,68 @@
+{
+   "message": "Created a button that writes 1 to tag \"hmi_system_1.on\" when clicked.",
+   "steps": [
+      {
+         "title": "Add button component",
+         "details": "Place a button (120x60 at 0,0) with placeholder text 'ON'."
+      },
+      {
+         "title": "Configure button click event",
+         "details": "Set the button's click event to write the value 1 to the tag 'hmi_system_1.on'."
+      },
+      {
+         "title": "Update views tree",
+         "details": "Add 'View' to the views tree in the HMI general settings."
+      }
+   ],
+    "proposed_changes": {
+        "hmi": {
+         
+        },
+        "components_to_add": [
+         {
+                  "id": "btn_607f-b7b1",
+                  "viewId": "",
+                  "type": "button",
+                  "typeAbbr": "btn_",
+                  "comptName": "Button_1",
+                  "visibility": true,
+                  "w": 120,
+                  "h": 60,
+                  "y": 0,
+                  "x": 0,
+                  "zIndex": 0,
+                  "rotationAngle": 0,
+                  "sizeMode": "zoom",
+                  "config": {
+                     "behavior": "release",
+                     "text": "ON",
+                     "style": {
+                        "fontFamily": "Arial",
+                        "font-weight": "normal",
+                        "fontSize.px": 16,
+                        "color": "#000000",
+                        "backgroundColor": "#d3d3d3",
+                        "borderRadius.px": 0,
+                        "border": "solid #000000 0px",
+                        "feedback-fx": "scale(0.95) rgba(0) 0s",
+                        "box-shadow": "0px 0px 0px 0px #000000"
+                     },
+                     "placeholderType": "text"
+                  },
+                  "animation": {
+                     "backgroundColor": "",
+                     "border": "",
+                     "text": "",
+                     "visibility": "",
+                     "color": ""
+                  },
+                  "events": {
+                     "click": "writeTag(\"hmi_system_1.on\", 1)",
+                     "press": "",
+                     "release": ""
+                  }
+               }
+            ],
+      "tags_to_add": {}
+    }
+}

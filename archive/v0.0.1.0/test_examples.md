@@ -156,11 +156,6 @@ body:
                                 "click": "writeTag(\"_NewTag\", 5) \n+ writeTag(\"_NewTag_1\", 20)",
                                 "press": "",
                                 "release": ""
-                            },
-                            "logic": {
-                                "moduleId": "",
-                                "mainTag": "",
-                                "mainTagResp": ""
                             }
                         }
                         ]

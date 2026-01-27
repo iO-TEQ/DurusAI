@@ -3,3 +3,11 @@ uvicorn[standard]
 pydantic
 requests
 json-repair
+datasets
+scikit-learn
+llama-index-core
+llama-index-embeddings-huggingface
+llama-index-readers-json
+llama-index-vector-stores-qdrant
+qdrant-client
+sentence-transformers

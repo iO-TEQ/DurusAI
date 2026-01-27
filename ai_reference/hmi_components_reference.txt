@@ -202,10 +202,6 @@ Key fields:
         - Expression or expression chain to execute on click
     - press: string
     - release: string
-- logic: object
-    - moduleId: string
-    - mainTag: string
-    - mainTagResp: string
 
 Example button:
 
@@ -242,11 +238,6 @@ Example button:
     "click": "writeTag(\"UserInfo.name\", \"\") + writeTag(\"UserInfo.age\", 0)",
     "press": "",
     "release": ""
-  },
-  "logic": {
-    "moduleId": "",
-    "mainTag": "",
-    "mainTagResp": ""
   }
 }
 
@@ -453,7 +444,6 @@ NOTES & CONVENTIONS
     - Some fields can be empty strings when not used, especially:
         - animation.backgroundColor / border / text / visibility / color
         - events.click / press / release
-        - logic.moduleId / mainTag / mainTagResp
 
 When generating new components, follow these shapes and naming patterns,
 and only use fields that appear in this reference unless explicitly allowed.

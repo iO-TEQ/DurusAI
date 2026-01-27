@@ -1,0 +1,229 @@
+{
+   "message": "Created a simple view with a label bound to numberTag and three buttons to set it to 1, 2, or 3.",
+   "steps": [
+      {
+         "title": "Create numberTag",
+         "details": "Add a Number tag 'numberTag' with array dimension 1, initialized to 0 and editable."
+      },
+      {
+         "title": "Create View_1",
+         "details": "Add an HMI view 'View_1' sized 120x240 with basic styling."
+      },
+      {
+         "title": "Add numberTag label",
+         "details": "Place a top label (120x60) centered via style and bind its animation text to 'numberTag'."
+      },
+      {
+         "title": "Add set buttons",
+         "details": "Add three buttons (120x60) stacked vertically labeled 'Set Tag to 1', 'Set Tag to 2', and 'Set Tag to 3'."
+      },
+      {
+         "title": "Configure button events",
+         "details": "Set button click handlers to writeTag(\"numberTag\", 1), writeTag(\"numberTag\", 2), and writeTag(\"numberTag\", 3)."
+      },
+      {
+         "title": "Register View_1",
+         "details": "Add 'View_1' with its id to general.viewsTree."
+      }
+   ],
+    "proposed_changes": {
+        "hmi": {
+            "views": [
+         {
+            "id": "vw_c42ec3a4-804b4b01",
+            "name": "View_1",
+            "type": "view",
+            "config": {
+               "width": 120,
+               "height": 240,
+               "style": {
+                  "fontFamily": "None",
+                  "font-weight": "none",
+                  "fontSize.px": 16,
+                  "color": "#000000",
+                  "backgroundColor": "#ffffff",
+                  "borderRadius.px": 0,
+                  "borderStyle": "solid",
+                  "borderColor": "#00000000",
+                  "borderWidth.px": 0,
+                  "boxShadow": "0px 0px 0px 0px #000000"
+               },
+               "sizeMode": "normal"
+            },
+            "components": [
+               {
+                  "id": "btn_7557-e97c",
+                  "viewId": "",
+                  "type": "button",
+                  "typeAbbr": "btn_",
+                  "comptName": "Button_1",
+                  "visibility": true,
+                  "w": 120,
+                  "h": 60,
+                  "y": 60,
+                  "x": 0,
+                  "zIndex": 0,
+                  "rotationAngle": 0,
+                  "sizeMode": "zoom",
+                  "config": {
+                     "behavior": "release",
+                     "text": "Set Tag to 1",
+                     "style": {},
+                     "placeholderType": "text"
+                  },
+                  "animation": {
+                     "backgroundColor": "",
+                     "border": "",
+                     "text": "",
+                     "visibility": "",
+                     "color": ""
+                  },
+                  "events": {
+                     "click": "writeTag(\"numberTag\", 1)",
+                     "press": "",
+                     "release": ""
+                  },
+                  "logic": {
+                     "moduleId": "",
+                     "mainTag": "",
+                     "mainTagResp": ""
+                  }
+               },
+               {
+                  "id": "btn_2967-9c77",
+                  "viewId": "",
+                  "type": "button",
+                  "typeAbbr": "btn_",
+                  "comptName": "Button_2",
+                  "visibility": true,
+                  "w": 120,
+                  "h": 60,
+                  "y": 180,
+                  "x": 0,
+                  "zIndex": 0,
+                  "rotationAngle": 0,
+                  "sizeMode": "zoom",
+                  "config": {
+                     "behavior": "release",
+                     "text": "Set Tag to 3",
+                     "style": {},
+                     "placeholderType": "text"
+                  },
+                  "animation": {
+                     "backgroundColor": "",
+                     "border": "",
+                     "text": "",
+                     "visibility": "",
+                     "color": ""
+                  },
+                  "events": {
+                     "click": "writeTag(\"numberTag\", 3)",
+                     "press": "",
+                     "release": ""
+                  },
+                  "logic": {
+                     "moduleId": "",
+                     "mainTag": "",
+                     "mainTagResp": ""
+                  }
+               },
+               {
+                  "id": "btn_f1f7-9f6a",
+                  "viewId": "",
+                  "type": "button",
+                  "typeAbbr": "btn_",
+                  "comptName": "Button_3",
+                  "visibility": true,
+                  "w": 120,
+                  "h": 60,
+                  "y": 120,
+                  "x": 0,
+                  "zIndex": 0,
+                  "rotationAngle": 0,
+                  "sizeMode": "zoom",
+                  "config": {
+                     "behavior": "release",
+                     "text": "Set Tag to 2",
+                     "style": {},
+                     "placeholderType": "text"
+                  },
+                  "animation": {
+                     "backgroundColor": "",
+                     "border": "",
+                     "text": "",
+                     "visibility": "",
+                     "color": ""
+                  },
+                  "events": {
+                     "click": "writeTag(\"numberTag\", 2)",
+                     "press": "",
+                     "release": ""
+                  },
+                  "logic": {
+                     "moduleId": "",
+                     "mainTag": "",
+                     "mainTagResp": ""
+                  }
+               },
+               {
+                  "id": "lbl_d4be-1e0e",
+                  "viewId": "",
+                  "type": "label",
+                  "typeAbbr": "lbl_",
+                  "comptName": "Label_1",
+                  "visibility": true,
+                  "w": 120,
+                  "h": 60,
+                  "y": 0,
+                  "x": 0,
+                  "zIndex": 0,
+                  "rotationAngle": 0,
+                  "sizeMode": "zoom",
+                  "config": {
+                     "placeholder": "Label",
+                     "buttonMode": "false",
+                     "style": {
+                        "justify-content": "center",
+                        "align-items": "center"
+                     }
+                  },
+                  "animation": {
+                     "backgroundColor": "",
+                     "border": "",
+                     "text": "numberTag",
+                     "visibility": "",
+                     "color": ""
+                  },
+                  "events": {
+                     "click": ""
+                  }
+               }
+            ]
+         }
+      ],
+            "general": {
+                "viewsTree": [
+            {
+               "name": "View_1",
+               "type": "view",
+               "id": "vw_c42ec3a4-804b4b01"
+            }
+         ]
+            }
+        },
+        "component_to_add": {},
+        "tags_to_add": {
+            "numberTag": {
+            "arraydim": 1,
+            "datatype": "Number",
+            "value": 0,
+            "config": {
+               "persistent": false,
+               "historic": false,
+               "hidden": false,
+               "editable": true
+            }
+         }
+        }
+    }
+}

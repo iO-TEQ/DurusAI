@@ -1,0 +1,169 @@
+{
+    "message": "Created a view with a sidebar menu that can be toggled open and closed by a button.",
+   "steps": [
+      {
+         "title": "Create sidebar visibility tag",
+         "details": "Add a numeric tag 'hideSideBar' initialized to 0."
+      },
+      {
+         "title": "Add SideMenu view",
+         "details": "Create an HMI view 'SideMenu' sized 500x760 with basic styling."
+      },
+      {
+         "title": "Embed SideMenu in MainView",
+         "details": "Add a nested view component in 'MainView' referencing 'SideMenu' with size 500x760 at position (0,0)."
+      },
+      {
+         "title": "Control sidebar visibility",
+         "details": "Bind the nested view visibility to the expression hideSideBar == 1."
+      },
+      {
+         "title": "Add toggle button",
+         "details": "Place a button in 'MainView' labeled 'Click Here' that toggles the sidebar open/close state."
+      },
+      {
+         "title": "Wire button click",
+         "details": "On click, execute writeTagIfElse(hideSideBar == 1, \"hideSideBar\", 0, 1)."
+      },
+      {
+         "title": "Register views in navigation",
+         "details": "Add 'MainView' and 'SideMenu' entries to general.viewsTree."
+      }
+   ],
+    "proposed_changes": {
+        "hmi": {
+            "views": [
+         {
+            "id": "vw_0f028375-14fb4ef6",
+            "name": "MainView",
+            "type": "view",
+            "config": {
+               "width": 1024,
+               "height": 760,
+               "style": {},
+               "sizeMode": "normal"
+            },
+            "components": [
+               {
+                  "id": "nvw_dd73-2c1f",
+                  "viewId": "vw_4d17c2ed-c1b34e5c",
+                  "type": "view",
+                  "typeAbbr": "nvw_",
+                  "comptName": "View_1",
+                  "visibility": true,
+                  "w": 500,
+                  "h": 760,
+                  "y": 0,
+                  "x": 0,
+                  "zIndex": 0,
+                  "rotationAngle": 0,
+                  "sizeMode": "normal",
+                  "config": {
+                     "buttonMode": "false",
+                     "style": {}
+                  },
+                  "animation": {
+                     "backgroundColor": "",
+                     "border": "",
+                     "visibility": "hideSideBar == 1",
+                     "rotation": ""
+                  },
+                  "events": {
+                     "click": ""
+                  }
+               },
+               {
+                  "id": "btn_6d12-c6c2",
+                  "viewId": "",
+                  "type": "button",
+                  "typeAbbr": "btn_",
+                  "comptName": "Button_1",
+                  "visibility": true,
+                  "w": 120,
+                  "h": 60,
+                  "y": 32.67588901648122,
+                  "x": 682.6959178454654,
+                  "zIndex": 0,
+                  "rotationAngle": 0,
+                  "sizeMode": "zoom",
+                  "config": {
+                     "behavior": "release",
+                     "text": "Click Here",
+                     "style": {},
+                     "placeholderType": "text"
+                  },
+                  "animation": {
+                     "backgroundColor": "",
+                     "border": "",
+                     "text": "if(hideSideBar == 1, \"Close Side Bar\", \"Open Side Bar\")",
+                     "visibility": "",
+                     "color": ""
+                  },
+                  "events": {
+                     "click": "writeTagIfElse(hideSideBar == 1, \"hideSideBar\", 0, 1)",
+                     "press": "",
+                     "release": ""
+                  },
+                  "logic": {
+                     "moduleId": "",
+                     "mainTag": "",
+                     "mainTagResp": ""
+                  }
+               }
+            ]
+         },
+         {
+            "id": "vw_4d17c2ed-c1b34e5c",
+            "name": "SideMenu",
+            "type": "view",
+            "config": {
+               "width": 500,
+               "height": 760,
+               "style": {
+                  "fontFamily": "None",
+                  "font-weight": "none",
+                  "fontSize.px": 16,
+                  "color": "#000000",
+                  "backgroundColor": "#a9a9a9f4",
+                  "borderRadius.px": 0,
+                  "borderStyle": "solid",
+                  "borderColor": "#00000000",
+                  "borderWidth.px": 0,
+                  "boxShadow": "0px 0px 0px 0px #000000"
+               },
+               "sizeMode": "normal"
+            },
+            "components": []
+         }
+      ],
+            "general": {
+                 "viewsTree": [
+            {
+               "name": "MainView",
+               "type": "view",
+               "id": "vw_0f028375-14fb4ef6"
+            },
+            {
+               "name": "SideMenu",
+               "type": "view",
+               "id": "vw_4d17c2ed-c1b34e5c"
+            }
+         ]
+            }
+        },
+        "component_to_add": {},
+        "tags_to_add": {
+            "hideSideBar": {
+            "arraydim": 1,
+            "datatype": "Number",
+            "value": 0,
+            "config": {
+               "persistent": false,
+               "historic": false,
+               "hidden": false,
+               "editable": true
+            }
+         }
+        }
+    }
+}

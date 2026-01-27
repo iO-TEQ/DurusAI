@@ -7,7 +7,7 @@ def call_llm(url, model, max_tokens, connect_timeout, read_timeout, messages: Li
     payload = {
         "model": model,
         "messages": messages,
-        "temperature": 0.1, # low temperature for more deterministic output, higher for more creative
+        "temperature": 0.3, # low temperature for more deterministic output, higher for more creative
         "max_tokens": max_tokens, # limit response length. max tokens are approx 4 chars each. default 2048===>8192 chars
     }
 

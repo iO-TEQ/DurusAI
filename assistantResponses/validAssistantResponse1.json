@@ -1,0 +1,130 @@
+{
+    "message": "Created a view with the left half red and the right half blue using labels.",
+    "steps": [
+        {
+            "title": "Create a new view",
+            "details": "Add an HMI view 'View_1' sized 1024x760."
+        },
+        {
+            "title": "Add left red label",
+            "details": "Place a label (512x760 at 0,0) and set its background color to red (#ff0000)."
+        },
+        {
+            "title": "Add right blue label",
+            "details": "Place a label (512x760 at 512,0) and set its background color to blue (#0000ff)."
+        },
+        {
+            "title": "Register view in navigation",
+            "details": "Add 'View_1' with its id to general.viewsTree."
+        }
+    ],
+    "proposed_changes": {
+        "hmi": {
+            "views": [
+         {
+            "id": "vw_80c807e0-f6404ea5",
+            "name": "View_1",
+            "type": "view",
+            "config": {
+               "width": 1024,
+               "height": 760,
+               "style": {
+                  "fontFamily": "None",
+                  "font-weight": "none",
+                  "fontSize.px": 16,
+                  "color": "#000000",
+                  "backgroundColor": "#ffffff",
+                  "borderRadius.px": 0,
+                  "borderStyle": "solid",
+                  "borderColor": "#00000000",
+                  "borderWidth.px": 0,
+                  "boxShadow": "0px 0px 0px 0px #000000"
+               },
+               "sizeMode": "normal"
+            },
+            "components": [
+               {
+                  "id": "lbl_3f0a-c945",
+                  "viewId": "",
+                  "type": "label",
+                  "typeAbbr": "lbl_",
+                  "comptName": "red_lbl",
+                  "visibility": true,
+                  "w": 512,
+                  "h": 760,
+                  "y": 0,
+                  "x": 0,
+                  "zIndex": 0,
+                  "rotationAngle": 0,
+                  "sizeMode": "zoom",
+                  "config": {
+                     "placeholder": "",
+                     "buttonMode": "false",
+                     "style": {
+                        "justify-content": "center",
+                        "align-items": "center",
+                        "backgroundColor": "#ff0000"
+                     }
+                  },
+                  "animation": {
+                     "backgroundColor": "",
+                     "border": "",
+                     "text": "",
+                     "visibility": "",
+                     "color": ""
+                  },
+                  "events": {
+                     "click": ""
+                  }
+               },
+               {
+                  "id": "lbl_f09d-f2d8",
+                  "viewId": "",
+                  "type": "label",
+                  "typeAbbr": "lbl_",
+                  "comptName": "blue_lbl",
+                  "visibility": true,
+                  "w": 512,
+                  "h": 760,
+                  "y": 0,
+                  "x": 512,
+                  "zIndex": 0,
+                  "rotationAngle": 0,
+                  "sizeMode": "zoom",
+                  "config": {
+                     "placeholder": "",
+                     "buttonMode": "false",
+                     "style": {
+                        "justify-content": "center",
+                        "align-items": "center",
+                        "backgroundColor": "#0000ff"
+                     }
+                  },
+                  "animation": {
+                     "backgroundColor": "",
+                     "border": "",
+                     "text": "",
+                     "visibility": "",
+                     "color": ""
+                  },
+                  "events": {
+                     "click": ""
+                  }
+               }
+            ]
+         }
+      ],
+            "general": {
+                "viewsTree": [
+                 {
+               "name": "View_1",
+               "type": "view",
+               "id": "vw_80c807e0-f6404ea5"
+            }   
+                ]
+            }
+        },
+        "component_to_add": {},
+        "tags_to_add": {}
+    }
+}

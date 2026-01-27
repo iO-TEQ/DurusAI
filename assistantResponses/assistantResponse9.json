@@ -1,0 +1,546 @@
+{
+   "message": "Created a status view with indicators, labels, and buttons to toggle system statuses.",
+   "steps": [
+      {
+         "title": "Create Status folder tag",
+         "details": "Add a Folder tag named 'Status' with an array dimension of 1."
+      },
+      {
+         "title": "Create System subfolder tag",
+         "details": "Within 'Status', add a Folder tag named 'System' with an array dimension of 2."
+      },
+      {
+         "title": "Create status and name tags",
+         "details": "Within each 'System' folder, add a Number tag 'status' initialized to 0 and a Text tag 'name' initialized to an empty string."
+      },
+      {
+         "title": "Create Status_View",
+         "details": "Add an HMI view 'Status_View' sized 700x200 with basic styling."
+      },
+      {
+         "title": "Add status indicators and labels",
+         "details": "For each system (2 total), add a colored status light label, a status text label, a system name label, and a 'Change Status' button."
+      },
+      {
+         "title": "Configure status light animations",
+         "details": "Set the background color of each status light label to green if the corresponding system's status tag is 1, otherwise red."
+      },
+      {
+         "title": "Configure status text animations",
+         "details": "Set the text of each status text label to 'Good' if the corresponding system's status tag is 1, otherwise 'Error'."
+      },
+      {
+         "title": "Configure system name animations",
+         "details": "Bind each system name label's text to the corresponding system's name tag."
+      },
+      {
+         "title": "Configure button events",
+         "details": "Set each 'Change Status' button to toggle the corresponding system's status tag between 0 and 1 on click."
+      },
+      {
+         "title": "Register Status_View",
+         "details": "Add 'Status_View' with its id to general.viewsTree."
+      }
+   ],
+    "proposed_changes": {
+        "hmi": {
+            "views": [
+         {
+            "id": "vw_ad980239-fc1243b9",
+            "name": "Status_View",
+            "type": "view",
+            "config": {
+               "width": 700,
+               "height": 200,
+               "style": {
+                  "fontFamily": "None",
+                  "font-weight": "none",
+                  "fontSize.px": 16,
+                  "color": "#000000",
+                  "backgroundColor": "#ffffff",
+                  "borderRadius.px": 0,
+                  "borderStyle": "solid",
+                  "borderColor": "#00000000",
+                  "borderWidth.px": 0,
+                  "boxShadow": "0px 0px 0px 0px #000000"
+               },
+               "sizeMode": "normal"
+            },
+            "components": [
+               {
+                  "id": "lbl_6273-51c7",
+                  "viewId": "",
+                  "type": "label",
+                  "typeAbbr": "lbl_",
+                  "comptName": "status_light_1_lbl",
+                  "visibility": true,
+                  "w": 30,
+                  "h": 30,
+                  "y": 75,
+                  "x": 20,
+                  "zIndex": 0,
+                  "rotationAngle": 0,
+                  "sizeMode": "zoom",
+                  "config": {
+                     "placeholder": "",
+                     "buttonMode": "false",
+                     "style": {
+                        "justify-content": "center",
+                        "align-items": "center",
+                        "borderRadius.px": 20,
+                        "backgroundColor": "#ff1d00",
+                        "border": "solid #000000 2px"
+                     }
+                  },
+                  "animation": {
+                     "backgroundColor": "if(Status.System[0].status == 1, \"#00ff00\", \"#ff0000\")",
+                     "border": "",
+                     "text": "",
+                     "visibility": "",
+                     "color": ""
+                  },
+                  "events": {
+                     "click": ""
+                  }
+               },
+               {
+                  "id": "lbl_8d73-40c8",
+                  "viewId": "",
+                  "type": "label",
+                  "typeAbbr": "lbl_",
+                  "comptName": "status_text_1_lbl",
+                  "visibility": true,
+                  "w": 98,
+                  "h": 40,
+                  "y": 70,
+                  "x": 70,
+                  "zIndex": 0,
+                  "rotationAngle": 0,
+                  "sizeMode": "zoom",
+                  "config": {
+                     "placeholder": "Error",
+                     "buttonMode": "false",
+                     "style": {
+                        "justify-content": "flex-start",
+                        "align-items": "center",
+                        "fontFamily": "Arial",
+                        "fontSize.px": 20
+                     }
+                  },
+                  "animation": {
+                     "backgroundColor": "",
+                     "border": "",
+                     "text": "if(Status.System[0].status == 1, \"Good\", \"Error\")",
+                     "visibility": "",
+                     "color": ""
+                  },
+                  "events": {
+                     "click": ""
+                  }
+               },
+               {
+                  "id": "btn_368a-9d6e",
+                  "viewId": "",
+                  "type": "button",
+                  "typeAbbr": "btn_",
+                  "comptName": "change_status_1_btn",
+                  "visibility": true,
+                  "w": 100,
+                  "h": 50,
+                  "y": 65,
+                  "x": 595,
+                  "zIndex": 0,
+                  "rotationAngle": 0,
+                  "sizeMode": "zoom",
+                  "config": {
+                     "behavior": "release",
+                     "text": "Change Status",
+                     "style": {},
+                     "placeholderType": "text"
+                  },
+                  "animation": {
+                     "backgroundColor": "",
+                     "border": "",
+                     "text": "",
+                     "visibility": "",
+                     "color": ""
+                  },
+                  "events": {
+                     "click": "writeTagIfElse(Status.System[0].status == 1, \"Status.System[0].status\", 0, 1 )",
+                     "press": "",
+                     "release": ""
+                  }
+               },
+               {
+                  "id": "lbl_313d-d4f0",
+                  "viewId": "",
+                  "type": "label",
+                  "typeAbbr": "lbl_",
+                  "comptName": "system_name_1_lbl",
+                  "visibility": true,
+                  "w": 350,
+                  "h": 40,
+                  "y": 70,
+                  "x": 200,
+                  "zIndex": 0,
+                  "rotationAngle": 0,
+                  "sizeMode": "zoom",
+                  "config": {
+                     "placeholder": "Status 1",
+                     "buttonMode": "false",
+                     "style": {
+                        "justify-content": "flex-start",
+                        "align-items": "center",
+                        "fontFamily": "Arial",
+                        "fontSize.px": "20"
+                     }
+                  },
+                  "animation": {
+                     "backgroundColor": "",
+                     "border": "",
+                     "text": "Status.System[0].name",
+                     "visibility": "",
+                     "color": ""
+                  },
+                  "events": {
+                     "click": ""
+                  }
+               },
+               {
+                  "id": "lbl_d10d-d467",
+                  "viewId": "",
+                  "type": "label",
+                  "typeAbbr": "lbl_",
+                  "comptName": "table_header_divider",
+                  "visibility": true,
+                  "w": 700,
+                  "h": 10,
+                  "y": 40,
+                  "x": 0,
+                  "zIndex": 0,
+                  "rotationAngle": 0,
+                  "sizeMode": "zoom",
+                  "config": {
+                     "placeholder": "",
+                     "buttonMode": "false",
+                     "style": {
+                        "justify-content": "center",
+                        "align-items": "center",
+                        "backgroundColor": "#000000"
+                     }
+                  },
+                  "animation": {
+                     "backgroundColor": "",
+                     "border": "",
+                     "text": "",
+                     "visibility": "",
+                     "color": ""
+                  },
+                  "events": {
+                     "click": ""
+                  }
+               },
+               {
+                  "id": "lbl_d511-8b57",
+                  "viewId": "",
+                  "type": "label",
+                  "typeAbbr": "lbl_",
+                  "comptName": "status_column_header_lbl",
+                  "visibility": true,
+                  "w": 120,
+                  "h": 40,
+                  "y": 0,
+                  "x": 13,
+                  "zIndex": 0,
+                  "rotationAngle": 0,
+                  "sizeMode": "zoom",
+                  "config": {
+                     "placeholder": "Status",
+                     "buttonMode": "false",
+                     "style": {
+                        "justify-content": "center",
+                        "align-items": "center",
+                        "fontFamily": "Arial",
+                        "fontSize.px": 20
+                     }
+                  },
+                  "animation": {
+                     "backgroundColor": "",
+                     "border": "",
+                     "text": "",
+                     "visibility": "",
+                     "color": ""
+                  },
+                  "events": {
+                     "click": ""
+                  }
+               },
+               {
+                  "id": "lbl_3456-6256",
+                  "viewId": "",
+                  "type": "label",
+                  "typeAbbr": "lbl_",
+                  "comptName": "system_name_header_lbl",
+                  "visibility": true,
+                  "w": 150,
+                  "h": 40,
+                  "y": 0,
+                  "x": 250,
+                  "zIndex": 0,
+                  "rotationAngle": 0,
+                  "sizeMode": "zoom",
+                  "config": {
+                     "placeholder": "System Name",
+                     "buttonMode": "false",
+                     "style": {
+                        "justify-content": "center",
+                        "align-items": "center",
+                        "fontFamily": "Arial",
+                        "fontSize.px": 20
+                     }
+                  },
+                  "animation": {
+                     "backgroundColor": "",
+                     "border": "",
+                     "text": "",
+                     "visibility": "",
+                     "color": ""
+                  },
+                  "events": {
+                     "click": ""
+                  }
+               },
+               {
+                  "id": "lbl_a7d4-3755",
+                  "viewId": "",
+                  "type": "label",
+                  "typeAbbr": "lbl_",
+                  "comptName": "action_header_lbl",
+                  "visibility": true,
+                  "w": 100,
+                  "h": 40,
+                  "y": 0,
+                  "x": 595,
+                  "zIndex": 0,
+                  "rotationAngle": 0,
+                  "sizeMode": "zoom",
+                  "config": {
+                     "placeholder": "Action",
+                     "buttonMode": "false",
+                     "style": {
+                        "justify-content": "center",
+                        "align-items": "center",
+                        "fontFamily": "Arial",
+                        "fontSize.px": 20
+                     }
+                  },
+                  "animation": {
+                     "backgroundColor": "",
+                     "border": "",
+                     "text": "",
+                     "visibility": "",
+                     "color": ""
+                  },
+                  "events": {
+                     "click": ""
+                  }
+               },
+               {
+                  "id": "lbl_f414-2d43",
+                  "viewId": "",
+                  "type": "label",
+                  "typeAbbr": "lbl_",
+                  "comptName": "status_light_2_lbl",
+                  "visibility": true,
+                  "w": 30,
+                  "h": 30,
+                  "y": 145,
+                  "x": 20,
+                  "zIndex": 0,
+                  "rotationAngle": 0,
+                  "sizeMode": "zoom",
+                  "config": {
+                     "placeholder": "",
+                     "buttonMode": "false",
+                     "style": {
+                        "justify-content": "center",
+                        "align-items": "center",
+                        "borderRadius.px": 20,
+                        "backgroundColor": "#ff1d00",
+                        "border": "solid #000000 2px"
+                     }
+                  },
+                  "animation": {
+                     "backgroundColor": "if(Status.System[1].status == 1, \"#00ff00\", \"#ff0000\")",
+                     "border": "",
+                     "text": "",
+                     "visibility": "",
+                     "color": ""
+                  },
+                  "events": {
+                     "click": ""
+                  }
+               },
+               {
+                  "id": "lbl_b189-9491",
+                  "viewId": "",
+                  "type": "label",
+                  "typeAbbr": "lbl_",
+                  "comptName": "status_text_2_lbl",
+                  "visibility": true,
+                  "w": 100,
+                  "h": 40,
+                  "y": 140,
+                  "x": 70,
+                  "zIndex": 0,
+                  "rotationAngle": 0,
+                  "sizeMode": "zoom",
+                  "config": {
+                     "placeholder": "Label",
+                     "buttonMode": "false",
+                     "style": {
+                        "justify-content": "flex-start",
+                        "align-items": "center",
+                        "fontFamily": "Arial",
+                        "fontSize.px": 20
+                     }
+                  },
+                  "animation": {
+                     "backgroundColor": "",
+                     "border": "",
+                     "text": "if(Status.System[1].status == 1, \"Good\", \"Error\")",
+                     "visibility": "",
+                     "color": ""
+                  },
+                  "events": {
+                     "click": ""
+                  }
+               },
+               {
+                  "id": "btn_3dac-79d3",
+                  "viewId": "",
+                  "type": "button",
+                  "typeAbbr": "btn_",
+                  "comptName": "change_status_2_btn",
+                  "visibility": true,
+                  "w": 100,
+                  "h": 50,
+                  "y": 130,
+                  "x": 595,
+                  "zIndex": 0,
+                  "rotationAngle": 0,
+                  "sizeMode": "zoom",
+                  "config": {
+                     "behavior": "release",
+                     "text": "Change Status",
+                     "style": {},
+                     "placeholderType": "text"
+                  },
+                  "animation": {
+                     "backgroundColor": "",
+                     "border": "",
+                     "text": "",
+                     "visibility": "",
+                     "color": ""
+                  },
+                  "events": {
+                     "click": "writeTagIfElse(Status.System[1].status == 1, \"Status.System[0].status\", 0, 1 )",
+                     "press": "",
+                     "release": ""
+                  }
+               },
+               {
+                  "id": "lbl_896e-d168",
+                  "viewId": "",
+                  "type": "label",
+                  "typeAbbr": "lbl_",
+                  "comptName": "system_name_2_lbl",
+                  "visibility": true,
+                  "w": 350,
+                  "h": 40,
+                  "y": 140,
+                  "x": 200,
+                  "zIndex": 0,
+                  "rotationAngle": 0,
+                  "sizeMode": "zoom",
+                  "config": {
+                     "placeholder": "Status 1",
+                     "buttonMode": "false",
+                     "style": {
+                        "justify-content": "flex-start",
+                        "align-items": "center",
+                        "fontFamily": "Arial",
+                        "fontSize.px": "20"
+                     }
+                  },
+                  "animation": {
+                     "backgroundColor": "",
+                     "border": "",
+                     "text": "Status.System[1].name",
+                     "visibility": "",
+                     "color": ""
+                  },
+                  "events": {
+                     "click": ""
+                  }
+               }
+            ]
+         }
+      ],
+            "general": {
+                "viewsTree": [
+            {
+               "name": "Status_View",
+               "type": "view",
+               "id": "vw_ad980239-fc1243b9"
+            }
+         ]
+            }
+        },
+        "component_to_add": {},
+        "tags_to_add": {
+            "Status": {
+            "datatype": "Folder",
+            "arraydim": 1,
+            "config": {
+               "hidden": false,
+               "editable": true
+            },
+            "children": {
+               "System": {
+                  "datatype": "Folder",
+                  "arraydim": 2,
+                  "config": {
+                     "hidden": false,
+                     "editable": true
+                  },
+                  "children": {
+                     "status": {
+                        "arraydim": 1,
+                        "datatype": "Number",
+                        "value": 0,
+                        "config": {
+                           "persistent": false,
+                           "historic": false,
+                           "hidden": false,
+                           "editable": true
+                        }
+                     },
+                     "name": {
+                        "arraydim": 1,
+                        "datatype": "Text",
+                        "value": "",
+                        "config": {
+                           "persistent": false,
+                           "historic": false,
+                           "hidden": false,
+                           "editable": true
+                        }
+                     }
+                  }
+               }
+            }
+         }
+        }
+    }
+}

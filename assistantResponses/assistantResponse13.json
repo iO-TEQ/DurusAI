@@ -1,0 +1,55 @@
+{
+   "message": "Created a label displaying the 'system_name' tag.",
+   "steps": [
+      {
+         "title": "Create View_1",
+         "details": "Add an HMI view 'View_1' sized 400x400."
+      },
+      {
+         "title": "Add system_name label to View",
+         "details": "Place a label (200x50 at 100,175) centered text, font 20px Arial; bind its text to 'system_name' via animation.text."
+      }
+   ],
+    "proposed_changes": {
+        "hmi": {
+        },
+        "components_to_add": [
+         {
+            "id": "lbl_38f6-92f6",
+            "viewId": "",
+            "type": "label",
+            "typeAbbr": "lbl_",
+            "comptName": "Label_1",
+            "visibility": true,
+            "w": 200,
+            "h": 50,
+            "y": 175,
+            "x": 100,
+            "zIndex": 0,
+            "rotationAngle": 0,
+            "sizeMode": "zoom",
+            "config": {
+               "placeholder": "Label",
+               "buttonMode": "false",
+               "style": {
+                  "justify-content": "center",
+                  "align-items": "center",
+                  "fontFamily": "Arial",
+                  "fontSize.px": 20
+               }
+            },
+            "animation": {
+               "backgroundColor": "",
+               "border": "",
+               "text": "system_name",
+               "visibility": "",
+               "color": ""
+            },
+            "events": {
+               "click": ""
+            }
+         }
+      ],
+      "tags_to_add": {}
+    }
+}

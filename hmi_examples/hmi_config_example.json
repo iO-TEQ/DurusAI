@@ -1,0 +1,320 @@
+{
+    "views": [
+        {
+            "id": "vw_3695106c-fd474741",
+            "name": "Navigation_View",
+            "type": "view",
+            "config": {
+                "width": 300,
+                "height": 300,
+                "style": {
+                    "fontFamily": "None",
+                    "font-weight": "none",
+                    "fontSize.px": 16,
+                    "color": "#000000",
+                    "backgroundColor": "#ffffff",
+                    "borderRadius.px": 0,
+                    "borderStyle": "solid",
+                    "borderColor": "#00000000",
+                    "borderWidth.px": 0,
+                    "boxShadow": "0px 0px 0px 0px #000000"
+                },
+                "sizeMode": "normal"
+            },
+            "components": [
+                {
+                    "id": "lbl_6a54-40f6",
+                    "viewId": "",
+                    "type": "label",
+                    "typeAbbr": "lbl_",
+                    "comptName": "north_lbl",
+                    "visibility": true,
+                    "w": 100,
+                    "h": 50,
+                    "y": 0,
+                    "x": 100,
+                    "zIndex": 0,
+                    "rotationAngle": 0,
+                    "sizeMode": "zoom",
+                    "config": {
+                        "placeholder": "North",
+                        "buttonMode": "false",
+                        "style": {
+                            "justify-content": "center",
+                            "align-items": "center",
+                            "fontFamily": "Arial",
+                            "fontSize.px": 16
+                        }
+                    },
+                    "animation": {
+                        "backgroundColor": "",
+                        "border": "",
+                        "text": "",
+                        "visibility": "",
+                        "color": ""
+                    },
+                    "events": {
+                        "click": ""
+                    }
+                },
+                {
+                    "id": "lbl_c4c3-f5e0",
+                    "viewId": "",
+                    "type": "label",
+                    "typeAbbr": "lbl_",
+                    "comptName": "northwest_lbl",
+                    "visibility": true,
+                    "w": 100,
+                    "h": 50,
+                    "y": 0,
+                    "x": 0,
+                    "zIndex": 0,
+                    "rotationAngle": 0,
+                    "sizeMode": "zoom",
+                    "config": {
+                        "placeholder": "Northwest",
+                        "buttonMode": "false",
+                        "style": {
+                            "justify-content": "center",
+                            "align-items": "center",
+                            "fontFamily": "Arial",
+                            "fontSize.px": 16
+                        }
+                    },
+                    "animation": {
+                        "backgroundColor": "",
+                        "border": "",
+                        "text": "",
+                        "visibility": "",
+                        "color": ""
+                    },
+                    "events": {
+                        "click": ""
+                    }
+                },
+                {
+                    "id": "lbl_624d-65a1",
+                    "viewId": "",
+                    "type": "label",
+                    "typeAbbr": "lbl_",
+                    "comptName": "northeast_lbl",
+                    "visibility": true,
+                    "w": 100,
+                    "h": 50,
+                    "y": 0,
+                    "x": 200,
+                    "zIndex": 0,
+                    "rotationAngle": 0,
+                    "sizeMode": "zoom",
+                    "config": {
+                        "placeholder": "Northeast",
+                        "buttonMode": "false",
+                        "style": {
+                            "justify-content": "center",
+                            "align-items": "center",
+                            "fontFamily": "Arial",
+                            "fontSize.px": 16
+                        }
+                    },
+                    "animation": {
+                        "backgroundColor": "",
+                        "border": "",
+                        "text": "",
+                        "visibility": "",
+                        "color": ""
+                    },
+                    "events": {
+                        "click": ""
+                    }
+                },
+                {
+                    "id": "lbl_09e7-39e5",
+                    "viewId": "",
+                    "type": "label",
+                    "typeAbbr": "lbl_",
+                    "comptName": "south_lbl",
+                    "visibility": true,
+                    "w": 100,
+                    "h": 50,
+                    "y": 250,
+                    "x": 100,
+                    "zIndex": 0,
+                    "rotationAngle": 0,
+                    "sizeMode": "zoom",
+                    "config": {
+                        "placeholder": "South",
+                        "buttonMode": "false",
+                        "style": {
+                            "justify-content": "center",
+                            "align-items": "center",
+                            "fontFamily": "Arial",
+                            "fontSize.px": 16
+                        }
+                    },
+                    "animation": {
+                        "backgroundColor": "",
+                        "border": "",
+                        "text": "",
+                        "visibility": "",
+                        "color": ""
+                    },
+                    "events": {
+                        "click": ""
+                    }
+                },
+                {
+                    "id": "lbl_8a91-c3eb",
+                    "viewId": "",
+                    "type": "label",
+                    "typeAbbr": "lbl_",
+                    "comptName": "southeast_lbl",
+                    "visibility": true,
+                    "w": 100,
+                    "h": 50,
+                    "y": 250,
+                    "x": 200,
+                    "zIndex": 0,
+                    "rotationAngle": 0,
+                    "sizeMode": "zoom",
+                    "config": {
+                        "placeholder": "Southeast",
+                        "buttonMode": "false",
+                        "style": {
+                            "justify-content": "center",
+                            "align-items": "center",
+                            "fontFamily": "Arial",
+                            "fontSize.px": 16
+                        }
+                    },
+                    "animation": {
+                        "backgroundColor": "",
+                        "border": "",
+                        "text": "",
+                        "visibility": "",
+                        "color": ""
+                    },
+                    "events": {
+                        "click": ""
+                    }
+                },
+                {
+                    "id": "lbl_d2a3-1b4b",
+                    "viewId": "",
+                    "type": "label",
+                    "typeAbbr": "lbl_",
+                    "comptName": "southwest_lbl",
+                    "visibility": true,
+                    "w": 100,
+                    "h": 50,
+                    "y": 250,
+                    "x": 0,
+                    "zIndex": 0,
+                    "rotationAngle": 0,
+                    "sizeMode": "zoom",
+                    "config": {
+                        "placeholder": "Southwest",
+                        "buttonMode": "false",
+                        "style": {
+                            "justify-content": "center",
+                            "align-items": "center",
+                            "fontFamily": "Arial",
+                            "fontSize.px": 16
+                        }
+                    },
+                    "animation": {
+                        "backgroundColor": "",
+                        "border": "",
+                        "text": "",
+                        "visibility": "",
+                        "color": ""
+                    },
+                    "events": {
+                        "click": ""
+                    }
+                },
+                {
+                    "id": "lbl_a402-a139",
+                    "viewId": "",
+                    "type": "label",
+                    "typeAbbr": "lbl_",
+                    "comptName": "west_lbl",
+                    "visibility": true,
+                    "w": 80,
+                    "h": 50,
+                    "y": 125,
+                    "x": 0,
+                    "zIndex": 0,
+                    "rotationAngle": 0,
+                    "sizeMode": "zoom",
+                    "config": {
+                        "placeholder": "West",
+                        "buttonMode": "false",
+                        "style": {
+                            "justify-content": "center",
+                            "align-items": "center",
+                            "fontFamily": "Arial",
+                            "fontSize.px": 16
+                        }
+                    },
+                    "animation": {
+                        "backgroundColor": "",
+                        "border": "",
+                        "text": "",
+                        "visibility": "",
+                        "color": ""
+                    },
+                    "events": {
+                        "click": ""
+                    }
+                },
+                {
+                    "id": "lbl_34d9-e639",
+                    "viewId": "",
+                    "type": "label",
+                    "typeAbbr": "lbl_",
+                    "comptName": "east_lbl",
+                    "visibility": true,
+                    "w": 80,
+                    "h": 50,
+                    "y": 125,
+                    "x": 220,
+                    "zIndex": 0,
+                    "rotationAngle": 0,
+                    "sizeMode": "zoom",
+                    "config": {
+                        "placeholder": "East",
+                        "buttonMode": "false",
+                        "style": {
+                            "justify-content": "center",
+                            "align-items": "center",
+                            "fontFamily": "Arial",
+                            "fontSize.px": 16
+                        }
+                    },
+                    "animation": {
+                        "backgroundColor": "",
+                        "border": "",
+                        "text": "",
+                        "visibility": "",
+                        "color": ""
+                    },
+                    "events": {
+                        "click": ""
+                    }
+                }
+            ]
+        }
+    ],
+    "general": {
+        "defaultViewId": null,
+        "mainView": null,
+        "mainNavBtn": false,
+        "viewsTree": [
+            {
+                "name": "Navigation_View",
+                "type": "view",
+                "id": "vw_3695106c-fd474741"
+            }
+        ]
+    }
+}

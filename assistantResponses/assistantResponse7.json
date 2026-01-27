@@ -1,0 +1,136 @@
+{
+    "message": "Created a view with a header label and an on-screen keyboard that updates a text tag.",
+   "steps": [
+      {
+         "title": "Create text tag",
+         "details": "Add a Text tag named 'textTag' initialized to an empty string."
+      },
+      {
+         "title": "Create a view",
+         "details": "Add an HMI view 'View_1' sized 1024x760."
+      },
+      {
+         "title": "Add header label",
+         "details": "Place a label (1024x60 at 0,0) centered text, font 25px Arial; bind its text to 'textTag' via animation.text."
+      },
+      {
+         "title": "Add on-screen keyboard",
+         "details": "Place a keyboard (824x400 at 100,100) with secureInput=false."
+      },
+      {
+         "title": "Wire keyboard enter",
+         "details": "On enter, execute writeTag(\"textTag\", getParams(0)) to push entered text into the tag."
+      },
+      {
+         "title": "Register view",
+         "details": "Add 'View_1' with its id to general.viewsTree."
+      }
+   ],
+    "proposed_changes": {
+        "hmi": {
+            "views": [
+         {
+            "id": "vw_7fc8a7c7-b9fe4207",
+            "name": "View_1",
+            "type": "view",
+            "config": {
+               "width": 1024,
+               "height": 760,
+               "style": {},
+               "sizeMode": "normal"
+            },
+            "components": [
+               {
+                  "id": "lbl_1a4e-dcf9",
+                  "viewId": "",
+                  "type": "label",
+                  "typeAbbr": "lbl_",
+                  "comptName": "Label_1",
+                  "visibility": true,
+                  "w": 1024,
+                  "h": 60,
+                  "y": 0,
+                  "x": 0,
+                  "zIndex": 0,
+                  "rotationAngle": 0,
+                  "sizeMode": "zoom",
+                  "config": {
+                     "placeholder": "Label",
+                     "buttonMode": "false",
+                     "style": {
+                        "justify-content": "center",
+                        "align-items": "center",
+                        "fontSize.px": 25,
+                        "fontFamily": "Arial"
+                     }
+                  },
+                  "animation": {
+                     "backgroundColor": "",
+                     "border": "",
+                     "text": "textTag",
+                     "visibility": "",
+                     "color": ""
+                  },
+                  "events": {
+                     "click": ""
+                  }
+               },
+               {
+                  "id": "keybd_9212-f198",
+                  "viewId": "",
+                  "type": "keyboard",
+                  "typeAbbr": "keybd_",
+                  "comptName": "Keyboard_1",
+                  "visibility": true,
+                  "w": 824,
+                  "h": 400,
+                  "y": 100,
+                  "x": 100,
+                  "zIndex": 0,
+                  "rotationAngle": 0,
+                  "sizeMode": "zoom",
+                  "config": {
+                     "text": "0",
+                     "style": {},
+                     "secureInput": "false"
+                  },
+                  "animation": {
+                     "backgroundColor": "",
+                     "border": "",
+                     "text": "",
+                     "visibility": ""
+                  },
+                  "events": {
+                     "cancel": "",
+                     "enter": "writeTag(\"textTag\", getParams(0))"
+                  }
+               }
+            ]
+         }
+      ],
+            "general": {
+                "viewsTree": [
+            {
+               "name": "View_1",
+               "type": "view",
+               "id": "vw_7fc8a7c7-b9fe4207"
+            }
+         ]
+            }
+        },
+        "component_to_add": {},
+        "tags_to_add": {
+            "textTag": {
+            "arraydim": 1,
+            "datatype": "Text",
+            "value": "",
+            "config": {
+               "persistent": false,
+               "historic": false,
+               "hidden": false,
+               "editable": true
+            }
+         }
+        }
+    }
+}

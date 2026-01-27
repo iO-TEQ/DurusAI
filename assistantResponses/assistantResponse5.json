@@ -1,0 +1,140 @@
+{
+    "message": "Created a simple counter view with a label and an increment button.",
+    "steps": [
+        {
+            "title": "Create counter tag",
+            "details": "Add a numeric tag named 'counter' initialized to 0."
+        },
+        {
+            "title": "Create counter view",
+            "details": "Add a new HMI view 'View_1' sized 1024x760."
+        },
+        {
+            "title": "Add counter label",
+            "details": "Place a centered label (400x100 at 312,270), style it bold 60px, and bind its text to the 'counter' value."
+        },
+        {
+            "title": "Add increment button",
+            "details": "Place a button (120x60 at 455,400) labeled 'Increment'."
+        },
+        {
+            "title": "Wire button click",
+            "details": "On click, execute writeTag(\"counter\", counter + 1) to increment the tag."
+        },
+        {
+            "title": "Register view in navigation",
+            "details": "Add 'View_1' with its id to general.viewsTree."
+        }
+    ],
+    "proposed_changes": {
+        "hmi": {
+            "views": [
+                {
+                    "id": "vw_bd136a03-0be14f12",
+                    "name": "View_1",
+                    "type": "view",
+                    "config": {
+                        "width": 1024,
+                        "height": 760,
+                        "style": {},
+                        "sizeMode": "normal"
+                    },
+                    "components": [
+                        {
+                            "id": "lbl_8176-d299",
+                            "viewId": "",
+                            "type": "label",
+                            "typeAbbr": "lbl_",
+                            "comptName": "counter_lbl",
+                            "visibility": true,
+                            "w": 400,
+                            "h": 100,
+                            "y": 270,
+                            "x": 312,
+                            "zIndex": 0,
+                            "rotationAngle": 0,
+                            "sizeMode": "zoom",
+                            "config": {
+                                "placeholder": "0",
+                                "buttonMode": "false",
+                                "style": {
+                                    "justify-content": "center",
+                                    "align-items": "center",
+                                    "fontFamily": "Arial",
+                                    "font-weight": "bolder",
+                                    "fontSize.px": 60
+                                }
+                            },
+                            "animation": {
+                                "backgroundColor": "",
+                                "border": "",
+                                "text": "counter",
+                                "visibility": "",
+                                "color": ""
+                            },
+                            "events": {
+                                "click": ""
+                            }
+                        },
+                        {
+                            "id": "btn_3220-70f5",
+                            "viewId": "",
+                            "type": "button",
+                            "typeAbbr": "btn_",
+                            "comptName": "increment_btn",
+                            "visibility": true,
+                            "w": 120,
+                            "h": 60,
+                            "y": 400,
+                            "x": 455,
+                            "zIndex": 0,
+                            "rotationAngle": 0,
+                            "sizeMode": "zoom",
+                            "config": {
+                                "behavior": "release",
+                                "text": "Increment",
+                                "style": {},
+                                "placeholderType": "text"
+                            },
+                            "animation": {
+                                "backgroundColor": "",
+                                "border": "",
+                                "text": "",
+                                "visibility": "",
+                                "color": ""
+                            },
+                            "events": {
+                                "click": "writeTag(\"counter\", counter + 1)",
+                                "press": "",
+                                "release": ""
+                            }
+                        }
+                    ]
+                }
+            ],
+            "general": {
+                "viewsTree": [
+                    {
+                        "name": "View_1",
+                        "type": "view",
+                        "id": "vw_bd136a03-0be14f12"
+                    }
+                ]
+            }
+        },
+        "component_to_add": {},
+        "tags_to_add": {
+            "counter": {
+                "arraydim": 1,
+                "datatype": "Number",
+                "value": 0,
+                "config": {
+                    "persistent": false,
+                    "historic": false,
+                    "hidden": false,
+                    "editable": true
+                }
+            }
+        }
+    }
+}

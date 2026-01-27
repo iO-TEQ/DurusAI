@@ -1,0 +1,90 @@
+{
+   "message": "Created a view with a label displaying \"Hello, World!\"",
+   "steps": [
+      {
+         "title": "Create MainView",
+         "details": "Add a new view named 'MainView' with dimensions 1024x760."
+      },
+      {
+         "title": "Add label component",
+         "details": "Place a label (120x60 at 0,0) with placeholder text 'Hello, World!' using font size 16px Arial."
+      },
+      {
+         "title": "Update views tree",
+         "details": "Add 'MainView' to the views tree in the HMI general settings."
+      }
+   ],
+    "proposed_changes": {
+        "hmi": {
+            "views": [
+               {
+            "id": "vw_2055d1e1-b1824a47",
+            "name": "MainView",
+            "type": "view",
+            "config": {
+               "width": 1024,
+               "height": 760,
+               "style": {},
+               "sizeMode": "normal"
+            },
+            "components": [
+               {
+                  "id": "lbl_01e3-1dd2",
+                  "viewId": "",
+                  "type": "label",
+                  "typeAbbr": "lbl_",
+                  "comptName": "Label_1",
+                  "visibility": true,
+                  "w": 120,
+                  "h": 60,
+                  "y": 0,
+                  "x": 0,
+                  "zIndex": 0,
+                  "rotationAngle": 0,
+                  "sizeMode": "zoom",
+                  "config": {
+                     "placeholder": "Hello, World!",
+                     "buttonMode": "false",
+                     "style": {
+                        "justify-content": "center",
+                        "align-items": "center",
+                        "fontFamily": "Arial",
+                        "font-weight": "normal",
+                        "fontSize.px": 16,
+                        "color": "#000000",
+                        "borderRadius.px": 0,
+                        "box-shadow": "0px 0px 0px 0px #000000",
+                        "feedback-fx": "scale(0.95) rgba(0) 0s",
+                        "border": "solid #000000 0px",
+                        "backgroundColor": "#ffffff00"
+                     }
+                  },
+                  "animation": {
+                     "backgroundColor": "",
+                     "border": "",
+                     "text": "",
+                     "visibility": "",
+                     "color": ""
+                  },
+                  "events": {
+                     "click": ""
+                  }
+               }
+            ]
+         }
+            ],
+            "general": {
+               "viewsTree": [
+                  {
+                     "name": "MainView",
+                     "type": "view",
+                     "id": "vw_2055d1e1-b1824a47"
+                  }
+               ]
+            }
+        },
+        "components_to_add": [
+            ],
+      "tags_to_add": {}
+    }
+}

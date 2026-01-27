@@ -1,0 +1,643 @@
+{
+   "database": {
+      "settings": {
+         "persistanceUpdateTime": 1,
+         "maxDaysToLog": 10
+      },
+      "tags": {
+         "systemStatus": {
+            "arraydim": 1,
+            "datatype": "Text",
+            "value": "Stop",
+            "config": {
+               "persistent": false,
+               "historic": false,
+               "hidden": false,
+               "editable": true
+            },
+            "comment": "System Status. Options: \"Start\" or \"Stop\""
+         },
+         "Status": {
+            "arraydim": 1,
+            "datatype": "Number",
+            "value": 0,
+            "config": {
+               "persistent": false,
+               "historic": false,
+               "hidden": false,
+               "editable": true
+            }
+         },
+         "UserInfo": {
+            "datatype": "Folder",
+            "arraydim": 1,
+            "config": {
+               "hidden": false,
+               "editable": true
+            },
+            "children": {
+               "name": {
+                  "arraydim": 1,
+                  "datatype": "Text",
+                  "value": "",
+                  "config": {
+                     "persistent": true,
+                     "historic": false,
+                     "hidden": false,
+                     "editable": true
+                  }
+               },
+               "age": {
+                  "arraydim": 1,
+                  "datatype": "Number",
+                  "value": 0,
+                  "config": {
+                     "persistent": true,
+                     "historic": false,
+                     "hidden": false,
+                     "editable": true
+                  }
+               },
+               "Status": {
+                  "arraydim": 1,
+                  "datatype": "Number",
+                  "value": 0,
+                  "config": {
+                     "persistent": false,
+                     "historic": false,
+                     "hidden": false,
+                     "editable": true
+                  }
+               }
+            }
+         },
+         "increment": {
+            "arraydim": 1,
+            "datatype": "Number",
+            "value": 1,
+            "config": {
+               "persistent": false,
+               "historic": false,
+               "hidden": false,
+               "editable": true
+            }
+         }
+      }
+   },
+   "modules": [],
+   "hmi": {
+      "views": [
+         {
+            "id": "vw_380b1ff0-8bcb4132",
+            "name": "Keypad",
+            "type": "view",
+            "config": {
+               "width": 200,
+               "height": 300,
+               "style": {
+                  "fontFamily": "None",
+                  "font-weight": "none",
+                  "fontSize.px": 16,
+                  "color": "#000000",
+                  "backgroundColor": "#ffffff",
+                  "borderRadius.px": 0,
+                  "borderStyle": "solid",
+                  "borderColor": "#00000000",
+                  "borderWidth.px": 0,
+                  "boxShadow": "0px 0px 0px 0px #000000"
+               },
+               "sizeMode": "zoom"
+            },
+            "components": [
+               {
+                  "id": "nInput_d653-1a4a",
+                  "viewId": "",
+                  "type": "numericInput",
+                  "typeAbbr": "nInput_",
+                  "comptName": "NumInput_1",
+                  "visibility": true,
+                  "w": 200,
+                  "h": 300,
+                  "y": 0,
+                  "x": 0,
+                  "zIndex": 0,
+                  "rotationAngle": 0,
+                  "sizeMode": "zoom",
+                  "config": {
+                     "text": "0",
+                     "style": {},
+                     "secureInput": "false"
+                  },
+                  "animation": {
+                     "backgroundColor": "",
+                     "border": "",
+                     "text": "__num__",
+                     "visibility": ""
+                  },
+                  "events": {
+                     "cancel": "__cancel__",
+                     "enter": "__enter__"
+                  }
+               }
+            ]
+         },
+         {
+            "id": "vw_6d6790f2-899a4dc8",
+            "name": "Status_Box_View",
+            "type": "view",
+            "config": {
+               "width": 100,
+               "height": 100,
+               "style": {
+                  "fontFamily": "None",
+                  "font-weight": "none",
+                  "fontSize.px": 16,
+                  "color": "#000000",
+                  "backgroundColor": "#ffffff",
+                  "borderRadius.px": 0,
+                  "borderStyle": "solid",
+                  "borderColor": "#00000000",
+                  "borderWidth.px": 0,
+                  "boxShadow": "0px 0px 0px 0px #000000"
+               },
+               "sizeMode": "zoom"
+            },
+            "components": [
+               {
+                  "id": "lbl_78c4-6963",
+                  "viewId": "",
+                  "type": "label",
+                  "typeAbbr": "lbl_",
+                  "comptName": "status_lbl",
+                  "visibility": true,
+                  "w": 100,
+                  "h": 100,
+                  "y": 0,
+                  "x": 0,
+                  "zIndex": 0,
+                  "rotationAngle": 0,
+                  "sizeMode": "zoom",
+                  "config": {
+                     "placeholder": "GOOD",
+                     "buttonMode": "false",
+                     "style": {
+                        "justify-content": "center",
+                        "align-items": "center",
+                        "color": "#ffffff",
+                        "fontSize.px": 18,
+                        "font-weight": "normal",
+                        "fontFamily": "Arial"
+                     }
+                  },
+                  "animation": {
+                     "backgroundColor": "if(__status__ == \"Bad\", \"#ff0000\", if(__status__ == \"Good\", \"#00ff00\", \"#00000\"))",
+                     "border": "",
+                     "text": "__status__",
+                     "visibility": "",
+                     "color": ""
+                  },
+                  "events": {
+                     "click": ""
+                  }
+               }
+            ]
+         },
+         {
+            "id": "vw_bd136a03-0be14f12",
+            "name": "Main View",
+            "type": "view",
+            "config": {
+               "width": 1024,
+               "height": 760,
+               "style": {},
+               "sizeMode": "normal"
+            },
+            "components": [
+               {
+                  "id": "nvw_9680-4dff",
+                  "viewId": "vw_6d6790f2-899a4dc8",
+                  "type": "view",
+                  "typeAbbr": "nvw_",
+                  "comptName": "good_view",
+                  "visibility": true,
+                  "w": 222.1410137943127,
+                  "h": 155.08314023191144,
+                  "y": 90,
+                  "x": 355,
+                  "zIndex": 0,
+                  "rotationAngle": 0,
+                  "sizeMode": "zoom",
+                  "config": {
+                     "buttonMode": "false",
+                     "style": {},
+                     "varReplacement": [
+                        {
+                           "var": "status",
+                           "value": "\"Good\""
+                        }
+                     ]
+                  },
+                  "animation": {
+                     "backgroundColor": "",
+                     "border": "",
+                     "visibility": "UserInfo.Status == 1",
+                     "rotation": ""
+                  },
+                  "events": {
+                     "click": ""
+                  }
+               },
+               {
+                  "id": "btn_8b9b-c6a0",
+                  "viewId": "",
+                  "type": "button",
+                  "typeAbbr": "btn_",
+                  "comptName": "reset_button_btn",
+                  "visibility": true,
+                  "w": 110,
+                  "h": 50,
+                  "y": 440,
+                  "x": 150,
+                  "zIndex": 0,
+                  "rotationAngle": 0,
+                  "sizeMode": "zoom",
+                  "config": {
+                     "behavior": "release",
+                     "text": "Reset Form",
+                     "style": {
+                        "borderRadius.px": 5
+                     },
+                     "placeholderType": "text"
+                  },
+                  "animation": {
+                     "backgroundColor": "",
+                     "border": "",
+                     "text": "",
+                     "visibility": "",
+                     "color": ""
+                  },
+                  "events": {
+                     "click": "writeTag(\"UserInfo.name\", \"\") + writeTag(\"UserInfo.age\", 0)",
+                     "press": "",
+                     "release": ""
+                  }
+               },
+               {
+                  "id": "nvw_9cb5-bca5",
+                  "viewId": "vw_6d6790f2-899a4dc8",
+                  "type": "view",
+                  "typeAbbr": "nvw_",
+                  "comptName": "bad_view",
+                  "visibility": true,
+                  "w": 222.1410137943127,
+                  "h": 155.08314023191144,
+                  "y": 90,
+                  "x": 110,
+                  "zIndex": 0,
+                  "rotationAngle": 0,
+                  "sizeMode": "zoom",
+                  "config": {
+                     "buttonMode": "false",
+                     "style": {},
+                     "varReplacement": [
+                        {
+                           "var": "status",
+                           "value": "\"Bad\""
+                        }
+                     ]
+                  },
+                  "animation": {
+                     "backgroundColor": "",
+                     "border": "",
+                     "visibility": "UserInfo.Status == 0",
+                     "rotation": ""
+                  },
+                  "events": {
+                     "click": ""
+                  }
+               },
+               {
+                  "id": "nvw_12cf-6190",
+                  "viewId": "vw_fb950e55-8a074f3a",
+                  "type": "view",
+                  "typeAbbr": "nvw_",
+                  "comptName": "user_form_view",
+                  "visibility": true,
+                  "w": 300,
+                  "h": 100,
+                  "y": 500,
+                  "x": 50,
+                  "zIndex": 0,
+                  "rotationAngle": 0,
+                  "sizeMode": "normal",
+                  "config": {
+                     "buttonMode": "false",
+                     "style": {}
+                  },
+                  "animation": {
+                     "backgroundColor": "",
+                     "border": "",
+                     "visibility": "",
+                     "rotation": ""
+                  },
+                  "events": {
+                     "click": ""
+                  }
+               },
+               {
+                  "id": "btn_25ff-5dc9",
+                  "viewId": "",
+                  "type": "button",
+                  "typeAbbr": "btn_",
+                  "comptName": "change_status_btn",
+                  "visibility": true,
+                  "w": 150,
+                  "h": 45,
+                  "y": 30,
+                  "x": 240,
+                  "zIndex": 0,
+                  "rotationAngle": 0,
+                  "sizeMode": "zoom",
+                  "config": {
+                     "behavior": "release",
+                     "text": "Change Status",
+                     "style": {
+                        "borderRadius.px": 5
+                     },
+                     "placeholderType": "text"
+                  },
+                  "animation": {
+                     "backgroundColor": "",
+                     "border": "",
+                     "text": "",
+                     "visibility": "",
+                     "color": ""
+                  },
+                  "events": {
+                     "click": "writeTagIfElse(UserInfo.Status == 1, \"UserInfo.Status\", 0, 1)",
+                     "press": "",
+                     "release": ""
+                  }
+               }
+            ]
+         },
+         {
+            "id": "vw_cdcd0de6-b381473a",
+            "name": "Keyboard",
+            "type": "view",
+            "config": {
+               "width": 400,
+               "height": 300,
+               "style": {
+                  "fontFamily": "None",
+                  "font-weight": "none",
+                  "fontSize.px": 16,
+                  "color": "#000000",
+                  "backgroundColor": "#ffffff",
+                  "borderRadius.px": 0,
+                  "borderStyle": "solid",
+                  "borderColor": "#00000000",
+                  "borderWidth.px": 0,
+                  "boxShadow": "0px 0px 0px 0px #000000"
+               },
+               "sizeMode": "zoom"
+            },
+            "components": [
+               {
+                  "id": "keybd_e9b4-bf3f",
+                  "viewId": "",
+                  "type": "keyboard",
+                  "typeAbbr": "keybd_",
+                  "comptName": "Keyboard_1",
+                  "visibility": true,
+                  "w": 400,
+                  "h": 300,
+                  "y": 0,
+                  "x": 0,
+                  "zIndex": 0,
+                  "rotationAngle": 0,
+                  "sizeMode": "zoom",
+                  "config": {
+                     "text": "0",
+                     "style": {},
+                     "secureInput": "false"
+                  },
+                  "animation": {
+                     "backgroundColor": "",
+                     "border": "",
+                     "text": "__text__",
+                     "visibility": ""
+                  },
+                  "events": {
+                     "cancel": "__cancel__",
+                     "enter": "__enter__"
+                  }
+               }
+            ]
+         },
+         {
+            "id": "vw_fb950e55-8a074f3a",
+            "name": "User_Form",
+            "type": "view",
+            "config": {
+               "width": 300,
+               "height": 100,
+               "style": {
+                  "fontFamily": "None",
+                  "font-weight": "none",
+                  "fontSize.px": 16,
+                  "color": "#000000",
+                  "backgroundColor": "#ffffff",
+                  "borderRadius.px": 5,
+                  "borderStyle": "solid",
+                  "borderColor": "#000000",
+                  "borderWidth.px": 2,
+                  "boxShadow": "0px 0px 0px 0px #000000"
+               },
+               "sizeMode": "normal"
+            },
+            "components": [
+               {
+                  "id": "lbl_febd-fa28",
+                  "viewId": "",
+                  "type": "label",
+                  "typeAbbr": "lbl_",
+                  "comptName": "name_lbl",
+                  "visibility": true,
+                  "w": 120,
+                  "h": 30,
+                  "y": 0,
+                  "x": 0,
+                  "zIndex": 0,
+                  "rotationAngle": 0,
+                  "sizeMode": "zoom",
+                  "config": {
+                     "placeholder": "Name",
+                     "buttonMode": "false",
+                     "style": {
+                        "justify-content": "center",
+                        "align-items": "center"
+                     }
+                  },
+                  "animation": {
+                     "backgroundColor": "",
+                     "border": "",
+                     "text": "",
+                     "visibility": "",
+                     "color": ""
+                  },
+                  "events": {
+                     "click": ""
+                  }
+               },
+               {
+                  "id": "lbl_bdd0-153a",
+                  "viewId": "",
+                  "type": "label",
+                  "typeAbbr": "lbl_",
+                  "comptName": "name_input_lbl",
+                  "visibility": true,
+                  "w": 180,
+                  "h": 30,
+                  "y": 0,
+                  "x": 120,
+                  "zIndex": 0,
+                  "rotationAngle": 0,
+                  "sizeMode": "zoom",
+                  "config": {
+                     "placeholder": "Enter Name Here",
+                     "buttonMode": "false",
+                     "style": {
+                        "justify-content": "center",
+                        "align-items": "center"
+                     }
+                  },
+                  "animation": {
+                     "backgroundColor": "",
+                     "border": "",
+                     "text": "if(UserInfo.name == \"\", \"Enter Name Here\", UserInfo.name)",
+                     "visibility": "",
+                     "color": ""
+                  },
+                  "events": {
+                     "click": "openDialog('Keyboard', '', \n    'enter', 'writeTag(\"UserInfo.name\", getParams(0)) + closeDialog()',\n    'cancel', 'closeDialog()',\n    'text', \"UserInfo.name\"\n)"
+                  }
+               },
+               {
+                  "id": "lbl_02cd-3ba0",
+                  "viewId": "",
+                  "type": "label",
+                  "typeAbbr": "lbl_",
+                  "comptName": "age_lbl",
+                  "visibility": true,
+                  "w": 120,
+                  "h": 30,
+                  "y": 30,
+                  "x": 0,
+                  "zIndex": 0,
+                  "rotationAngle": 0,
+                  "sizeMode": "zoom",
+                  "config": {
+                     "placeholder": "Age",
+                     "buttonMode": "false",
+                     "style": {
+                        "justify-content": "center",
+                        "align-items": "center"
+                     }
+                  },
+                  "animation": {
+                     "backgroundColor": "",
+                     "border": "",
+                     "text": "",
+                     "visibility": "",
+                     "color": ""
+                  },
+                  "events": {
+                     "click": ""
+                  }
+               },
+               {
+                  "id": "lbl_66ed-ad36",
+                  "viewId": "",
+                  "type": "label",
+                  "typeAbbr": "lbl_",
+                  "comptName": "age_input_lbl",
+                  "visibility": true,
+                  "w": 180,
+                  "h": 30,
+                  "y": 30,
+                  "x": 120,
+                  "zIndex": 0,
+                  "rotationAngle": 0,
+                  "sizeMode": "zoom",
+                  "config": {
+                     "placeholder": "Enter Age Here",
+                     "buttonMode": "false",
+                     "style": {
+                        "justify-content": "center",
+                        "align-items": "center"
+                     }
+                  },
+                  "animation": {
+                     "backgroundColor": "",
+                     "border": "",
+                     "text": "if(UserInfo.age == 0, \"Enter Age Here\", UserInfo.age)",
+                     "visibility": "",
+                     "color": ""
+                  },
+                  "events": {
+                     "click": "openDialog('Keypad', '', \n    'enter', 'writeTag(\"UserInfo.age\", getParams(0)) + closeDialog()',\n    'cancel', 'closeDialog()',\n    'num', \"UserInfo.age\"\n)"
+                  }
+               }
+            ]
+         }
+      ],
+      "general": {
+         "defaultViewId": "vw_bd136a03-0be14f12",
+         "mainView": null,
+         "mainNavBtn": false,
+         "viewsTree": [
+            {
+               "name": "Main View",
+               "type": "view",
+               "id": "vw_bd136a03-0be14f12"
+            },
+            {
+               "name": "Status_Box_View",
+               "type": "view",
+               "id": "vw_6d6790f2-899a4dc8"
+            },
+            {
+               "name": "User_Form",
+               "type": "view",
+               "id": "vw_fb950e55-8a074f3a"
+            },
+            {
+               "name": "Dialogs",
+               "type": "folder",
+               "id": "fold_d4ce370b-91584e45",
+               "children": [
+                  {
+                     "name": "User Inputs",
+                     "type": "folder",
+                     "id": "fold_6323f9b1-8f5149fd",
+                     "children": [
+                        {
+                           "name": "Keyboard",
+                           "type": "view",
+                           "id": "vw_cdcd0de6-b381473a"
+                        },
+                        {
+                           "name": "Keypad",
+                           "type": "view",
+                           "id": "vw_380b1ff0-8bcb4132"
+                        }
+                     ]
+                  }
+               ]
+            }
+         ]
+      }
+   },
+   "charts": []
+}

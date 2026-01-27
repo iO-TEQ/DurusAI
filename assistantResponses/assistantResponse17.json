@@ -1,0 +1,96 @@
+{
+   "message": "Created a view with a button",
+   "steps": [
+      {
+         "title": "Create MainView",
+         "details": "Add a new view named 'MainView' with dimensions 1024x760."
+      },
+      {
+         "title": "Add button component",
+         "details": "Place a button (120x60 at 0,0), default placeholder 'Click Here' using font size 16px Arial."
+      },
+      {
+         "title": "Update views tree",
+         "details": "Add 'MainView' to the views tree in the HMI general settings."
+      }
+   ],
+    "proposed_changes": {
+        "hmi": {
+            "views": [
+              {
+            "id": "vw_dc27e6e7-99ad43b6",
+            "name": "MainView",
+            "type": "view",
+            "config": {
+               "width": 1024,
+               "height": 760,
+               "style": {},
+               "sizeMode": "normal"
+            },
+            "components": [
+               {
+                  "id": "btn_d63a-b6ae",
+                  "viewId": "",
+                  "type": "button",
+                  "typeAbbr": "btn_",
+                  "comptName": "Button_1",
+                  "visibility": true,
+                  "w": 120,
+                  "h": 60,
+                  "y": 0,
+                  "x": 0,
+                  "zIndex": 0,
+                  "rotationAngle": 0,
+                  "sizeMode": "zoom",
+                  "config": {
+                     "behavior": "release",
+                     "text": "Click Here",
+                     "style": {
+                        "fontFamily": "Arial",
+                        "font-weight": "normal",
+                        "fontSize.px": 16,
+                        "color": "#000000",
+                        "borderRadius.px": 0,
+                        "border": "solid #000000 0px",
+                        "feedback-fx": "scale(0.95) rgba(0) 0s",
+                        "box-shadow": "0px 0px 0px 0px #000000",
+                        "backgroundColor": "#d3d3d3"
+                     },
+                     "placeholderType": "text"
+                  },
+                  "animation": {
+                     "backgroundColor": "",
+                     "border": "",
+                     "text": "",
+                     "visibility": "",
+                     "color": ""
+                  },
+                  "events": {
+                     "click": "",
+                     "press": "",
+                     "release": ""
+                  },
+                  "logic": {
+                     "moduleId": "",
+                     "mainTag": "",
+                     "mainTagResp": ""
+                  }
+               }
+            ]
+         }
+            ],
+            "general": {
+               "viewsTree": [
+                  {
+                     "name": "MainView",
+                     "type": "view",
+                     "id": "vw_dc27e6e7-99ad43b6"
+                  }
+               ]
+            }
+        },
+        "components_to_add": [
+            ],
+      "tags_to_add": {}
+    }
+}

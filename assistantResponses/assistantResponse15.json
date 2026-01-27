@@ -1,0 +1,91 @@
+{
+   "message": "Created a view with a button incrementing a tag \"numTag\" on each click.",
+   "steps": [
+      {
+         "title": "Create MainView",
+         "details": "Add a new view named 'MainView' with dimensions 1024x760."
+      },
+      {
+         "title": "Add increment button",
+         "details": "Place a button (120x60 at 0,0) labeled 'Click Here' with font size 16px Arial."
+      },
+      {
+         "title": "Wire button click event",
+         "details": "On click, execute writeTag(\"numTag\", numTag + 1) to increment the numTag by 1."
+      },
+      {
+         "title": "Update views tree",
+         "details": "Add 'MainView' to the views tree in the HMI general settings."
+      }
+   ],
+    "proposed_changes": {
+        "hmi": {
+            "views": [
+               {
+                  "id": "vw_2055d1e1-b1824a47",
+                  "name": "MainView",
+                  "type": "view",
+                  "config": {
+                     "width": 1024,
+                     "height": 760,
+                     "style": {},
+                     "sizeMode": "normal"
+                  },
+                  "components": [
+                     {
+                        "id": "btn_568f-dda9",
+                        "viewId": "",
+                        "type": "button",
+                        "typeAbbr": "btn_",
+                        "comptName": "Button_1",
+                        "visibility": true,
+                        "w": 120,
+                        "h": 60,
+                        "y": 0,
+                        "x": 0,
+                        "zIndex": 0,
+                        "rotationAngle": 0,
+                        "sizeMode": "zoom",
+                        "config": {
+                           "behavior": "release",
+                           "text": "Click Here",
+                           "style": {
+                              "fontFamily": "Arial",
+                              "font-weight": "normal",
+                              "fontSize.px": 16,
+                              "color": "#000000a3",
+                              "borderRadius.px": 5
+                           },
+                           "placeholderType": "text"
+                        },
+                        "animation": {
+                           "backgroundColor": "",
+                           "border": "",
+                           "text": "",
+                           "visibility": "",
+                           "color": ""
+                        },
+                        "events": {
+                           "click": "writeTag(\"numTag\", numTag + 1)",
+                           "press": "",
+                           "release": ""
+                        }
+                     }
+                  ]
+               }
+            ],
+            "general": {
+               "viewsTree": [
+                  {
+                     "name": "MainView",
+                     "type": "view",
+                     "id": "vw_2055d1e1-b1824a47"
+                  }
+               ]
+            }
+        },
+        "components_to_add": [
+            ],
+      "tags_to_add": {}
+    }
+}

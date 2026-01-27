@@ -1,6 +1,8 @@
 # Durus AI 
+
 ## Summary
 Durus is a AI agent for Duro Control GUI. For only Mac computers, below are instructions to run Durus AI in a virtual environment. First, run an LLM (Large Language Model) server (port 9000). Then, Durus is a http server (port 8080) sending prompts to the LLM server.
+
 
 ## LLM Server Instructions
 ### MLX LM Server
@@ -43,7 +45,7 @@ PY
 python - << 'PY'
 from mlx_lm import load, generate
 
-model_id = "mlx-community/Meta-Llama-3-8B-Instruct-4bit"
+model_id = "mlx-community/Meta-Llama-3.1-8B-Instruct-4bit"
 
 print("Loading model:", model_id)
 model, tokenizer = load(model_id)
@@ -53,11 +55,11 @@ print(out)
 PY
 ```
 
-7. run the AI model server. in this instance, Meta-Llama-3-8B-Instruct-4bit, knowledge cutoff is march 2023. Model Release Date April 18, 2024.
+7. run the AI model server. in this instance, Meta-Llama-3.1-8B-Instruct-4bit, knowledge cutoff is December 2023. context length is 128k. Model Release Date July 23, 2024.
 
 ```
 mlx_lm.server \
-  --model mlx-community/Meta-Llama-3-8B-Instruct-4bit \
+  --model mlx-community/Meta-Llama-3.1-8B-Instruct-4bit \
   --host 0.0.0.0 \
   --port 8080
 ```
@@ -85,6 +87,71 @@ pip install -r requirements.txt
 uvicorn main:app --host 0.0.0.0 --port 9000
 ```
 
+## Run the RAG Layer Qdrant Server via docker
+1. cd to /RAG
+```bash 
+cd RAG
+```
+1. run Qdrant
+```bash
+docker pull qdrant/qdrant
+docker run -p 6333:6333 -p 6334:6334 \
+  -v "$(pwd)/qdrant_storage:/qdrant/storage:z" \
+  qdrant/qdrant
+```
+
+2. install python packages in virtual env
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+```
+
+4. Build Rag Layer Server
+```bash
+python query_rag.py
+```
+
+
+## Train the AI Model
+
+Generate Adapters -  small, efficient side modules that learn the patterns specific to your task.
+
+jsonl format for all files
+```
+{"messages": [{"role": "system", "content": "}, {"role": "user", "content": ""}, {"role": "assistant", "content": ""}]}
+
+```
+/durusai_training
+train.jsonl — examples the model learns from - needs 100+ lines
+val.jsonl — optional validation set to monitor training progress - need 10% of train.jsonl size (new lines) 
+test.jsonl — held-out examples for final evaluation (not uploaded)
+
+
+Start Training
+```
+% python -m mlx_lm.lora \
+  --model mlx-community/Meta-Llama-3.1-8B-Instruct-4bit \
+  --data ./durusai_training_lora \
+  --train \
+  --batch-size 1 \
+  --iters 200 \
+  --adapter-path ./adapters \
+  --mask-prompt \
+  --max-seq-length 4096
+```
+This will take a long time, roughly one hour for 200 Iterations.
+
+adapters will be created after training is completed. they are stored in /adapters (e.g 0000100_adapters.safetensors)
+
+To use adapters, run 
+```
+mlx_lm.server \
+  --model mlx-community/Meta-Llama-3.1-8B-Instruct-4bit \
+  --adapter-path ./adapters \
+  --host 0.0.0.0 \
+  --port 8080
+```
 
 ## Version Summary
 
@@ -235,6 +302,99 @@ Response:
                 ]
             }
         },
+        "tags_to_add": {}
+    }
+}
+
+### 0.1.2 Build view only request updated with trained ai model and rag layer.
+
+POST http://127.0.0.1:9000/agent/build_view
+ body request:
+ {
+  "device_id": "duro-1",
+  "prompt": "Task: Create a view with a label displaying 'lol'.",
+  "context": {
+    "views": [
+        
+    ],
+    "tags": [
+      
+    ]
+  }
+}
+
+Response:
+ {
+    "message": "Created a view with a label displaying 'lol'.",
+    "steps": [
+        {
+            "title": "Create View",
+            "details": "Add an HMI view 'View_1' sized 1024x760 with zoom sizing."
+        },
+        {
+            "title": "Add label component",
+            "details": "Place a label (120x60 at 0,0) centered textually, displaying 'lol'."
+        }
+    ],
+    "proposed_changes": {
+        "hmi": {
+            "views": [
+                {
+                    "id": "vw_421a-40bd",
+                    "name": "View_1",
+                    "type": "view",
+                    "config": {
+                        "width": 1024,
+                        "height": 760,
+                        "style": {},
+                        "sizeMode": "zoom"
+                    },
+                    "components": [
+                        {
+                            "id": "lbl_1f06-3055",
+                            "viewId": "",
+                            "type": "label",
+                            "typeAbbr": "lbl_",
+                            "comptName": "Label_1",
+                            "visibility": true,
+                            "w": 120,
+                            "h": 60,
+                            "y": 0,
+                            "x": 0,
+                            "zIndex": 0,
+                            "rotationAngle": 0,
+                            "sizeMode": "zoom",
+                            "config": {
+                                "placeholder": "lol",
+                                "buttonMode": "false",
+                                "style": {
+                                    "justify-content": "center",
+                                    "align-items": "center",
+                                    "fontFamily": "Arial",
+                                    "font-weight": "normal",
+                                    "fontSize.px": 16,
+                                    "color": "#000000a3"
+                                }
+                            },
+                            "animation": {
+                                "backgroundColor": "",
+                                "border": "",
+                                "text": "",
+                                "visibility": "",
+                                "color": ""
+                            },
+                            "events": {
+                                "click": ""
+                            }
+                        }
+                    ]
+                }
+            ],
+            "general": {
+                "viewsTree": []
+            }
+        },
+        "component_to_add": {},
         "tags_to_add": {}
     }
 }

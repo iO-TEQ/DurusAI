@@ -7,35 +7,29 @@ from typing import Any, Dict, List
 from fastapi import FastAPI, HTTPException
 from json_repair import repair_json
 from models.AgentModels import AgentRequest, AgentResponse
-from view_creation.get_component_snippets_for_prompt import get_component_snippets_for_prompt
 from utils.sanitize_llm_json import sanitize_llm_json
 from network._llm_models_url import _llm_models_url
 from view_creation.build_system_view_creation_prompt import build_system_view_creation_prompt
 from utils.build_user_prompt import build_user_prompt
 from network.call_llm import call_llm
-from view_creation.load_hmi_component_snippets import _load_hmi_component_snippets
+from RAG.service import get_rag_context, _get_keyword_fallback_context
 
-DOCS_MAX_CHARS = 2000  # tweak as needed
 LLM_API_URL = os.getenv("LLM_API_URL", "http://127.0.0.1:8080/v1/chat/completions")
 LLM_MODEL_NAME = os.getenv(
     "LLM_MODEL_NAME",
-    "mlx-community/Meta-Llama-3-8B-Instruct-4bit"
+    "mlx-community/Meta-Llama-3.1-8B-Instruct-4bit"
 )
 # LLM request timeouts (in seconds)
 LLM_CONNECT_TIMEOUT = float(os.getenv("LLM_CONNECT_TIMEOUT", "5"))
-LLM_READ_TIMEOUT = float(os.getenv("LLM_READ_TIMEOUT", "60"))
+LLM_READ_TIMEOUT = float(os.getenv("LLM_READ_TIMEOUT", "120"))
 LLM_CHAT_READ_TIMEOUT = float(os.getenv("LLM_CHAT_READ_TIMEOUT", str(LLM_READ_TIMEOUT)))
-LLM_MAX_TOKENS = int(os.getenv("LLM_MAX_TOKENS", "2048"))
+LLM_MAX_TOKENS = int(os.getenv("LLM_MAX_TOKENS", "4096"))
 LLM_CHAT_MAX_TOKENS = int(os.getenv("LLM_CHAT_MAX_TOKENS", "256"))
 CHAT_HISTORY_MAX_MESSAGES = int(os.getenv("CHAT_HISTORY_MAX_MESSAGES", "30"))
 CHAT_DOCS_MAX_CHARS = 300
-LLM_BUILD_MAX_TOKENS = int(os.getenv("LLM_BUILD_MAX_TOKENS", "1024"))
-LLM_BUILD_READ_TIMEOUT = float(os.getenv("LLM_BUILD_READ_TIMEOUT", "45"))
+LLM_BUILD_MAX_TOKENS = int(os.getenv("LLM_BUILD_MAX_TOKENS", "4096"))
+LLM_BUILD_READ_TIMEOUT = float(os.getenv("LLM_BUILD_READ_TIMEOUT", "120"))
 CONVERSATIONS: Dict[str, List[Dict[str, str]]] = {}
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-# Load HMI component snippets from hmi_components_reference.txt
-HMI_COMPONENT_REF_PATH = os.path.join(BASE_DIR, "ai_reference", "hmi_components_reference.txt")
-HMI_COMPONENT_SNIPPETS: Dict[str, str] = _load_hmi_component_snippets(HMI_COMPONENT_REF_PATH)
 
 app = FastAPI(title="Durus AI Agent Server")
 
@@ -115,29 +109,38 @@ def health_llm():
 # Build view endpoint. ask ai agent to build hmi view.
 @app.post("/agent/build_view", response_model=AgentResponse)
 def build_view(body: AgentRequest):
-    print("\n[AGENT DEBUG] Received request")
-    # Prepare context
-    context = dict(body.context or {})
-    # Add component reference snippets based on prompt
-    comp_ref = get_component_snippets_for_prompt(body.prompt, HMI_COMPONENT_SNIPPETS)
-    if comp_ref:
-        print("\n[AGENT DEBUG] Using component reference snippets:\n", comp_ref, "\n")
-        context["component_reference"] = comp_ref
-
     # Build the system prompt for view creation
     system_prompt = build_system_view_creation_prompt()
     
-    user_prompt = build_user_prompt(body.prompt, context)
+    # RAG: retrieve relevant documentation for the user's prompt
+    rag_context = get_rag_context(body.prompt)
+
+    # Fallback: inject key sections from local HMI doc if prompt mentions critical components
+    fallback_context = _get_keyword_fallback_context(body.prompt)
+    combined_context = rag_context
+    if fallback_context:
+        combined_context = (rag_context + "\n---\n" + fallback_context) if rag_context else fallback_context
+    user_prompt = build_user_prompt(body.prompt, combined_context)
 
     # Build message list: system + history + new user
     messages: List[Dict[str, str]] = [
         {"role": "system", "content": system_prompt},
-        {"role": "user", "content": user_prompt}
     ]
-
+    # Always include the user's prompt; add RAG context when available as supplemental system info
+    if combined_context:
+        messages.append({
+            "role": "system",
+            "content": (
+                "You have access to retrieved project documentation and configuration excerpts. "
+                "Use them as the primary source of truth when relevant. "
+                "If they conflict with assumptions, prefer the retrieved sources.\n\n"
+                f"RAG_CONTEXT_START\n{combined_context}\nRAG_CONTEXT_END"
+            ),
+        })
+    messages.append({"role": "user", "content": user_prompt})
+    
     # Call the model
     raw = call_llm(LLM_API_URL, LLM_MODEL_NAME, LLM_BUILD_MAX_TOKENS, LLM_CONNECT_TIMEOUT, LLM_BUILD_READ_TIMEOUT, messages)
-    print("\n[AGENT DEBUG] Raw LLM output:\n", repr(raw), "\n")
     try:
         json_str = sanitize_llm_json(raw)
     except ValueError as e:
@@ -182,6 +185,23 @@ def build_view(body: AgentRequest):
 
     if "proposed_changes" not in parsed or not isinstance(parsed["proposed_changes"], dict):
         parsed["proposed_changes"] = {"hmi": {}}
+
+    # Normalize misplaced top-level keys into proposed_changes for compatibility
+    pc = parsed.get("proposed_changes")
+    if isinstance(pc, dict):
+        # Accept either singular or plural variants from LLM
+        if "tags_to_add" in parsed and "tags_to_add" not in pc:
+            pc["tags_to_add"] = parsed.pop("tags_to_add")
+        if "component_to_add" in parsed and "component_to_add" not in pc:
+            pc["component_to_add"] = parsed.pop("component_to_add")
+        if "components_to_add" in parsed and "component_to_add" not in pc and "components_to_add" not in pc:
+            # prefer normalized singular key inside proposed_changes
+            pc["component_to_add"] = parsed.pop("components_to_add")
+        # Ensure keys exist with safe defaults
+        if "tags_to_add" not in pc:
+            pc["tags_to_add"] = {}
+        if "component_to_add" not in pc and "components_to_add" not in pc:
+            pc["component_to_add"] = {}
 
     # 5) Build typed response
     try:
