@@ -10,10 +10,9 @@
          "details": "Place a label (200x50 at 100,175) centered text, font 20px Arial; bind its text to 'system_name' via animation.text."
       }
    ],
-    "proposed_changes": {
-        "hmi": {
-        },
-        "components_to_add": [
+   "proposed_changes": {
+      "hmi": {},
+      "components_to_add": [
          {
             "id": "lbl_38f6-92f6",
             "viewId": "",
@@ -50,6 +49,6 @@
             }
          }
       ],
-      "tags_to_add": {}
-    }
+      "tags_to_add": []
+   }
 }

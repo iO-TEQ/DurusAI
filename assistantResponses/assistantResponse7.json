@@ -1,5 +1,5 @@
 {
-    "message": "Created a view with a header label and an on-screen keyboard that updates a text tag.",
+   "message": "Created a view with a header label and an on-screen keyboard that updates a text tag.",
    "steps": [
       {
          "title": "Create text tag",
@@ -26,111 +26,113 @@
          "details": "Add 'View_1' with its id to general.viewsTree."
       }
    ],
-    "proposed_changes": {
-        "hmi": {
-            "views": [
-         {
-            "id": "vw_7fc8a7c7-b9fe4207",
-            "name": "View_1",
-            "type": "view",
-            "config": {
-               "width": 1024,
-               "height": 760,
-               "style": {},
-               "sizeMode": "normal"
-            },
-            "components": [
-               {
-                  "id": "lbl_1a4e-dcf9",
-                  "viewId": "",
-                  "type": "label",
-                  "typeAbbr": "lbl_",
-                  "comptName": "Label_1",
-                  "visibility": true,
-                  "w": 1024,
-                  "h": 60,
-                  "y": 0,
-                  "x": 0,
-                  "zIndex": 0,
-                  "rotationAngle": 0,
-                  "sizeMode": "zoom",
-                  "config": {
-                     "placeholder": "Label",
-                     "buttonMode": "false",
-                     "style": {
-                        "justify-content": "center",
-                        "align-items": "center",
-                        "fontSize.px": 25,
-                        "fontFamily": "Arial"
+   "proposed_changes": {
+      "hmi": {
+         "views": [
+            {
+               "id": "vw_7fc8a7c7-b9fe4207",
+               "name": "View_1",
+               "type": "view",
+               "config": {
+                  "width": 1024,
+                  "height": 760,
+                  "style": {},
+                  "sizeMode": "normal"
+               },
+               "components": [
+                  {
+                     "id": "lbl_1a4e-dcf9",
+                     "viewId": "",
+                     "type": "label",
+                     "typeAbbr": "lbl_",
+                     "comptName": "Label_1",
+                     "visibility": true,
+                     "w": 1024,
+                     "h": 60,
+                     "y": 0,
+                     "x": 0,
+                     "zIndex": 0,
+                     "rotationAngle": 0,
+                     "sizeMode": "zoom",
+                     "config": {
+                        "placeholder": "Label",
+                        "buttonMode": "false",
+                        "style": {
+                           "justify-content": "center",
+                           "align-items": "center",
+                           "fontSize.px": 25,
+                           "fontFamily": "Arial"
+                        }
+                     },
+                     "animation": {
+                        "backgroundColor": "",
+                        "border": "",
+                        "text": "textTag",
+                        "visibility": "",
+                        "color": ""
+                     },
+                     "events": {
+                        "click": ""
                      }
                   },
-                  "animation": {
-                     "backgroundColor": "",
-                     "border": "",
-                     "text": "textTag",
-                     "visibility": "",
-                     "color": ""
-                  },
-                  "events": {
-                     "click": ""
+                  {
+                     "id": "keybd_9212-f198",
+                     "viewId": "",
+                     "type": "keyboard",
+                     "typeAbbr": "keybd_",
+                     "comptName": "Keyboard_1",
+                     "visibility": true,
+                     "w": 824,
+                     "h": 400,
+                     "y": 100,
+                     "x": 100,
+                     "zIndex": 0,
+                     "rotationAngle": 0,
+                     "sizeMode": "zoom",
+                     "config": {
+                        "text": "0",
+                        "style": {},
+                        "secureInput": "false"
+                     },
+                     "animation": {
+                        "backgroundColor": "",
+                        "border": "",
+                        "text": "",
+                        "visibility": ""
+                     },
+                     "events": {
+                        "cancel": "",
+                        "enter": "writeTag(\"textTag\", getParams(0))"
+                     }
                   }
-               },
+               ]
+            }
+         ],
+         "general": {
+            "viewsTree": [
                {
-                  "id": "keybd_9212-f198",
-                  "viewId": "",
-                  "type": "keyboard",
-                  "typeAbbr": "keybd_",
-                  "comptName": "Keyboard_1",
-                  "visibility": true,
-                  "w": 824,
-                  "h": 400,
-                  "y": 100,
-                  "x": 100,
-                  "zIndex": 0,
-                  "rotationAngle": 0,
-                  "sizeMode": "zoom",
-                  "config": {
-                     "text": "0",
-                     "style": {},
-                     "secureInput": "false"
-                  },
-                  "animation": {
-                     "backgroundColor": "",
-                     "border": "",
-                     "text": "",
-                     "visibility": ""
-                  },
-                  "events": {
-                     "cancel": "",
-                     "enter": "writeTag(\"textTag\", getParams(0))"
-                  }
+                  "name": "View_1",
+                  "type": "view",
+                  "id": "vw_7fc8a7c7-b9fe4207"
                }
             ]
          }
-      ],
-            "general": {
-                "viewsTree": [
-            {
-               "name": "View_1",
-               "type": "view",
-               "id": "vw_7fc8a7c7-b9fe4207"
-            }
-         ]
-            }
-        },
-        "component_to_add": {},
-        "tags_to_add": {
+      },
+      "components_to_add": [],
+      "tags_to_add": [
+         {
             "textTag": {
-            "arraydim": 1,
-            "datatype": "Text",
-            "value": "",
-            "config": {
-               "persistent": false,
-               "historic": false,
-               "hidden": false,
-               "editable": true
+               "arraydim": 1,
+               "datatype": "Text",
+               "value": "",
+               "config": {
+                  "persistent": false,
+                  "historic": false,
+                  "hidden": false,
+                  "editable": true
+               }
             }
          }
-        }
-    }
+      ]
+   }
 }

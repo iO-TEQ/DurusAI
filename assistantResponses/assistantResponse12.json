@@ -10,47 +10,46 @@
          "details": "On click, execute writeTag(\"counterTag\", counterTag - 1) to decrement the counterTag by 1."
       }
    ],
-    "proposed_changes": {
-        "hmi": {
-        },
-        "components_to_add": [
+   "proposed_changes": {
+      "hmi": {},
+      "components_to_add": [
          {
-                  "id": "btn_1z8n-9n38",
-                  "viewId": "",
-                  "type": "button",
-                  "typeAbbr": "btn_",
-                  "comptName": "decrement_btn",
-                  "visibility": true,
-                  "w": 100,
-                  "h": 50,
-                  "y": 75,
-                  "x": 175,
-                  "zIndex": 0,
-                  "rotationAngle": 0,
-                  "sizeMode": "zoom",
-                  "config": {
-                     "behavior": "release",
-                     "text": "-1",
-                     "style": {
-                        "fontSize.px": 25,
-                        "fontFamily": "Arial"
-                     },
-                     "placeholderType": "text"
-                  },
-                  "animation": {
-                     "backgroundColor": "",
-                     "border": "",
-                     "text": "",
-                     "visibility": "",
-                     "color": ""
-                  },
-                  "events": {
-                     "click": "writeTag(\"counterTag\", counterTag - 1)",
-                     "press": "",
-                     "release": ""
-                  }
-               }
-        ],
-        "tags_to_add": {}
-    }
+            "id": "btn_1z8n-9n38",
+            "viewId": "",
+            "type": "button",
+            "typeAbbr": "btn_",
+            "comptName": "decrement_btn",
+            "visibility": true,
+            "w": 100,
+            "h": 50,
+            "y": 75,
+            "x": 175,
+            "zIndex": 0,
+            "rotationAngle": 0,
+            "sizeMode": "zoom",
+            "config": {
+               "behavior": "release",
+               "text": "-1",
+               "style": {
+                  "fontSize.px": 25,
+                  "fontFamily": "Arial"
+               },
+               "placeholderType": "text"
+            },
+            "animation": {
+               "backgroundColor": "",
+               "border": "",
+               "text": "",
+               "visibility": "",
+               "color": ""
+            },
+            "events": {
+               "click": "writeTag(\"counterTag\", counterTag - 1)",
+               "press": "",
+               "release": ""
+            }
+         }
+      ],
+      "tags_to_add": []
+   }
 }

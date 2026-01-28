@@ -1,203 +1,205 @@
 {
-    "message": "Created a view with two buttons and a label to display a counter. One button increments the counter and the other resets it to zero.",
-    "steps": [
-         {
-               "title": "Create counter tag",
-               "details": "Add a numeric tag named 'counterTag' initialized to 0."
-         },
-         {
-               "title": "Create counter view",
-               "details": "Add a new HMI view 'View_1' sized 1024x760."
-         },
-         {
-               "title": "Add increment button",
-               "details": "Place a button (120x60 at 0,60) labeled '+1'."
-         },
-         {
-               "title": "Wire increment button click",
-               "details": "On click, execute writeTag(\"counterTag\", counterTag + 1) to increment the tag."
-         },
-         {
-               "title": "Add reset button",
-               "details": "Place a button (120x60 at 0,0) labeled 'Reset'."
-         },
-         {
-               "title": "Wire reset button click",
-               "details": "On click, execute writeTag(\"counterTag\", 0) to reset the tag to zero."
-         },
-         {
-               "title": "Add counter label",
-               "details": "Place a label (120x60 at 120,0) to display the current value of 'counterTag'."
-         },
-         {
-               "title": "Bind label text to counter tag",
-               "details": "Set the label's text animation to reflect the value of 'counterTag'."
-         },
-         {
-               "title": "Register view in navigation",
-               "details": "Add 'View_1' with its id to general.viewsTree."
-         }
-    ],
-    "proposed_changes": {
-        "hmi": {
-            "views": [
-         {
-            "id": "vw_80c807e0-f6404ea5",
-            "name": "View_1",
-            "type": "view",
-            "config": {
-               "width": 1024,
-               "height": 760,
-               "style": {
-                  "fontFamily": "None",
-                  "font-weight": "none",
-                  "fontSize.px": 16,
-                  "color": "#000000",
-                  "backgroundColor": "#ffffff",
-                  "borderRadius.px": 0,
-                  "borderStyle": "solid",
-                  "borderColor": "#00000000",
-                  "borderWidth.px": 0,
-                  "boxShadow": "0px 0px 0px 0px #000000"
+   "message": "Created a view with two buttons and a label to display a counter. One button increments the counter and the other resets it to zero.",
+   "steps": [
+      {
+         "title": "Create counter tag",
+         "details": "Add a numeric tag named 'counterTag' initialized to 0."
+      },
+      {
+         "title": "Create counter view",
+         "details": "Add a new HMI view 'View_1' sized 1024x760."
+      },
+      {
+         "title": "Add increment button",
+         "details": "Place a button (120x60 at 0,60) labeled '+1'."
+      },
+      {
+         "title": "Wire increment button click",
+         "details": "On click, execute writeTag(\"counterTag\", counterTag + 1) to increment the tag."
+      },
+      {
+         "title": "Add reset button",
+         "details": "Place a button (120x60 at 0,0) labeled 'Reset'."
+      },
+      {
+         "title": "Wire reset button click",
+         "details": "On click, execute writeTag(\"counterTag\", 0) to reset the tag to zero."
+      },
+      {
+         "title": "Add counter label",
+         "details": "Place a label (120x60 at 120,0) to display the current value of 'counterTag'."
+      },
+      {
+         "title": "Bind label text to counter tag",
+         "details": "Set the label's text animation to reflect the value of 'counterTag'."
+      },
+      {
+         "title": "Register view in navigation",
+         "details": "Add 'View_1' with its id to general.viewsTree."
+      }
+   ],
+   "proposed_changes": {
+      "hmi": {
+         "views": [
+            {
+               "id": "vw_80c807e0-f6404ea5",
+               "name": "View_1",
+               "type": "view",
+               "config": {
+                  "width": 1024,
+                  "height": 760,
+                  "style": {
+                     "fontFamily": "None",
+                     "font-weight": "none",
+                     "fontSize.px": 16,
+                     "color": "#000000",
+                     "backgroundColor": "#ffffff",
+                     "borderRadius.px": 0,
+                     "borderStyle": "solid",
+                     "borderColor": "#00000000",
+                     "borderWidth.px": 0,
+                     "boxShadow": "0px 0px 0px 0px #000000"
+                  },
+                  "sizeMode": "normal"
                },
-               "sizeMode": "normal"
-            },
-            "components": [
-               {
-                  "id": "btn_4248-2dab",
-                  "viewId": "",
-                  "type": "button",
-                  "typeAbbr": "btn_",
-                  "comptName": "reset_btn",
-                  "visibility": true,
-                  "w": 120,
-                  "h": 60,
-                  "y": 0,
-                  "x": 0,
-                  "zIndex": 0,
-                  "rotationAngle": 0,
-                  "sizeMode": "zoom",
-                  "config": {
-                     "behavior": "release",
-                     "text": "Reset",
-                     "style": {},
-                     "placeholderType": "text"
-                  },
-                  "animation": {
-                     "backgroundColor": "",
-                     "border": "",
-                     "text": "",
-                     "visibility": "",
-                     "color": ""
-                  },
-                  "events": {
-                     "click": "writeTag(\"counterTag\", 0)",
-                     "press": "",
-                     "release": ""
-                  },
-                  "logic": {
-                     "moduleId": "",
-                     "mainTag": "",
-                     "mainTagResp": ""
-                  }
-               },
-               {
-                  "id": "btn_99e5-175f",
-                  "viewId": "",
-                  "type": "button",
-                  "typeAbbr": "btn_",
-                  "comptName": "increment_btn",
-                  "visibility": true,
-                  "w": 120,
-                  "h": 60,
-                  "y": 60,
-                  "x": 0,
-                  "zIndex": 0,
-                  "rotationAngle": 0,
-                  "sizeMode": "zoom",
-                  "config": {
-                     "behavior": "release",
-                     "text": "+1",
-                     "style": {},
-                     "placeholderType": "text"
-                  },
-                  "animation": {
-                     "backgroundColor": "",
-                     "border": "",
-                     "text": "",
-                     "visibility": "",
-                     "color": ""
-                  },
-                  "events": {
-                     "click": "writeTag(\"counterTag\", counterTag + 1)",
-                     "press": "",
-                     "release": ""
-                  },
-                  "logic": {
-                     "moduleId": "",
-                     "mainTag": "",
-                     "mainTagResp": ""
-                  }
-               },
-               {
-                  "id": "lbl_8a28-9ac1",
-                  "viewId": "",
-                  "type": "label",
-                  "typeAbbr": "lbl_",
-                  "comptName": "counterTag_lbl",
-                  "visibility": true,
-                  "w": 120,
-                  "h": 60,
-                  "y": 0,
-                  "x": 120,
-                  "zIndex": 0,
-                  "rotationAngle": 0,
-                  "sizeMode": "zoom",
-                  "config": {
-                     "placeholder": "Label",
-                     "buttonMode": "false",
-                     "style": {
-                        "justify-content": "center",
-                        "align-items": "center"
+               "components": [
+                  {
+                     "id": "btn_4248-2dab",
+                     "viewId": "",
+                     "type": "button",
+                     "typeAbbr": "btn_",
+                     "comptName": "reset_btn",
+                     "visibility": true,
+                     "w": 120,
+                     "h": 60,
+                     "y": 0,
+                     "x": 0,
+                     "zIndex": 0,
+                     "rotationAngle": 0,
+                     "sizeMode": "zoom",
+                     "config": {
+                        "behavior": "release",
+                        "text": "Reset",
+                        "style": {},
+                        "placeholderType": "text"
+                     },
+                     "animation": {
+                        "backgroundColor": "",
+                        "border": "",
+                        "text": "",
+                        "visibility": "",
+                        "color": ""
+                     },
+                     "events": {
+                        "click": "writeTag(\"counterTag\", 0)",
+                        "press": "",
+                        "release": ""
+                     },
+                     "logic": {
+                        "moduleId": "",
+                        "mainTag": "",
+                        "mainTagResp": ""
                      }
                   },
-                  "animation": {
-                     "backgroundColor": "",
-                     "border": "",
-                     "text": "counterTag",
-                     "visibility": "",
-                     "color": ""
+                  {
+                     "id": "btn_99e5-175f",
+                     "viewId": "",
+                     "type": "button",
+                     "typeAbbr": "btn_",
+                     "comptName": "increment_btn",
+                     "visibility": true,
+                     "w": 120,
+                     "h": 60,
+                     "y": 60,
+                     "x": 0,
+                     "zIndex": 0,
+                     "rotationAngle": 0,
+                     "sizeMode": "zoom",
+                     "config": {
+                        "behavior": "release",
+                        "text": "+1",
+                        "style": {},
+                        "placeholderType": "text"
+                     },
+                     "animation": {
+                        "backgroundColor": "",
+                        "border": "",
+                        "text": "",
+                        "visibility": "",
+                        "color": ""
+                     },
+                     "events": {
+                        "click": "writeTag(\"counterTag\", counterTag + 1)",
+                        "press": "",
+                        "release": ""
+                     },
+                     "logic": {
+                        "moduleId": "",
+                        "mainTag": "",
+                        "mainTagResp": ""
+                     }
                   },
-                  "events": {
-                     "click": ""
+                  {
+                     "id": "lbl_8a28-9ac1",
+                     "viewId": "",
+                     "type": "label",
+                     "typeAbbr": "lbl_",
+                     "comptName": "counterTag_lbl",
+                     "visibility": true,
+                     "w": 120,
+                     "h": 60,
+                     "y": 0,
+                     "x": 120,
+                     "zIndex": 0,
+                     "rotationAngle": 0,
+                     "sizeMode": "zoom",
+                     "config": {
+                        "placeholder": "Label",
+                        "buttonMode": "false",
+                        "style": {
+                           "justify-content": "center",
+                           "align-items": "center"
+                        }
+                     },
+                     "animation": {
+                        "backgroundColor": "",
+                        "border": "",
+                        "text": "counterTag",
+                        "visibility": "",
+                        "color": ""
+                     },
+                     "events": {
+                        "click": ""
+                     }
                   }
+               ]
+            }
+         ],
+         "general": {
+            "viewsTree": [
+               {
+                  "name": "View_1",
+                  "type": "view",
+                  "id": "vw_80c807e0-f6404ea5"
                }
             ]
          }
-      ],
-            "general": {
-                "viewsTree": [
-                 {
-               "name": "View_1",
-               "type": "view",
-               "id": "vw_80c807e0-f6404ea5"
-            }
-                ]
-            }
-        },
-        "component_to_add": {},
-        "tags_to_add": {
-         "counterTag": {
-            "arraydim": 1,
-            "datatype": "Number",
-            "value": 0,
-            "config": {
-               "persistent": false,
-               "historic": false,
-               "hidden": false,
-               "editable": true
+      },
+      "components_to_add": [],
+      "tags_to_add": [
+         {
+            "counterTag": {
+               "arraydim": 1,
+               "datatype": "Number",
+               "value": 0,
+               "config": {
+                  "persistent": false,
+                  "historic": false,
+                  "hidden": false,
+                  "editable": true
+               }
             }
          }
-        }
-    }
+      ]
+   }
 }

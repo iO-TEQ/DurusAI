@@ -122,19 +122,21 @@
                 ]
             }
         },
-        "component_to_add": {},
-        "tags_to_add": {
-            "counter": {
-                "arraydim": 1,
-                "datatype": "Number",
-                "value": 0,
-                "config": {
-                    "persistent": false,
-                    "historic": false,
-                    "hidden": false,
-                    "editable": true
+        "components_to_add": [],
+        "tags_to_add": [
+            {
+                "counter": {
+                    "arraydim": 1,
+                    "datatype": "Number",
+                    "value": 0,
+                    "config": {
+                        "persistent": false,
+                        "historic": false,
+                        "hidden": false,
+                        "editable": true
+                    }
                 }
             }
-        }
+        ]
     }
 }

@@ -13,8 +13,8 @@ from llama_index.embeddings.huggingface import HuggingFaceEmbedding
 RAG_ENABLED = os.getenv("RAG_ENABLED", "1") == "1"
 RAG_QDRANT_URL = os.getenv("QDRANT_URL", "http://localhost:6333")
 RAG_COLLECTION = os.getenv("RAG_COLLECTION", "durusai_docs")
-RAG_TOP_K = int(os.getenv("RAG_TOP_K", "12"))
-RAG_MAX_CHARS = int(os.getenv("RAG_MAX_CHARS", "3000"))
+RAG_TOP_K = int(os.getenv("RAG_TOP_K", "15"))
+RAG_MAX_CHARS = int(os.getenv("RAG_MAX_CHARS", "3500"))
 
 # Lazy-initialized RAG objects
 _rag_index: Optional[VectorStoreIndex] = None

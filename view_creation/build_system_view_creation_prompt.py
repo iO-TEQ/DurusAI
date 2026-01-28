@@ -1,25 +1,6 @@
 
 
-import os
-
-# Build the system prompt for view creation
-# This includes current date/time, rules, and references.
-
-def _read_components_reference() -> str:
-    """Read the full HMI components reference text for inclusion in the prompt."""
-    base_dir = os.path.dirname(os.path.abspath(__file__))
-    ref_path = os.path.join(base_dir, "..", "ai_reference", "hmi_components_reference.txt")
-    try:
-        with open(ref_path, "r", encoding="utf-8") as f:
-            return f.read().strip()
-    except Exception:
-        # If the reference can't be read, return an empty string to avoid breaking the prompt.
-        return ""
-
-
 def build_system_view_creation_prompt() -> str:
-    components_ref = _read_components_reference()
-
     prompt = (
         "You are an assistant for an HMI/tag editor on the Duro controller.\n"
         "You receive:\n"
@@ -34,8 +15,8 @@ def build_system_view_creation_prompt() -> str:
         '  \"steps\": [ { \"title\": string, \"details\": string }, ... ],\n'
         '  \"proposed_changes\": {\n'
         '    \"hmi\": { \"views\": [ ... view objects to add or replace ... ],  "general": { "viewsTree": [ ... ] } },\n'
-        '    \"tags_to_add\": { ... tag objects to create ... },\n'
-        '   \"component_to_add\": { ... component objects to create or modify ... }\n'
+        '    \"tags_to_add\": [ ... tag objects to be create ... ],\n'
+        '   \"components_to_add\": [ ... component objects to create ... ]\n'
         "  }\n"
         "}\n"
         "\n"

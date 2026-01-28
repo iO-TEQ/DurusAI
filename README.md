@@ -127,6 +127,47 @@ train.jsonl — examples the model learns from - needs 100+ lines
 val.jsonl — optional validation set to monitor training progress - need 10% of train.jsonl size (new lines) 
 test.jsonl — held-out examples for final evaluation (not uploaded)
 
+### generating a jsonl for train or valid
+
+1) create a json like the one below. for you user.content and assistant.content would be empty initially (example)
+{
+    "messages": [
+        {
+            "role": "system",
+            "content": "You are an assistant for an HMI/tag editor on the Duro controller. You MUST respond with a single JSON OBJECT (not an array) and nothing else. The top-level JSON must have exactly these fields: message (string), steps (array of {title, details}), proposed_changes (object with hmi{views,general}, tags_to_add, components_to_add). Within proposed_changes, hmi, tags_to_add, and components_to_add can be empty if not needed."
+        },
+        {
+            "role": "user",
+            "content": "Task: Create a diagnosis screen with two labels at the top right with placeholder value Start and Stop. Name the view 'View'."
+        },
+        {
+            "role": "assistant",
+            "content": "{\"message\":\"Created a new diagnosis view named 'View_1' with two top-right labels: Start and Stop.\",\"steps\":[{\"title\":\"Create diagnosis view\",\"details\":\"Add a new HMI view named 'View_1' to show diagnosis controls.\"},{\"title\":\"Add Start/Stop labels\",\"details\":\"Place two labels in the top-right corner with placeholder text 'Start' and 'Stop'.\"}],\"proposed_changes\":{\"hmi\":{\"views\":[{\"id\":\"vw_bd136a03-0be14f12\",\"name\":\"View_1\",\"type\":\"view\",\"config\":{\"width\":1024,\"height\":760,\"style\":{},\"sizeMode\":\"normal\"},\"components\":[{\"id\":\"lbl_9b1c-5dc8\",\"viewId\":\"vw_bd136a03-0be14f12\",\"type\":\"label\",\"typeAbbr\":\"lbl_\",\"comptName\":\"start_lbl\",\"visibility\":true,\"w\":120,\"h\":60,\"y\":0,\"x\":784,\"zIndex\":0,\"rotationAngle\":0,\"sizeMode\":\"zoom\",\"config\":{\"placeholder\":\"Start\",\"buttonMode\":\"false\",\"style\":{\"justify-content\":\"center\",\"align-items\":\"center\"}},\"animation\":{\"backgroundColor\":\"\",\"border\":\"\",\"text\":\"\",\"visibility\":\"\",\"color\":\"\"},\"events\":{\"click\":\"\"}},{\"id\":\"lbl_7272-d344\",\"viewId\":\"vw_bd136a03-0be14f12\",\"type\":\"label\",\"typeAbbr\":\"lbl_\",\"comptName\":\"stop_lbl\",\"visibility\":true,\"w\":120,\"h\":60,\"y\":0,\"x\":904,\"zIndex\":0,\"rotationAngle\":0,\"sizeMode\":\"zoom\",\"config\":{\"placeholder\":\"Stop\",\"buttonMode\":\"false\",\"style\":{\"justify-content\":\"center\",\"align-items\":\"center\"}},\"animation\":{\"backgroundColor\":\"\",\"border\":\"\",\"text\":\"\",\"visibility\":\"\",\"color\":\"\"},\"events\":{\"click\":\"\"}}]}],\"general\":{\"viewsTree\":[{\"name\":\"View_1\",\"type\":\"view\",\"id\":\"vw_bd136a03-0be14f12\"}]}}},\"tags_to_add\":[],\"components_to_add\":[]}}"
+        }
+    ]
+}
+
+2) create a prompt and place it in the user.content.
+Place 'Task: ' before the prompt
+Place 'content: ' after Task Prompt with jsonstring of content you want to include 
+
+(e.g. "context:\n{\"views\":[{\"id\":\"vw_default\",\"name\":\"MainView\",\"type\":\"view\",\"config\":{\"width\":1230,\"height\":800,\"style\":{\"fontFamily\":\"None\",\"font-weight\":\"none\",\"fontSize.px\":16,\"color\":\"#000000\",\"backgroundColor\":\"#ffffff\",\"borderRadius.px\":0,\"borderStyle\":\"solid\",\"borderColor\":\"#00000000\",\"borderWidth.px\":0,\"boxShadow\":\"0px 0px 0px 0px #000000\"},\"sizeMode\":\"zoom\"},\"components\":[{\"id\":\"nvw_9680-4dff\",\"viewId\":\"vw_6d6790f2-899a4dc8\",\"type\":\"view\",\"typeAbbr\":\"nvw_\",\"comptName\":\"good_view\",\"visibility\":true,\"w\":222.1410137943127,\"h\":155.08314023191144,\"y\":90,\"x\":355,\"zIndex\":0,\"rotationAngle\":0,\"sizeMode\":\"zoom\",\"config\":{\"buttonMode\":\"false\",\"style\":{},\"varReplacement\":[{\"var\":\"status\",\"value\":\"\\\"Good\\\"\"}]},\"animation\":{\"backgroundColor\":\"\",\"border\":\"\",\"visibility\":\"UserInfo.Status == 1\",\"rotation\":\"\"},\"events\":{\"click\":\"\"}},{\"id\":\"btn_8b9b-c6a0\",\"viewId\":\"\",\"type\":\"button\",\"typeAbbr\":\"btn_\",\"comptName\":\"reset_button_btn\",\"visibility\":true,\"w\":110,\"h\":50,\"y\":440,\"x\":150,\"zIndex\":0,\"rotationAngle\":0,\"sizeMode\":\"zoom\",\"config\":{\"behavior\":\"release\",\"text\":\"Reset Form\",\"style\":{\"borderRadius.px\":5},\"placeholderType\":\"text\"},\"animation\":{\"backgroundColor\":\"\",\"border\":\"\",\"text\":\"\",\"visibility\":\"\",\"color\":\"\"},\"events\":{\"click\":\"writeTag(\\\"UserInfo.name\\\", \\\"\\\") + writeTag(\\\"UserInfo.age\\\", 0)\",\"press\":\"\",\"release\":\"\"}},{\"id\":\"nvw_9cb5-bca5\",\"viewId\":\"vw_6d6790f2-899a4dc8\",\"type\":\"view\",\"typeAbbr\":\"nvw_\",\"comptName\":\"bad_view\",\"visibility\":true,\"w\":222.1410137943127,\"h\":155.08314023191144,\"y\":90,\"x\":110,\"zIndex\":0,\"rotationAngle\":0,\"sizeMode\":\"zoom\",\"config\":{\"buttonMode\":\"false\",\"style\":{},\"varReplacement\":[{\"var\":\"status\",\"value\":\"\\\"Bad\\\"\"}]},\"animation\":{\"backgroundColor\":\"\",\"border\":\"\",\"visibility\":\"UserInfo.Status == 0\",\"rotation\":\"\"},\"events\":{\"click\":\"\"}},{\"id\":\"nvw_12cf-6190\",\"viewId\":\"vw_fb950e55-8a074f3a\",\"type\":\"view\",\"typeAbbr\":\"nvw_\",\"comptName\":\"user_form_view\",\"visibility\":true,\"w\":300,\"h\":100,\"y\":500,\"x\":50,\"zIndex\":0,\"rotationAngle\":0,\"sizeMode\":\"normal\",\"config\":{\"buttonMode\":\"false\",\"style\":{}},\"animation\":{\"backgroundColor\":\"\",\"border\":\"\",\"visibility\":\"\",\"rotation\":\"\"},\"events\":{\"click\":\"\"}},{\"id\":\"btn_25ff-5dc9\",\"viewId\":\"\",\"type\":\"button\",\"typeAbbr\":\"btn_\",\"comptName\":\"change_status_btn\",\"visibility\":true,\"w\":150,\"h\":45,\"y\":30,\"x\":240,\"zIndex\":0,\"rotationAngle\":0,\"sizeMode\":\"zoom\",\"config\":{\"behavior\":\"release\",\"text\":\"Change Status\",\"style\":{\"borderRadius.px\":5},\"placeholderType\":\"text\"},\"animation\":{\"backgroundColor\":\"\",\"border\":\"\",\"text\":\"\",\"visibility\":\"\",\"color\":\"\"},\"events\":{\"click\":\"writeTagIfElse(UserInfo.Status == 1, \\\"UserInfo.Status\\\", 0, 1)\",\"press\":\"\",\"release\":\"\"}}]}],\"tags\":[]}")
+
+3) generate the content you want the ai the response in the format of 
+{
+    "message": ...summary message...,
+    "steps": [{"title": string, "details": string}],
+    "proposed_changes": { "hmi": {"views": [], "general": {}}, "components_to_add": [], "tags_to_add": []}
+}
+
+4) convert step 3 json to jsonstring
+
+5) place json string into assistant.content
+
+6) convert step 1 json to jsonl
+
+7) add jsonl to train.jsonl
+
 
 Start Training
 ```

@@ -1,5 +1,5 @@
 {
-    "message": "Created a view with a header label and a button and a separate view for the on-screen keyboard. The button opens the keyboard that updates the label text.",
+   "message": "Created a view with a header label and a button and a separate view for the on-screen keyboard. The button opens the keyboard that updates the label text.",
    "steps": [
       {
          "title": "Create text tag",
@@ -34,178 +34,180 @@
          "details": "Add 'View_1' and 'Keyboard_view' entries to general.viewsTree."
       }
    ],
-    "proposed_changes": {
-        "hmi": {
-            "views": [
-         {
-            "id": "vw_7fc8a7c7-b9fe4207",
-            "name": "View_1",
-            "type": "view",
-            "config": {
-               "width": 1024,
-               "height": 760,
-               "style": {},
-               "sizeMode": "normal"
-            },
-            "components": [
-               {
-                  "id": "lbl_1a4e-dcf9",
-                  "viewId": "",
-                  "type": "label",
-                  "typeAbbr": "lbl_",
-                  "comptName": "Label_1",
-                  "visibility": true,
-                  "w": 904,
-                  "h": 60,
-                  "y": 0,
-                  "x": 120,
-                  "zIndex": 0,
-                  "rotationAngle": 0,
-                  "sizeMode": "zoom",
-                  "config": {
-                     "placeholder": "Label",
-                     "buttonMode": "false",
-                     "style": {
-                        "justify-content": "center",
-                        "align-items": "center",
-                        "fontSize.px": 25,
-                        "fontFamily": "Arial"
-                     }
-                  },
-                  "animation": {
-                     "backgroundColor": "",
-                     "border": "",
-                     "text": "textTag",
-                     "visibility": "",
-                     "color": ""
-                  },
-                  "events": {
-                     "click": ""
-                  }
-               },
-               {
-                  "id": "btn_1dec-b129",
-                  "viewId": "",
-                  "type": "button",
-                  "typeAbbr": "btn_",
-                  "comptName": "Button_1",
-                  "visibility": true,
-                  "w": 120,
-                  "h": 60,
-                  "y": 0,
-                  "x": 0,
-                  "zIndex": 0,
-                  "rotationAngle": 0,
-                  "sizeMode": "zoom",
-                  "config": {
-                     "behavior": "release",
-                     "text": "Open Keyboard",
-                     "style": {},
-                     "placeholderType": "text"
-                  },
-                  "animation": {
-                     "backgroundColor": "",
-                     "border": "",
-                     "text": "",
-                     "visibility": "",
-                     "color": ""
-                  },
-                  "events": {
-                     "click": "openDialog(\"Keyboard_view\", \"\", \"enter\", \"writeTag('textTag', getParams(0)) + closeDialog()\", \"cancel\", \"closeDialog()\")",
-                     "press": "",
-                     "release": ""
-                  },
-                  "logic": {
-                     "moduleId": "",
-                     "mainTag": "",
-                     "mainTagResp": ""
-                  }
-               }
-            ]
-         },
-         {
-            "id": "vw_8a051cfe-85ea4fd9",
-            "name": "Keyboard_view",
-            "type": "view",
-            "config": {
-               "width": 600,
-               "height": 400,
-               "style": {
-                  "fontFamily": "None",
-                  "font-weight": "none",
-                  "fontSize.px": 16,
-                  "color": "#000000",
-                  "backgroundColor": "#b1b1b1f9",
-                  "borderRadius.px": 0,
-                  "borderStyle": "solid",
-                  "borderColor": "#00000000",
-                  "borderWidth.px": 0,
-                  "boxShadow": "0px 0px 0px 0px #000000"
-               },
-               "sizeMode": "normal"
-            },
-            "components": [
-               {
-                  "id": "keybd_e838-298f",
-                  "viewId": "",
-                  "type": "keyboard",
-                  "typeAbbr": "keybd_",
-                  "comptName": "Keyboard_1",
-                  "visibility": true,
-                  "w": 600,
-                  "h": 400,
-                  "y": 0,
-                  "x": 0,
-                  "zIndex": 0,
-                  "rotationAngle": 0,
-                  "sizeMode": "zoom",
-                  "config": {
-                     "text": "0",
-                     "style": {},
-                     "secureInput": "false"
-                  },
-                  "animation": {
-                     "backgroundColor": "",
-                     "border": "",
-                     "text": "",
-                     "visibility": ""
-                  },
-                  "events": {
-                     "cancel": "__cancel__",
-                     "enter": "__enter__"
-                  }
-               }
-            ]
-         }
-      ],
-            "general": {
-                "viewsTree": [
+   "proposed_changes": {
+      "hmi": {
+         "views": [
             {
+               "id": "vw_7fc8a7c7-b9fe4207",
                "name": "View_1",
                "type": "view",
-               "id": "vw_7fc8a7c7-b9fe4207"
+               "config": {
+                  "width": 1024,
+                  "height": 760,
+                  "style": {},
+                  "sizeMode": "normal"
+               },
+               "components": [
+                  {
+                     "id": "lbl_1a4e-dcf9",
+                     "viewId": "",
+                     "type": "label",
+                     "typeAbbr": "lbl_",
+                     "comptName": "Label_1",
+                     "visibility": true,
+                     "w": 904,
+                     "h": 60,
+                     "y": 0,
+                     "x": 120,
+                     "zIndex": 0,
+                     "rotationAngle": 0,
+                     "sizeMode": "zoom",
+                     "config": {
+                        "placeholder": "Label",
+                        "buttonMode": "false",
+                        "style": {
+                           "justify-content": "center",
+                           "align-items": "center",
+                           "fontSize.px": 25,
+                           "fontFamily": "Arial"
+                        }
+                     },
+                     "animation": {
+                        "backgroundColor": "",
+                        "border": "",
+                        "text": "textTag",
+                        "visibility": "",
+                        "color": ""
+                     },
+                     "events": {
+                        "click": ""
+                     }
+                  },
+                  {
+                     "id": "btn_1dec-b129",
+                     "viewId": "",
+                     "type": "button",
+                     "typeAbbr": "btn_",
+                     "comptName": "Button_1",
+                     "visibility": true,
+                     "w": 120,
+                     "h": 60,
+                     "y": 0,
+                     "x": 0,
+                     "zIndex": 0,
+                     "rotationAngle": 0,
+                     "sizeMode": "zoom",
+                     "config": {
+                        "behavior": "release",
+                        "text": "Open Keyboard",
+                        "style": {},
+                        "placeholderType": "text"
+                     },
+                     "animation": {
+                        "backgroundColor": "",
+                        "border": "",
+                        "text": "",
+                        "visibility": "",
+                        "color": ""
+                     },
+                     "events": {
+                        "click": "openDialog(\"Keyboard_view\", \"\", \"enter\", \"writeTag('textTag', getParams(0)) + closeDialog()\", \"cancel\", \"closeDialog()\")",
+                        "press": "",
+                        "release": ""
+                     },
+                     "logic": {
+                        "moduleId": "",
+                        "mainTag": "",
+                        "mainTagResp": ""
+                     }
+                  }
+               ]
             },
             {
+               "id": "vw_8a051cfe-85ea4fd9",
                "name": "Keyboard_view",
                "type": "view",
-               "id": "vw_8a051cfe-85ea4fd9"
+               "config": {
+                  "width": 600,
+                  "height": 400,
+                  "style": {
+                     "fontFamily": "None",
+                     "font-weight": "none",
+                     "fontSize.px": 16,
+                     "color": "#000000",
+                     "backgroundColor": "#b1b1b1f9",
+                     "borderRadius.px": 0,
+                     "borderStyle": "solid",
+                     "borderColor": "#00000000",
+                     "borderWidth.px": 0,
+                     "boxShadow": "0px 0px 0px 0px #000000"
+                  },
+                  "sizeMode": "normal"
+               },
+               "components": [
+                  {
+                     "id": "keybd_e838-298f",
+                     "viewId": "",
+                     "type": "keyboard",
+                     "typeAbbr": "keybd_",
+                     "comptName": "Keyboard_1",
+                     "visibility": true,
+                     "w": 600,
+                     "h": 400,
+                     "y": 0,
+                     "x": 0,
+                     "zIndex": 0,
+                     "rotationAngle": 0,
+                     "sizeMode": "zoom",
+                     "config": {
+                        "text": "0",
+                        "style": {},
+                        "secureInput": "false"
+                     },
+                     "animation": {
+                        "backgroundColor": "",
+                        "border": "",
+                        "text": "",
+                        "visibility": ""
+                     },
+                     "events": {
+                        "cancel": "__cancel__",
+                        "enter": "__enter__"
+                     }
+                  }
+               ]
             }
-         ]
-            }
-        },
-        "component_to_add": {},
-        "tags_to_add": {
+         ],
+         "general": {
+            "viewsTree": [
+               {
+                  "name": "View_1",
+                  "type": "view",
+                  "id": "vw_7fc8a7c7-b9fe4207"
+               },
+               {
+                  "name": "Keyboard_view",
+                  "type": "view",
+                  "id": "vw_8a051cfe-85ea4fd9"
+               }
+            ]
+         }
+      },
+      "components_to_add": [],
+      "tags_to_add": [
+         {
             "textTag": {
-            "arraydim": 1,
-            "datatype": "Text",
-            "value": "",
-            "config": {
-               "persistent": false,
-               "historic": false,
-               "hidden": false,
-               "editable": true
+               "arraydim": 1,
+               "datatype": "Text",
+               "value": "",
+               "config": {
+                  "persistent": false,
+                  "historic": false,
+                  "hidden": false,
+                  "editable": true
+               }
             }
          }
-        }
-    }
+      ]
+   }
 }

@@ -14,78 +14,77 @@
          "details": "Add 'View' to the views tree in the HMI general settings."
       }
    ],
-    "proposed_changes": {
-        "hmi": {
-            "views": [
-             {
-            "id": "vw_d9bcef30-2e7c4443",
-            "name": "View",
-            "type": "view",
-            "config": {
-               "width": 1024,
-               "height": 760,
-               "style": {},
-               "sizeMode": "normal"
-            },
-            "components": [
-               {
-                  "id": "btn_607f-b7b1",
-                  "viewId": "",
-                  "type": "button",
-                  "typeAbbr": "btn_",
-                  "comptName": "Button_1",
-                  "visibility": true,
-                  "w": 120,
-                  "h": 60,
-                  "y": 700,
-                  "x": 904,
-                  "zIndex": 0,
-                  "rotationAngle": 0,
-                  "sizeMode": "zoom",
-                  "config": {
-                     "behavior": "release",
-                     "text": "Click Here",
-                     "style": {
-                        "fontFamily": "Arial",
-                        "font-weight": "normal",
-                        "fontSize.px": 16,
-                        "color": "#000000",
-                        "backgroundColor": "#d3d3d3",
-                        "borderRadius.px": 0,
-                        "border": "solid #000000 0px",
-                        "feedback-fx": "scale(0.95) rgba(0) 0s",
-                        "box-shadow": "0px 0px 0px 0px #000000"
-                     },
-                     "placeholderType": "text"
-                  },
-                  "animation": {
-                     "backgroundColor": "",
-                     "border": "",
-                     "text": "",
-                     "visibility": "",
-                     "color": ""
-                  },
-                  "events": {
-                     "click": "",
-                     "press": "",
-                     "release": ""
-                  }
-               }
-            ]
-         }
-            ],
-            "general": {
-               "viewsTree": [
+   "proposed_changes": {
+      "hmi": {
+         "views": [
+            {
+               "id": "vw_d9bcef30-2e7c4443",
+               "name": "View",
+               "type": "view",
+               "config": {
+                  "width": 1024,
+                  "height": 760,
+                  "style": {},
+                  "sizeMode": "normal"
+               },
+               "components": [
                   {
-                     "name": "View",
-                     "type": "view",
-                     "id": "vw_d9bcef30-2e7c4443"
+                     "id": "btn_607f-b7b1",
+                     "viewId": "",
+                     "type": "button",
+                     "typeAbbr": "btn_",
+                     "comptName": "Button_1",
+                     "visibility": true,
+                     "w": 120,
+                     "h": 60,
+                     "y": 700,
+                     "x": 904,
+                     "zIndex": 0,
+                     "rotationAngle": 0,
+                     "sizeMode": "zoom",
+                     "config": {
+                        "behavior": "release",
+                        "text": "Click Here",
+                        "style": {
+                           "fontFamily": "Arial",
+                           "font-weight": "normal",
+                           "fontSize.px": 16,
+                           "color": "#000000",
+                           "backgroundColor": "#d3d3d3",
+                           "borderRadius.px": 0,
+                           "border": "solid #000000 0px",
+                           "feedback-fx": "scale(0.95) rgba(0) 0s",
+                           "box-shadow": "0px 0px 0px 0px #000000"
+                        },
+                        "placeholderType": "text"
+                     },
+                     "animation": {
+                        "backgroundColor": "",
+                        "border": "",
+                        "text": "",
+                        "visibility": "",
+                        "color": ""
+                     },
+                     "events": {
+                        "click": "",
+                        "press": "",
+                        "release": ""
+                     }
                   }
                ]
             }
-        },
-        "components_to_add": [
-            ],
-      "tags_to_add": {}
-    }
+         ],
+         "general": {
+            "viewsTree": [
+               {
+                  "name": "View",
+                  "type": "view",
+                  "id": "vw_d9bcef30-2e7c4443"
+               }
+            ]
+         }
+      },
+      "components_to_add": [],
+      "tags_to_add": []
+   }
 }

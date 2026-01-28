@@ -18,77 +18,76 @@
          "details": "Add 'MainView' to the views tree in the HMI general settings."
       }
    ],
-    "proposed_changes": {
-        "hmi": {
-            "views": [
-              {
-            "id": "vw_dc27e6e7-99ad43b6",
-            "name": "MainView",
-            "type": "view",
-            "config": {
-               "width": 1024,
-               "height": 760,
-               "style": {},
-               "sizeMode": "normal"
-            },
-            "components": [
-               {
-                  "id": "lbl_522c-343d",
-                  "viewId": "",
-                  "type": "label",
-                  "typeAbbr": "lbl_",
-                  "comptName": "Label_1",
-                  "visibility": true,
-                  "w": 120,
-                  "h": 60,
-                  "y": 350,
-                  "x": 452,
-                  "zIndex": 0,
-                  "rotationAngle": 0,
-                  "sizeMode": "zoom",
-                  "config": {
-                     "placeholder": "",
-                     "buttonMode": "false",
-                     "style": {
-                        "justify-content": "center",
-                        "align-items": "center",
-                        "fontFamily": "Arial",
-                        "font-weight": "normal",
-                        "fontSize.px": 16,
-                        "color": "#000000",
-                        "backgroundColor": "#ffffff00",
-                        "borderRadius.px": 0,
-                        "border": "solid #000000 0px",
-                        "feedback-fx": "scale(0.95) rgba(0) 0s",
-                        "box-shadow": "0px 0px 0px 0px #000000"
-                     }
-                  },
-                  "animation": {
-                     "backgroundColor": "",
-                     "border": "",
-                     "text": "textTag",
-                     "visibility": "",
-                     "color": ""
-                  },
-                  "events": {
-                     "click": ""
-                  }
-               }
-            ]
-         }
-            ],
-            "general": {
-               "viewsTree": [
+   "proposed_changes": {
+      "hmi": {
+         "views": [
+            {
+               "id": "vw_dc27e6e7-99ad43b6",
+               "name": "MainView",
+               "type": "view",
+               "config": {
+                  "width": 1024,
+                  "height": 760,
+                  "style": {},
+                  "sizeMode": "normal"
+               },
+               "components": [
                   {
-                     "name": "MainView",
-                     "type": "view",
-                     "id": "vw_dc27e6e7-99ad43b6"
+                     "id": "lbl_522c-343d",
+                     "viewId": "",
+                     "type": "label",
+                     "typeAbbr": "lbl_",
+                     "comptName": "Label_1",
+                     "visibility": true,
+                     "w": 120,
+                     "h": 60,
+                     "y": 350,
+                     "x": 452,
+                     "zIndex": 0,
+                     "rotationAngle": 0,
+                     "sizeMode": "zoom",
+                     "config": {
+                        "placeholder": "",
+                        "buttonMode": "false",
+                        "style": {
+                           "justify-content": "center",
+                           "align-items": "center",
+                           "fontFamily": "Arial",
+                           "font-weight": "normal",
+                           "fontSize.px": 16,
+                           "color": "#000000",
+                           "backgroundColor": "#ffffff00",
+                           "borderRadius.px": 0,
+                           "border": "solid #000000 0px",
+                           "feedback-fx": "scale(0.95) rgba(0) 0s",
+                           "box-shadow": "0px 0px 0px 0px #000000"
+                        }
+                     },
+                     "animation": {
+                        "backgroundColor": "",
+                        "border": "",
+                        "text": "textTag",
+                        "visibility": "",
+                        "color": ""
+                     },
+                     "events": {
+                        "click": ""
+                     }
                   }
                ]
             }
-        },
-        "components_to_add": [
-            ],
-      "tags_to_add": {}
-    }
+         ],
+         "general": {
+            "viewsTree": [
+               {
+                  "name": "MainView",
+                  "type": "view",
+                  "id": "vw_dc27e6e7-99ad43b6"
+               }
+            ]
+         }
+      },
+      "components_to_add": [],
+      "tags_to_add": []
+   }
 }
